@@ -7,7 +7,7 @@ from kivy.uix.screenmanager import Screen
 
 class ScreenPresentation(Screen):
 
-    def goto_Index(self):
+    def validate_DB(self):
         print "Hola"
 
 
