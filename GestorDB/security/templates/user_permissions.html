@@ -1,0 +1,58 @@
+{% extends 'master.html' %}
+
+{% load static from staticfiles %}
+
+{% block css %}
+
+    <!-- Loudev -->
+    <link rel="stylesheet" type="text/css" href="{% static 'libs/lou-multi-select/0.9.10/css/multi-select.css' %}"/>
+
+    <!-- Own's Styles -->
+    <link rel="stylesheet" type="text/css" href="{% static 'profile_password.css' %}"/>
+
+{% endblock css %}
+
+{% block contenido %}
+
+    <div class="row">
+
+
+        <div class="col-xs-12">
+
+            <header>
+                <h3 class="own-titulo">Permisos del usuario XXXX</h3>
+            </header>
+
+            <hr class="own-article-line">
+
+            <br>            
+        </div>
+
+        <div class="col-xs-12 col-sm-8 col-sm-offset-4">
+
+            <select multiple="multiple" id="permisos" name="my-select[]">
+                <option value='elem_4'>EMPLEADO</option>
+                <option value='elem_1'>CALIDAD</option>
+                <option value='elem_2'>MARKETING</option>
+                <option value='elem_3'>NOMINA</option>
+                <option value='elem_4'>SEGURIDAD</option>
+            </select>
+
+            <br>
+  
+            <a href="{% url 'security:user_edit' 0 %}" class="btn btn-primary">Guardar</a>
+
+        </div>   
+    </div>
+
+{% endblock contenido %}
+
+{% block scripts %}
+
+    <!-- Loudev -->
+    <script type="text/javascript" src="{% static 'libs/lou-multi-select/0.9.10/js/jquery.multi-select.js' %}"></script>
+
+    <!-- Own's Scripts -->
+    <script type="text/javascript" src="{% static 'user_permissions.js' %}"></script>        
+
+{% endblock scripts %}
