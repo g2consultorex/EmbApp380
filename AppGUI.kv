@@ -1,11 +1,6 @@
 #:import hex kivy.utils.get_color_from_hex
 
-AdminPantallas:
-	ScreenPresentation:
-	ScreenIndex:
-
 <ScreenPresentation>:
-	name: "presentacion"
 	FloatLayout:
 		size: root.size
 	    canvas:
@@ -16,23 +11,23 @@ AdminPantallas:
 				pos: self.pos
 
 		Label:
-			pos_hint: {'x':.007, 'y':.1}
+			# pos_hint: {'x':.007, 'y':.1}
 			font_size: "40"
 			text: "Bienvenido a EstafetaConnect"
 
 		Label:
-			pos_hint: {'x':.007, 'y':.05}
+			# pos_hint: {'x':.007, 'y':.05}
 			font_size: "25"
 			text: "(EmbApp380 v17.07.2017)"
 
 		Button:
-			pos_hint: {'x':.45, 'y':.40}
+			# pos_hint: {'x':.45, 'y':.40}
 			size_hint: (.1, .1)
 			text: "Iniciar"
-			#on_press: 
 			on_press: 
 				root.validate_DB()
 				app.root.current= 'index'
 
 <ScreenIndex>:
-	name: "index"
+    Button:
+        text: 'Aqui va el texto'

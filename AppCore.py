@@ -4,33 +4,34 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.screenmanager import Screen
 
-from gestordb import ModeloLog
+# from gestordb import ModeloLog
+
+
+presentacion = Builder.load_file("AppGUI.kv")
+
 
 class ScreenPresentation(Screen):
 
     def validate_DB(self):
-        ModeloLog.add('Inicio de la APP', "El usuario inicio en la app")
+        pass
+        # ModeloLog.add('Inicio de la APP', "El usuario inicio en la app")
 
 
 class ScreenIndex(Screen):
     pass
 
 
-class AdminPantallas(ScreenManager):
-    pass
+screen_manager = ScreenManager()
 
-
-presentacion = Builder.load_file("AppGUI.kv")
-
-# screen_manager.add_widget(ScreenPresentation(name="presentacion"))
-# screen_manager.add_widget(ScreenIndex(name="index"))
+screen_manager.add_widget(ScreenPresentation(name="presentacion"))
+screen_manager.add_widget(ScreenIndex(name="index"))
 
 
 class AppGUI(App):
 
     def build(self):
-        self.title = "EmbApp380"
-        return presentacion
+        # self.title = "EmbApp380"
+        return screen_manager
 
 
 if __name__ == "__main__":
