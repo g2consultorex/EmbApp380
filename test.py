@@ -45,6 +45,8 @@ sm.add_widget(SettingsScreen(name='settings'))
 
 class TestApp(App):
 
+    title = 'Basic Application'
+
     def build(self):
         return sm
 
