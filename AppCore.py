@@ -1,38 +1,39 @@
 
 from kivy.app import App
-from kivy.lang import Builder
+# from kivy.lang import Builder
+from kivy.properties import ObjectProperty
 from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.screenmanager import SlideTransition
 from kivy.uix.screenmanager import Screen
 
 # from gestordb import ModeloLog
 
+from index import IndexScreen
 
-presentacion = Builder.load_file("AppGUI.kv")
 
+class LoginScreen(Screen):
 
-class ScreenPresentation(Screen):
+    field_user = ObjectProperty()
+    field_password = ObjectProperty()
 
     def validate_DB(self):
-        pass
-        # ModeloLog.add('Inicio de la APP', "El usuario inicio en la app")
+        self.manager.transition = SlideTransition(direction="left")
+        self.manager.current = "index"
+        print "validando"
 
 
-class ScreenIndex(Screen):
-    pass
+class LoginApp(App):
 
-
-screen_manager = ScreenManager()
-
-screen_manager.add_widget(ScreenPresentation(name="presentacion"))
-screen_manager.add_widget(ScreenIndex(name="index"))
-
-
-class AppGUI(App):
+    title = "EmbApp380"
 
     def build(self):
-        # self.title = "EmbApp380"
+
+        screen_manager = ScreenManager()
+        screen_manager.add_widget(LoginScreen(name="login"))
+        screen_manager.add_widget(IndexScreen(name="index"))
+
         return screen_manager
 
 
 if __name__ == "__main__":
-    AppGUI().run()
+    LoginApp().run()

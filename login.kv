@@ -1,6 +1,7 @@
 #:import hex kivy.utils.get_color_from_hex
+#:include indexscreen.kv
 
-<ScreenPresentation>:
+<LoginScreen>:
 	FloatLayout:
 		size: root.size
 	    canvas:
@@ -26,8 +27,5 @@
 			text: "Iniciar"
 			on_press: 
 				root.validate_DB()
-				app.root.current= 'index'
+				# app.root.current= 'index'
 
-<ScreenIndex>:
-    Button:
-        text: 'Aqui va el texto'
