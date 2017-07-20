@@ -1,0 +1,147 @@
+
+
+<CreateLabelScreen>:
+    canvas:
+        Color:
+            rgba: hex('#CA6E1C')
+		Rectangle:
+			size: self.size
+			pos: self.pos
+
+
+	# Panel Principal
+	BoxLayout:
+		orientation: 'vertical'
+		size_hint_y: 1
+
+		BoxLayout:
+			BoxLayout:
+				height: "40dp"
+				size_hint_y: None
+				TextInput:
+					size_hint_x: 20
+				TextInput:
+					size_hint_x: 20
+				TextInput:
+					size_hint_x: 20
+				Button:
+					text: 'Seleccionar Factura'
+					size_hint_x: 40	
+
+
+		BoxLayout:
+
+			# Panel Izquierdo
+			BoxLayout:
+				orientation: 'vertical'
+				padding: [10, 10, 10, 10]
+				spacing: 10
+				
+				BoxLayout:
+					height: "40dp"
+					size_hint_y: None
+					Label:
+						text: 'No. de Cliente:'
+						size_hint_x: 30
+
+					TextInput:
+						size_hint_x: 60
+
+					Button:
+						text: 'v'
+						size_hint_x: 10
+
+				BoxLayout:
+					height: "40dp"
+					size_hint_y: None
+
+					Label:
+						text: "Peso:"
+						size_hint_x: 20
+
+					TextInput:
+						size_hint_x: 20
+
+					Label:
+						text: 'Kilos disponibles:'
+						size_hint_x: 30
+
+					TextInput:
+						size_hint_x: 20
+
+				BoxLayout:
+					height: "40dp"
+					size_hint_y: None
+
+					Label:
+						text: 'Tipo de empaque:'
+						size_hint_x: 30
+
+					TextInput:
+						size_hint_x: 40
+
+					Button:
+						text: 'v'
+						size_hint_x: 10
+
+				BoxLayout:
+					height: "40dp"
+					size_hint_y: None
+
+					Label:
+						text: 'Largo'
+						size_hint_x: 10
+					TextInput:
+						size_hint_x: 20
+
+					Label:
+						text: 'Alto'
+						size_hint_x: 10
+					TextInput:
+						size_hint_x: 20
+
+					Label:
+						text: 'Ancho'
+						size_hint_x: 10
+					TextInput:
+						size_hint_x: 20
+
+				ListView:
+					item_strings: []
+
+
+			# Panel Derecho
+			BoxLayout:
+				orientation: 'vertical'
+				padding: [10, 10, 10, 10]
+				spacing: 10
+				
+				BoxLayout:
+					height: "40dp"
+					size_hint_y: None
+					Label:
+						text: 'Servicio'
+						size_hint_x: 20
+
+					TextInput:
+						size_hint_x: 70
+
+					Button:
+						text: 'v'
+						size_hint_x: 10
+
+
+				BoxLayout:
+					height: "40dp"
+					size_hint_y: None
+					Label:
+						text: 'Guias disponibles'
+						size_hint_x: 20
+
+					TextInput:
+						size_hint_x: 50
+
+
+				ListView:
+					item_strings: []
+
