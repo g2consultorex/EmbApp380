@@ -77,8 +77,8 @@ class LoginGrid(BoxLayout):
             self.ids['inp_password'].hint_text = self.password
             # self.ids['inp_password'].hint_text = len(self.password) * u"\u2022"
         else:
-            self.ids['inp_username'].hint_text = 'Username'
-            self.ids['inp_password'].hint_text = 'Password'
+            self.ids['inp_username'].hint_text = 'Cuenta'
+            self.ids['inp_password'].hint_text = 'Contraseña'
 
     def on_login(self):
         pass
