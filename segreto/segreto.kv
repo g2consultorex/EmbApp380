@@ -194,10 +194,12 @@
         AsyncImage:
             id:logo
             center_x:root.center_x
-            top:grid.top + self.height + dp(40)
+            top:grid.top + self.height + dp(10)
             size_hint:None, None
-            size:'120dp','120dp'
-            source:'data/icon/segreto_icon.png'
+            size:'200dp','200dp'
+            # size:'200dp','200dp'
+            source:'data/icon/idealogo.png'
+            # source:'data/icon/segreto_icon.png'
         LoginGrid:
             id: grid
             center: root.center
@@ -277,6 +279,26 @@
     #         size_hint_x: 40 
 
 
+<CusInputFeatures@TextInput>:
+    background_normal:'data/images/src/textinput.png'
+    background_active:'data/images/src/textinput_active.png'
+    background_disabled_normal:'data/images/src/textinput_disabled.png'
+    background_disabled_active:'data/images/src/textinput_disabled.png'
+    font_name: 'Lato-Regular.ttf'
+    font_size: '16sp'
+    cursor_color: 0.498, 0.549, 0.552,1.0
+    foreground_color: 0.204, 0.286, 0.369, 1.0
+    selection_color: 0.925, 0.941, 0.937, 0.5
+    padding: '16dp', '16dp'
+    halign:'justify'
+    border: 10,10,10,10
+
+<CusInput@CusInputFeatures>:
+    multiline: False
+    allow_copy: False
+    background_disabled_normal:'data/images/src/logininput_disabled.png'
+    background_disabled_active:'data/images/src/logininput_disabled.png'
+
 
 <IdeawidgetContainer@ScrollView>:
     StackLayout:
@@ -289,7 +311,7 @@
         spacing:'16dp'
         # IdeaWidget:
         # IdeaWidget:
-        LoginInput:
+        CusInput:
             id: inp_cliente
             size_hint_y:None
             size_hint_x:None
@@ -303,7 +325,7 @@
             background_normal:'data/images/src/but_new.png'
             background_down:'data/images/src/but_new_down.png'
         # Space:
-        LoginInput:
+        CusInput:
             id: inp_cliente
             size_hint_y:None
             size_hint_x:None
@@ -317,7 +339,7 @@
             background_normal:'data/images/src/but_new.png'
             background_down:'data/images/src/but_new_down.png'            
 
-        LoginInput:
+        CusInput:
             # id: inp_cliente
             size_hint_y:None
             size_hint_x:None
@@ -325,14 +347,14 @@
             height: self.minimum_height
             hint_text: 'Guias Disponibles'
 
-        LoginInput:
+        CusInput:
             # id: inp_cliente
             size_hint_y:None
             size_hint_x:None
             width: '200dp'
             height: self.minimum_height
             hint_text: 'Kilos disponibles'
-        LoginInput:
+        CusInput:
             # id: inp_cliente
             size_hint_y:None
             size_hint_x:.2
@@ -340,7 +362,7 @@
             height: self.minimum_height
             hint_text: 'Tipos de empaque'
 
-        LoginInput:
+        CusInput:
             # id: inp_cliente
             size_hint_y:None
             size_hint_x:.8
@@ -348,7 +370,7 @@
             height: self.minimum_height
             hint_text: 'Contenido'            
     
-        LoginInput:
+        CusInput:
             # id: inp_cliente
             size_hint_y:None
             size_hint_x:None
@@ -356,7 +378,7 @@
             height: self.minimum_height
             hint_text: 'Largo'
 
-        LoginInput:
+        CusInput:
             # id: inp_cliente
             size_hint_y:None
             size_hint_x:None
@@ -364,7 +386,7 @@
             height: self.minimum_height
             hint_text: 'Alto'
 
-        LoginInput:
+        CusInput:
             # id: inp_cliente
             size_hint_y:None
             size_hint_x:None
@@ -372,7 +394,7 @@
             height: self.minimum_height
             hint_text: 'Ancho'
 
-        LoginInput:
+        CusInput:
             # id: inp_cliente
             size_hint_y:None
             size_hint_x:1
@@ -380,7 +402,7 @@
             height: self.minimum_height
             hint_text: 'Descripcion Contenido'
 
-        LoginInput:
+        CusInput:
             # id: inp_cliente
             size_hint_y:None
             size_hint_x:1
@@ -388,7 +410,7 @@
             height: self.minimum_height
             hint_text: 'Informacion Adicional'        
 
-        LoginInput:
+        CusInput:
             # id: inp_cliente
             size_hint_y:None
             size_hint_x:1
@@ -397,7 +419,7 @@
             hint_text: 'Referencia'
 
 
-        LoginInput:
+        CusInput:
             # id: inp_cliente
             size_hint_y:None
             size_hint_x:1
@@ -406,7 +428,7 @@
             hint_text: 'Centro de Costo'
 
 
-        LoginInput:
+        CusInput:
             # id: inp_cliente
             size_hint_y:None
             size_hint_x:1
@@ -414,7 +436,7 @@
             height: self.minimum_height
             hint_text: 'Descripcion'
 
-        LoginInput:
+        CusInput:
             # id: inp_cliente
             size_hint_y:None
             size_hint_x:1
@@ -422,7 +444,7 @@
             height: self.minimum_height
             hint_text: 'Valor declarado/ Valor factura'            
 
-        LoginInput:
+        CusInput:
             id: inp_cliente
             size_hint_y:None
             size_hint_x:.4
@@ -437,7 +459,7 @@
             background_normal:'data/images/src/but_turq.png'
             background_down:'data/images/src/but_turq_down.png'
 
-        LoginInput:
+        CusInput:
             id: inp_cliente
             size_hint_y:None
             size_hint_x:.4
@@ -451,6 +473,23 @@
             text: 'Buscar'        
             background_normal:'data/images/src/but_turq.png'
             background_down:'data/images/src/but_turq_down.png'            
+
+        Space:
+            size_hint_y:None
+            height:'40dp'
+
+        # BoxLayout:
+            # padding: 400, 0, 400, 0
+        SegButton:
+            # id:but_login
+            size_hint_y:None
+            size_hint_x: .5
+            height:'48dp'
+            text: 'Crear Etiqueta'
+            # background_normal:'data/images/src/but_turq.png'
+            # background_down:'data/images/src/but_turq_down.png'
+            # on_release:root.dispatch('on_login')
+
 
 
 
@@ -481,11 +520,18 @@
                 id:idea_container
             # FieldsContainer:
 
-            SegButton:
-                # id:but_login
-                size_hint_y:None
-                height:'48dp'
-                text: 'Crear Etiqueta'
-                background_normal:'data/images/src/but_turq.png'
-                background_down:'data/images/src/but_turq_down.png'
+            # BoxLayout:
+                # padding: 400, 0, 400, 0
+            # SegButton:
+            #     # id:but_login
+            #     size_hint_y:None
+            #     size_hint_x: .1
+            #     height:'48dp'
+            #     text: 'Crear Etiqueta'
+            #     background_normal:'data/images/src/but_turq.png'
+            #     background_down:'data/images/src/but_turq_down.png'
                 # on_release:root.dispatch('on_login')
+
+            # Space:
+            #     size_hint_y:None
+            #     height:'30dp'            

@@ -22,7 +22,7 @@ The App implementation
 class SegretoApp(App):
 
     def build(self):
-        self.icon = 'data/icon/segreto_icon.png'  # Don't know why icon isn't set :(
+        self.icon = 'data/icon/idealogo.png'  # Don't know why icon isn't set :(
         self.title = 'EmbApp380'
         self.init()
         return self.screenmanager
