@@ -9,6 +9,7 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, SwapTransition
 from segreto.uix.loginscreen import LoginScreen
 from segreto.uix.ideascreen import IdeaScreen
+from segreto.uix.indexscreen import IndexScreen
 from segreto.idea import IdeaCollection
 import configparser
 import threading
@@ -32,13 +33,20 @@ class SegretoApp(App):
         self.password = ''
         self.crypt_file_path = ''
         self.screenmanager = ScreenManager(transition=SwapTransition())
+
         self.loginscreen = LoginScreen(name='screen-login')
         self.loginscreen.bind(on_login=self.login)
+
         self.ideascreen = IdeaScreen(name='screen-idea')
         self.ideascreen.bind(on_quit_app=self.quit)
+
+        self.indexscreeen = IndexScreen(name='screen-index')
+
         self.screenmanager.add_widget(self.loginscreen)
         self.screenmanager.add_widget(self.ideascreen)
+        self.screenmanager.add_widget(self.indexscreeen)
         self.screenmanager.current = 'screen-login'
+        # self.screenmanager.current = 'screen-index'
 
     def encrypt_store_data(self, crypt_file_path, password, idea_collection):
         self.screenmanager.clear_widgets()

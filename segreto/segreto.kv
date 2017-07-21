@@ -240,14 +240,16 @@
     #     background_down:'data/images/src/but_new_down.png'
     #     on_release:root.dispatch('on_add_ideawidget')
 
-    LoginInput:
+    # LoginInput:
+    CusInput:
         id: inp_tipo
         size_hint_y:None
         height: self.minimum_height
         hint_text: 'Tipo'
         # on_text:root.on_username(self.text)
 
-    LoginInput:
+    # LoginInput:
+    CusInput:
         id: inp_empresa
         size_hint_y:None
         height: self.minimum_height
@@ -311,6 +313,8 @@
         spacing:'16dp'
         # IdeaWidget:
         # IdeaWidget:
+
+
         CusInput:
             id: inp_cliente
             size_hint_y:None
@@ -476,7 +480,7 @@
 
         Space:
             size_hint_y:None
-            height:'40dp'
+            height:'20dp'
 
         # BoxLayout:
             # padding: 400, 0, 400, 0
@@ -502,20 +506,55 @@
     spacing:'16dp'
 
 
+<Toolbar@BoxLayout>:
+    orientation: 'horizontal'
+
+    Button:
+        text: 'Facturas'
+        size_hint_x: 30
+        # on_release: 
+
+    Button:
+        text: 'Clientes'
+        size_hint_x: 30     
+
+    Button:
+        text: 'Usuarios'
+        size_hint_x: 30
+
+    Button:
+        text: 'Salir'
+        size_hint_x: 10 
+
+<IndexScreen>:
+    Label:
+        text: 'Ejemplo de pantalla'
+
+
 
 <IdeaScreen>:
     BG:
         BoxLayout:
             orientation:'vertical'
-            TopBar:
+            Toolbar:
                 size_hint_y:None
-                height:'64dp'
-                padding:'16dp','16dp','16dp','0dp'
+                height:'50dp'
+                
                 # on_add_ideawidget:root.new_idea()
                 # on_quit_pressed:root.pre_quit_exec()
             Space:
                 size_hint_y:None
-                height:'30dp'
+                height:'5dp'
+
+            TopBar:
+                size_hint_y:None
+                padding:'16dp','16dp','16dp','0dp'
+                height:'50dp'   
+
+            Space:
+                size_hint_y:None
+                height:'5dp'                      
+
             IdeawidgetContainer:
                 id:idea_container
             # FieldsContainer:
