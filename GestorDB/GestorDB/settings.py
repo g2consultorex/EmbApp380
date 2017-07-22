@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # Own's Apps
     'configuration.apps.ConfigurationConfig',
     'security.apps.SecurityConfig',
+    'jde.apps.JdeConfig',
 ]
 
 MIDDLEWARE = [
@@ -82,6 +83,18 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+    # 'jde_p': {
+    #     'ENGINE': 'django.db.backends.oracle',
+    #     'NAME': '10.10.3.210:1521/jdevm',
+    #     'USER': 'system',
+    #     'PASSWORD': 'XXXXXX'
+    # },
+    # 'jde_d': {
+    #     'ENGINE': 'django.db.backends.oracle',
+    #     'NAME': '10.10.3.210:1521/jdevm',
+    #     'USER': 'system',
+    #     'PASSWORD': 'XXXXXX'
+    # },
 }
 
 
