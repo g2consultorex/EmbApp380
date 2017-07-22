@@ -8,8 +8,8 @@ from django.db import models
 
 class F0101(models.Model):
 
-    clave = models.IntegerField(db_column='ABAN8', primary_key=True)
-    nombre = models.CharField(db_column='ABALPH', max_length=3)
+    ABAN8 = models.IntegerField(primary_key=True)
+    ABALPH= models.CharField(max_length=40)
 
     class Meta:
         managed = False
@@ -19,7 +19,7 @@ class F0101(models.Model):
     #     return self.clave
 
     def __unicode__(self):
-        return self.clave
+        return str(self.ABAN8)
 
 
 
@@ -170,6 +170,37 @@ class F4211(models.Model):
 
  def __unicode__(self):
  	return self.SDMCU
+
+class F42119(models.Model):
+ SDKCOO=models.CharField(max_length=5)
+ SDDOCO=models.IntegerField(primary_key=True)
+ SDDCTO=models.CharField(max_length=2)
+ SDLNID=models.IntegerField()
+ SDMCU=models.CharField(max_length=12)
+ SDAN8=models.IntegerField()
+ SDSHAN=models.IntegerField()
+ SDPA8=models.IntegerField()
+ SDTRDJ=models.IntegerField()
+ SDCNDJ=models.IntegerField()
+ SDDGL=models.IntegerField()
+ SDITM=models.IntegerField()
+ SDLITM=models.CharField(max_length=25)
+ SDDSC1=models.CharField(max_length=30)
+ SDDSC2=models.CharField(max_length=30)
+ SDNXTR=models.CharField(max_length=3)
+ SDLTTR=models.CharField(max_length=3)
+ SDASN=models.CharField(max_length=8)
+ SDKCO=models.CharField(max_length=5)
+ SDDOC=models.IntegerField()
+ SDDCT=models.CharField(max_length=2)
+
+ class Meta:
+  	managed = False
+  	db_table = u'"CRPDTA"."F42119"'
+
+ def __unicode__(self):
+ 	return self.SDMCU
+
 
 class F0116(models.Model):
 	ALAN8=models.IntegerField(primary_key=True)
