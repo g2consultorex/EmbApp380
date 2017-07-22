@@ -6,15 +6,22 @@ Config.set('graphics', 'width', '1080')
 Config.set('graphics', 'height', '720')
 Config.set('kivy', 'exit_on_escape', '0')
 from kivy.app import App
-from kivy.uix.screenmanager import ScreenManager, SwapTransition
+
+from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.screenmanager import SwapTransition
+
 from segreto.uix.loginscreen import LoginScreen
 from segreto.uix.ideascreen import IdeaScreen
 from segreto.uix.indexscreen import IndexScreen
+from segreto.uix.userscreen import UserScreen
+
 from segreto.idea import IdeaCollection
+
 import configparser
 import threading
 import jsonpickle
 import simplecrypt
+
 '''
 The App implementation
 '''
@@ -37,13 +44,17 @@ class SegretoApp(App):
         self.loginscreen = LoginScreen(name='screen-login')
         self.loginscreen.bind(on_login=self.login)
 
+        self.userscreen = UserScreen(name='screen-user')
+
         self.ideascreen = IdeaScreen(name='screen-idea')
         self.ideascreen.bind(on_quit_app=self.quit)
+        self.ideascreen.bind(on_Users=self.goto_Users)
 
         self.indexscreeen = IndexScreen(name='screen-index')
 
         self.screenmanager.add_widget(self.loginscreen)
         self.screenmanager.add_widget(self.ideascreen)
+        self.screenmanager.add_widget(self.userscreen)
         self.screenmanager.add_widget(self.indexscreeen)
         self.screenmanager.current = 'screen-login'
         # self.screenmanager.current = 'screen-index'
@@ -84,6 +95,10 @@ class SegretoApp(App):
 
         self.screenmanager.current = 'screen-idea'
 
+    def goto_Users(self):
+        print "ir a users"
+        # self.screenmanager.current = "screen-index"
+
     def decrypt_data(self, crypt_data, password):
         try:
             dec_data = simplecrypt.decrypt(password, crypt_data)
@@ -116,3 +131,4 @@ class SegretoApp(App):
 
     def on_pause(self):
         return True
+

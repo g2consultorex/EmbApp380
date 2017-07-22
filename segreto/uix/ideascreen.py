@@ -13,6 +13,7 @@ class IdeaScreen(Screen):
         super(IdeaScreen, self).__init__(**kwargs)
         self.idea_collection = IdeaCollection()
         self.register_event_type('on_quit_app')
+        self.register_event_type('on_Users')
 
     def remove_idea(self, instance):
         self.idea_collection.remove_idea(instance.idea)
@@ -29,8 +30,8 @@ class IdeaScreen(Screen):
     def add_ideawidget(self, idea):
         ideawidget = IdeaWidget()
         ideawidget.idea = idea
-        ideawidget.bind(on_delete = self.remove_idea)
-        ideawidget.bind(on_idea_changed = self.modify_idea)
+        ideawidget.bind(on_delete=self.remove_idea)
+        ideawidget.bind(on_idea_changed=self.modify_idea)
         self.ids['idea_container'].ids['container'].add_widget(ideawidget)
 
     def modify_idea(self, instance):
@@ -43,6 +44,16 @@ class IdeaScreen(Screen):
 
     def on_quit_app(self):
         pass
+
+    def on_Users(self):
+        pass
+
+    def goto_Usuario(self):
+        # import ipdb
+        # ipdb.set_trace()
+        self.manager.current = "screen-user"
+        # self.manger
+        # self.parent.parent.parent.manager.current = "screen-index"
 
 
 class TopBar(BoxLayout):
@@ -57,6 +68,11 @@ class TopBar(BoxLayout):
 
     def on_quit_pressed(self):
         pass
+
+
+class Toolbar(BoxLayout):
+    pass
+
 
 
 class IdeaTitleBar(BoxLayout):
@@ -74,7 +90,7 @@ class IdeaTitleBar(BoxLayout):
     def on_idea_no(self, instance, value):
         self.ids['lbl_idea_no'].text = value
 
-    def on_stamp(self,instance, value):
+    def on_stamp(self, instance, value):
         self.ids['lbl_date'].text = value
 
     def on_del_pressed(self):
@@ -82,6 +98,7 @@ class IdeaTitleBar(BoxLayout):
 
     def on_edit_pressed(self):
         pass
+
 
 class IdeaWidget(StackLayout):
 

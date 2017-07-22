@@ -1,14 +1,147 @@
 #:import AsyncImage kivy.uix.image.AsyncImage
 
-<Space@Label>:
+<LoginScreen>:
+    FONDO:
+        AsyncImage:
+            id:logo
+            center_x:root.center_x
+            top:grid.top + self.height + dp(10)
+            size_hint:None, None
+            size:'200dp','200dp'
+            # size:'200dp','200dp'
+            source:'data/icon/idealogo.png'
+            # source:'data/icon/segreto_icon.png'
+        LoginGrid:
+            id: grid
+            center: root.center
+            padding: '24dp'
+            size_hint: None, None
+            size: min(root.width - dp(32),dp(360)), '240dp'
+            on_login:root.try_login()
+        AsyncImage:
+            id:loader
+            center_x:root.center_x
+            top:grid.y + dp(-50)
+            size_hint:None, None
+            size:'100dp','100dp'
+            source:'data/images/ripple.gif'
+            anim_delay:0.05
+        Toast:
+            id:toast
+            width: min(root.width - dp(32), dp(300))
+            x:root.center_x - self.width // 2
 
-<BG@FloatLayout>:
+
+<UserScreen>:
+    FONDO:
+        BoxLayout:
+            orientation:'vertical'
+            BoxLayout:
+                size_hint_y:None
+                height:'50dp'
+                orientation: 'horizontal'
+                # on_add_ideawidget:root.new_idea()
+                # on_quit_pressed:root.pre_quit_exec()
+                
+                Button:
+                    text: 'Facturas'
+                    size_hint_x: 30
+                    # on_release: 
+
+                Button:
+                    text: 'Clientes'
+                    size_hint_x: 30
+
+                Button:
+                    text: 'Usuarios'
+                    size_hint_x: 30
+                    on_release: root.goto_Usuario()
+                    # on_release:root.dispatch('on_Users')
+            BoxLayout:
+                
+
+    
+
+# Screen
+<IndexScreen>:
+    FONDO:
+        Label:
+            text: 'Ejemplo de pantalla'
+
+
+# Screen
+<IdeaScreen>:
+    FONDO:
+        BoxLayout:
+            orientation:'vertical'
+            BoxLayout:
+                size_hint_y:None
+                height:'50dp'
+                orientation: 'horizontal'
+                # on_add_ideawidget:root.new_idea()
+                # on_quit_pressed:root.pre_quit_exec()
+                
+                Button:
+                    text: 'Facturas'
+                    size_hint_x: 30
+                    # on_release: 
+
+                Button:
+                    text: 'Clientes'
+                    size_hint_x: 30
+
+                Button:
+                    text: 'Usuarios'
+                    size_hint_x: 30
+                    on_release: root.goto_Usuario()
+                    # on_release:root.dispatch('on_Users')
+
+            Space:
+                size_hint_y:None
+                height:'16dp'
+
+            TopBar:
+                size_hint_y:None
+                padding:'16dp','16dp','16dp','0dp'
+                height:'50dp'   
+
+            Space:
+                size_hint_y:None
+                height:'16dp'                      
+
+            IdeawidgetContainer:
+                id:idea_container
+            # FieldsContainer:
+
+            # BoxLayout:
+                # padding: 400, 0, 400, 0
+            # SegButton:
+            #     # id:but_login
+            #     size_hint_y:None
+            #     size_hint_x: .1
+            #     height:'48dp'
+            #     text: 'Crear Etiqueta'
+            #     background_normal:'data/images/src/but_turq.png'
+            #     background_down:'data/images/src/but_turq_down.png'
+                # on_release:root.dispatch('on_login')
+
+            # Space:
+            #     size_hint_y:None
+            #     height:'30dp'            
+
+
+<FONDO@FloatLayout>:
     canvas.before:
         Color:
             rgba: 0.176, 0.243, 0.314, 1.0
         Rectangle:
             pos: self.pos
             size: self.size
+
+
+<Space@Label>:
+
+
 
 <SegInput@TextInput>:
     background_normal:'data/images/src/textinput.png'
@@ -189,36 +322,7 @@
         background_down:'data/images/src/but_turq_down.png'
         on_release:root.dispatch('on_login')
 
-<LoginScreen>:
-    BG:
-        AsyncImage:
-            id:logo
-            center_x:root.center_x
-            top:grid.top + self.height + dp(10)
-            size_hint:None, None
-            size:'200dp','200dp'
-            # size:'200dp','200dp'
-            source:'data/icon/idealogo.png'
-            # source:'data/icon/segreto_icon.png'
-        LoginGrid:
-            id: grid
-            center: root.center
-            padding: '24dp'
-            size_hint: None, None
-            size: min(root.width - dp(32),dp(360)), '240dp'
-            on_login:root.try_login()
-        AsyncImage:
-            id:loader
-            center_x:root.center_x
-            top:grid.y + dp(-50)
-            size_hint:None, None
-            size:'100dp','100dp'
-            source:'data/images/ripple.gif'
-            anim_delay:0.05
-        Toast:
-            id:toast
-            width: min(root.width - dp(32), dp(300))
-            x:root.center_x - self.width // 2
+
 
 
 # <SegButton@Button>:
@@ -422,7 +526,6 @@
             height: self.minimum_height
             hint_text: 'Referencia'
 
-
         CusInput:
             # id: inp_cliente
             size_hint_y:None
@@ -430,7 +533,6 @@
             # width: '150dp'
             height: self.minimum_height
             hint_text: 'Centro de Costo'
-
 
         CusInput:
             # id: inp_cliente
@@ -455,6 +557,7 @@
             # width: '200dp'
             height: self.minimum_height
             hint_text: 'Domicilio Origen'
+
         SegButton:
             size_hint:None, None
             # size:'48dp', '48dp'
@@ -470,6 +573,7 @@
             # width: '200dp'
             height: self.minimum_height
             hint_text: 'Domicilio Destino'
+
         SegButton:
             size_hint:None, None
             # size:'48dp', '48dp'
@@ -516,58 +620,12 @@
 
     Button:
         text: 'Clientes'
-        size_hint_x: 30     
+        size_hint_x: 30
 
     Button:
         text: 'Usuarios'
         size_hint_x: 30
+        on_release: root.goto_Usuario()
+        # on_release:root.dispatch('on_Users')
 
 
-<IndexScreen>:
-    Label:
-        text: 'Ejemplo de pantalla'
-
-
-
-<IdeaScreen>:
-    BG:
-        BoxLayout:
-            orientation:'vertical'
-            Toolbar:
-                size_hint_y:None
-                height:'50dp'
-                
-                # on_add_ideawidget:root.new_idea()
-                # on_quit_pressed:root.pre_quit_exec()
-            Space:
-                size_hint_y:None
-                height:'16dp'
-
-            TopBar:
-                size_hint_y:None
-                padding:'16dp','16dp','16dp','0dp'
-                height:'50dp'   
-
-            Space:
-                size_hint_y:None
-                height:'16dp'                      
-
-            IdeawidgetContainer:
-                id:idea_container
-            # FieldsContainer:
-
-            # BoxLayout:
-                # padding: 400, 0, 400, 0
-            # SegButton:
-            #     # id:but_login
-            #     size_hint_y:None
-            #     size_hint_x: .1
-            #     height:'48dp'
-            #     text: 'Crear Etiqueta'
-            #     background_normal:'data/images/src/but_turq.png'
-            #     background_down:'data/images/src/but_turq_down.png'
-                # on_release:root.dispatch('on_login')
-
-            # Space:
-            #     size_hint_y:None
-            #     height:'30dp'            
