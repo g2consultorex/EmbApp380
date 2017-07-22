@@ -43,10 +43,20 @@ class ModeloLog(object):
             print str(e)
 
 
-class ModeloF0101(object):
+# class Factura(object)
+    
+#     @classmethod
+#     def get(self):
 
-    @classmethod
-    def get(self):
+#         try:
+            
 
-        direcciones = F0101.objects.all()
-        return direcciones
+            
+#         except Exception as e:
+#             print str(e)
+
+
+# class DireccionOrigen(object):
+
+#     @classmethod
+#     def get(se)lf, 
