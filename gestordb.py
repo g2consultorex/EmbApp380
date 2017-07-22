@@ -20,6 +20,7 @@ application = get_wsgi_application()
 # Site's Models
 from configuration.models import Log
 from security.models import Profile
+from jde.models import F0101
 
 
 class ModeloLog(object):
@@ -40,3 +41,12 @@ class ModeloLog(object):
             print "OK"
         except Exception as e:
             print str(e)
+
+
+class ModeloF0101(object):
+
+    @classmethod
+    def get(self):
+
+        direcciones = F0101.objects.all()
+        return direcciones
