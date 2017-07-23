@@ -23,6 +23,20 @@ from security.models import Profile
 from jde.models import F0101
 
 
+class ModelProfile(object):
+
+    @classmethod
+    def get(self, _user=None):
+
+        try:
+            connection.close()
+            usuario = Profile.objects.all()
+            return usuario
+
+        except Exception as e:
+            pass
+
+
 class ModeloLog(object):
 
     @classmethod

@@ -36,6 +36,8 @@
     FONDO:
         BoxLayout:
             orientation:'vertical'
+
+            # MENU
             BoxLayout:
                 size_hint_y:None
                 height:'50dp'
@@ -55,12 +57,96 @@
                 Button:
                     text: 'Usuarios'
                     size_hint_x: 30
-                    on_release: root.goto_Usuario()
-                    # on_release:root.dispatch('on_Users')
-            BoxLayout:
-                
 
+            # SEARCH
+            BoxLayout:
+                size_hint_y: None
+                height: '50dp'
+                orientation: 'horizontal'
+
+                CampoGenerico:
+                    hint_text: 'Texto a buscar'
+                    size_hint_x: .8
+
+                Button:
+                    text: 'Buscar'
+                    size_hint_x: .2
+                    on_release: root.add_UsuarioWidget()
+
+            # LIST
+            UsuariosContainer:
+                id: user_container
+
+
+<Space@Label>:
+
+
+<CampoGenerico@TextInput>:
+    padding: '16dp', '16dp'
+    halign: 'justify'
+
+
+<UsuariosContainer@ScrollView>:
+    StackLayout:
+        id: container
+        size_hint_y: None
+        size_hint_x: 1
+        height: self.minimum_height
+        orientation: 'lr-tb'
+        padding:'15dp', '15dp','15dp','15dp'
+        spacing:'15dp'
+        # UsuarioWidget:
+        # UsuarioWidget:
+        # UsuarioWidget:
+        # UsuarioWidget:
+        # UsuarioWidget:
+
+
+<UsuarioWidget@StackLayout>:
+    orientation: 'lr-tb'
+    padding: '16dp'
+    size_hint_y:None
+    height: self.minimum_height
+    canvas:
+        Color:
+            rgba: 0.925, 0.941, 0.937, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
     
+    UsuarioTituloBar:
+        size_hint_y: None
+        height: '36dp'
+
+    # Space:
+    #     size_hint_y: None
+    #     height: '16dp'
+
+    # UsuarioBody:
+
+
+
+<UsuarioTituloBar@BoxLayout>:
+    orientation: 'horizontal'
+    Label:
+        text: 'Fecha bonita'
+        color: 0.404, 0.522, 0.549, 1.0
+
+    Label:
+        text: 'Paquito'
+        color: 0.404, 0.522, 0.549, 1.0
+
+    Label:
+        text: 'Botoncito'
+        color: 0.404, 0.522, 0.549, 1.0
+    
+
+<UsuarioBody@BoxLayout>:
+    orientation: 'horizontal'
+    Label:
+        text: 'Aqui va el cuerpecito'
+
 
 # Screen
 <IndexScreen>:
@@ -139,7 +225,7 @@
             size: self.size
 
 
-<Space@Label>:
+
 
 
 
