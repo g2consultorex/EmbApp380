@@ -21,7 +21,10 @@ application = get_wsgi_application()
 from configuration.models import Log
 from security.models import Profile
 from jde.models import F0101
-
+from jde.models import F4211
+from jde.models import F42119
+from jde.models import F41001
+from jde.models import F0116
 
 class ModelProfile(object):
 
@@ -57,10 +60,49 @@ class ModeloLog(object):
             print str(e)
 
 
-class ModeloF0101(object):
+class Factura(object):
 
     @classmethod
-    def get(self):
+    def get(self, _numero, _tipo):
 
-        direcciones = F0101.objects.all()
-        return direcciones
+        try:
+            factura = F4211.objects.using('jde').filter(
+                SDDOC=_numero, SDDCT=_tipo)
+
+            if len(factura) == 0:
+                factura = F42119.objects.using(
+                    'jde').filter(SDDOC=_numero, SDDCT=_tipo)
+
+            print factura
+
+        except Exception as e:
+            print str(e)
+
+
+class DireccionOrigen(object):
+
+    @classmethod
+    def get(self, _numero, _tipo):
+
+        try:
+            factura = F4211.objects.using('jde').filter(
+                SDDOC=_numero, SDDCT=_tipo)
+
+            if len(factura) == 0:
+                factura = F42119.objects.using(
+                    'jde').filter(SDDOC=_numero, SDDCT=_tipo)
+
+            almacen = F41001.objects.using('jde').filter(
+                CIMCU__contains=factura[0].SDMCU)
+
+            direccion = F0101.objects.using(
+                'jde').filter(ABAN8=almacen[0].CIAN8)
+
+            direccion_complemento = F0116.objects.using(
+                'jde').filter(ALAN8=almacen[0].CIAN8)
+
+            return direccion, direccion_complemento
+
+        except Exception as e:
+            print str(e)
+
