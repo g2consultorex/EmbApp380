@@ -3,7 +3,6 @@
 # Python's Libraries
 import os
 import sys
-from datetime import datetime
 
 # project_abspath = "C:\Users\Carlos\Proyectos\EstafetaConnect\src\GestorDB"
 project_abspath = os.path.abspath(os.path.join(os.getcwd(), 'GestorDB'))
@@ -18,6 +17,7 @@ from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
 # Site's Models
+from django.contrib.auth.models import User
 from configuration.models import Log
 from security.models import Profile
 from jde.models import F0101
@@ -26,6 +26,7 @@ from jde.models import F42119
 from jde.models import F41001
 from jde.models import F0116
 
+
 class ModelProfile(object):
 
     @classmethod
@@ -33,11 +34,25 @@ class ModelProfile(object):
 
         try:
             connection.close()
-            usuario = Profile.objects.all()
+            usuario = User.objects.all().order_by('date_joined')
             return usuario
 
-        except Exception as e:
+        except Exception:
             pass
+
+    @classmethod
+    def add(self, _username, _first_name, _last_name):
+
+        try:
+
+            perfil = User()
+            perfil.username = _username
+            perfil.first_name = _first_name
+            perfil.last_name = _last_name
+            perfil.save()
+
+        except Exception as e:
+            print str(e)
 
 
 class ModeloLog(object):
@@ -105,4 +120,3 @@ class DireccionOrigen(object):
 
         except Exception as e:
             print str(e)
-

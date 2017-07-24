@@ -1,5 +1,19 @@
 #:import AsyncImage kivy.uix.image.AsyncImage
 
+########################### GENERIC ###########################
+
+<Space@Label>:
+
+
+<CampoGenerico@TextInput>:
+    padding: '16dp', '16dp'
+    halign: 'justify'
+    write_tab: False
+    multiline: False
+
+
+########################### LOGIN ###########################
+
 <LoginScreen>:
     FONDO:
         AsyncImage:
@@ -31,6 +45,8 @@
             width: min(root.width - dp(32), dp(300))
             x:root.center_x - self.width // 2
 
+
+########################### USUARIOS ###########################
 
 <UserScreen>:
     FONDO:
@@ -64,6 +80,14 @@
                 height: '50dp'
                 orientation: 'horizontal'
 
+                Button:
+                    size_hint:None, None
+                    size:'48dp', '48dp'
+                    border:10,10,10,10
+                    background_normal:'data/images/src/but_new.png'
+                    background_down:'data/images/src/but_new_down.png'
+                    on_release: root.open_AddPopup()
+
                 CampoGenerico:
                     hint_text: 'Texto a buscar'
                     size_hint_x: .8
@@ -71,19 +95,12 @@
                 Button:
                     text: 'Buscar'
                     size_hint_x: .2
-                    on_release: root.add_UsuarioWidget()
+                    on_release: root.show_All_Users()
 
             # LIST
             UsuariosContainer:
                 id: user_container
 
-
-<Space@Label>:
-
-
-<CampoGenerico@TextInput>:
-    padding: '16dp', '16dp'
-    halign: 'justify'
 
 
 <UsuariosContainer@ScrollView>:
@@ -97,12 +114,10 @@
         spacing:'15dp'
         # UsuarioWidget:
         # UsuarioWidget:
-        # UsuarioWidget:
-        # UsuarioWidget:
-        # UsuarioWidget:
 
 
 <UsuarioWidget@StackLayout>:
+    id: user_widget
     orientation: 'lr-tb'
     padding: '16dp'
     size_hint_y:None
@@ -115,9 +130,53 @@
             size: self.size
             radius: 10, 10, 10, 10
     
-    UsuarioTituloBar:
+    BoxLayout:
+        orientation: 'horizontal'
         size_hint_y: None
-        height: '36dp'
+        height: '36dp'   
+        Label:
+            id: lbl_cuenta
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .2
+            font_size: '25sp'
+            font_name: 'Lato-Heavy.ttf' 
+
+        Label:
+            id: lbl_descripcion
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .4
+            font_size: '18sp'
+            font_name: 'Lato-Heavy.ttf' 
+
+        Label:
+            id: lbl_date
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .2
+            font_size: '15sp'
+            font_name: 'Lato-Semibold.ttf'
+
+        BoxLayout:
+            orientation:'horizontal'
+            spacing:'16dp'
+            size_hint_x: .2
+            Space:
+            SegButton:
+                id:but_del
+                size_hint:None, None
+                size:'36dp', '36dp'
+                border:8,8,8,8
+                background_normal:'data/images/src/but_del.png'
+                background_down:'data/images/src/but_del_down.png'
+                # on_release:root.dispatch('on_del_pressed')
+            SegButton:
+                id:but_edit
+                size_hint:None, None
+                size:'36dp', '36dp'
+                border:8,8,8,8
+                background_normal:'data/images/src/but_edit.png'
+                background_down:'data/images/src/but_edit_down.png'
+                
+
 
     # Space:
     #     size_hint_y: None
@@ -127,19 +186,9 @@
 
 
 
-<UsuarioTituloBar@BoxLayout>:
-    orientation: 'horizontal'
-    Label:
-        text: 'Fecha bonita'
-        color: 0.404, 0.522, 0.549, 1.0
+# <UsuarioTituloBar@BoxLayout>:
+#     id: user_title_bar
 
-    Label:
-        text: 'Paquito'
-        color: 0.404, 0.522, 0.549, 1.0
-
-    Label:
-        text: 'Botoncito'
-        color: 0.404, 0.522, 0.549, 1.0
     
 
 <UsuarioBody@BoxLayout>:
@@ -148,12 +197,58 @@
         text: 'Aqui va el cuerpecito'
 
 
+<UserAddPopup>:
+    title: 'Nuevo Usuario'
+    size_hint: (.5, .5)
+    GridLayout:
+        cols: 1
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "Cuenta"
+                size_hint_x: .2
+            CampoGenerico:
+                id: lbl_cuenta
+                focus: True
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Nombre'
+                size_hint_x: .2
+            CampoGenerico:
+                id: lbl_nombre
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Apellidos'
+                size_hint_x: .2
+            CampoGenerico:
+                id: lbl_apellidos
+                size_hint_x: .8
+
+        Space:
+        BoxLayout:
+            padding: 30, 0, 30, 5
+            Button:
+                size_hint_x: 1
+                text: 'Crear'
+                on_release: root.click_CreateButton()
+
+
+
+########################### INDEX ###########################
+
+
 # Screen
 <IndexScreen>:
     FONDO:
         Label:
             text: 'Ejemplo de pantalla'
 
+
+########################### IDEAS ###########################
 
 # Screen
 <IdeaScreen>:
