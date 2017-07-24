@@ -14,6 +14,7 @@ from segreto.uix.loginscreen import LoginScreen
 from segreto.uix.ideascreen import IdeaScreen
 from segreto.uix.indexscreen import IndexScreen
 from segreto.uix.userscreen import UserScreen
+from gestordb import ModeloUsuario
 
 from segreto.idea import IdeaCollection
 
@@ -70,6 +71,14 @@ class SegretoApp(App):
     def login(self, *args):
         self.username = self.loginscreen.ids['grid'].username
         self.password = self.loginscreen.ids['grid'].password
+
+        if ModeloUsuario.login(self.username, self.password):
+            self.screenmanager.current = 'screen-idea'
+        else:
+            self.loginscreen.login_failure('Usuario o Contrasena no valida')
+            self.username = ''
+            self.password = ''
+
         # uname = self.loginscreen.ids['grid'].username
         # paswd = self.loginscreen.ids['grid'].password
         # config = configparser.ConfigParser()
@@ -92,8 +101,6 @@ class SegretoApp(App):
         #     self.username = ''
         #     self.password = ''
         #     self.crypt_file_path = ''
-
-        self.screenmanager.current = 'screen-idea'
 
     def goto_Users(self):
         print "ir a users"
@@ -131,4 +138,3 @@ class SegretoApp(App):
 
     def on_pause(self):
         return True
-

@@ -2,14 +2,42 @@
 
 ########################### GENERIC ###########################
 
-<Space@Label>:
+<FONDO@FloatLayout>:
+    canvas.before:
+        Color:
+            rgba: 0.176, 0.243, 0.314, 1.0
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
+<Space@Label>:
 
 <CampoGenerico@TextInput>:
     padding: '16dp', '16dp'
     halign: 'justify'
-    write_tab: False
     multiline: False
+    write_tab: False
+
+<SegInput@TextInput>:
+    background_normal:'data/images/src/textinput.png'
+    background_active:'data/images/src/textinput_active.png'
+    background_disabled_normal:'data/images/src/textinput_disabled.png'
+    background_disabled_active:'data/images/src/textinput_disabled.png'
+    font_name: 'Lato-Regular.ttf'
+    font_size: '18sp'
+    cursor_color: 0.498, 0.549, 0.552,1.0
+    foreground_color: 0.204, 0.286, 0.369, 1.0
+    selection_color: 0.925, 0.941, 0.937, 0.5
+    padding: '16dp', '16dp'
+    halign:'justify'
+    border: 10,10,10,10
+
+<LoginInput@SegInput>:
+    multiline: False
+    allow_copy: False
+    write_tab: False
+    background_disabled_normal:'data/images/src/logininput_disabled.png'
+    background_disabled_active:'data/images/src/logininput_disabled.png'
 
 
 ########################### LOGIN ###########################
@@ -44,6 +72,40 @@
             id:toast
             width: min(root.width - dp(32), dp(300))
             x:root.center_x - self.width // 2
+
+<LoginGrid@BoxLayout>:
+    orientation:'vertical'
+    canvas:
+        Color:
+            rgba: 0.925, 0.941, 0.937, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10,10,10,10
+    LoginInput:
+        id: inp_username
+        size_hint_y:None
+        height: self.minimum_height
+        write_tab: False
+        hint_text: 'Cuenta'
+        on_text:root.on_username(self.text)
+    Space:
+    LoginInput:
+        id:inp_password
+        password: True
+        size_hint_y:None
+        height: self.minimum_height
+        hint_text: 'Contraseña'
+        on_text:root.on_password(self.text)
+    Space:
+    SegButton:
+        id:but_login
+        size_hint_y:None
+        height:'48dp'
+        text: 'Login'
+        background_normal:'data/images/src/but_turq.png'
+        background_down:'data/images/src/but_turq_down.png'
+        on_release:root.dispatch('on_login')
 
 
 ########################### USUARIOS ###########################
@@ -101,8 +163,6 @@
             UsuariosContainer:
                 id: user_container
 
-
-
 <UsuariosContainer@ScrollView>:
     StackLayout:
         id: container
@@ -114,7 +174,6 @@
         spacing:'15dp'
         # UsuarioWidget:
         # UsuarioWidget:
-
 
 <UsuarioWidget@StackLayout>:
     id: user_widget
@@ -175,6 +234,7 @@
                 border:8,8,8,8
                 background_normal:'data/images/src/but_edit.png'
                 background_down:'data/images/src/but_edit_down.png'
+                on_release : root.click_BotonEditar()
                 
 
 
@@ -184,18 +244,13 @@
 
     # UsuarioBody:
 
-
-
 # <UsuarioTituloBar@BoxLayout>:
 #     id: user_title_bar
-
-    
 
 <UsuarioBody@BoxLayout>:
     orientation: 'horizontal'
     Label:
         text: 'Aqui va el cuerpecito'
-
 
 <UserAddPopup>:
     title: 'Nuevo Usuario'
@@ -208,7 +263,7 @@
                 text: "Cuenta"
                 size_hint_x: .2
             CampoGenerico:
-                id: lbl_cuenta
+                id: txt_cuenta
                 focus: True
                 size_hint_x: .8
 
@@ -217,7 +272,7 @@
                 text: 'Nombre'
                 size_hint_x: .2
             CampoGenerico:
-                id: lbl_nombre
+                id: txt_nombre
                 size_hint_x: .8
 
         BoxLayout:
@@ -225,7 +280,16 @@
                 text: 'Apellidos'
                 size_hint_x: .2
             CampoGenerico:
-                id: lbl_apellidos
+                id: txt_apellidos
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Contraseña'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_password
+                password: True
                 size_hint_x: .8
 
         Space:
@@ -236,7 +300,54 @@
                 text: 'Crear'
                 on_release: root.click_CreateButton()
 
+<UserEditPopup>:
+    title: 'Editar Usuario'
+    size_hint: (.5, .5)
+    GridLayout:
+        cols: 1
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "Cuenta"
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_cuenta
+                focus: True
+                active: False
+                size_hint_x: .8
 
+        BoxLayout:
+            Label:
+                text: 'Nombre'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_nombre
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Apellidos'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_apellidos
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Contraseña'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_password
+                password: True
+                size_hint_x: .8                
+
+        Space:
+        BoxLayout:
+            padding: 30, 0, 30, 5
+            Button:
+                size_hint_x: 1
+                text: 'Guardar'
+                on_release: root.click_SaveButton()
 
 ########################### INDEX ###########################
 
@@ -310,40 +421,6 @@
             #     size_hint_y:None
             #     height:'30dp'            
 
-
-<FONDO@FloatLayout>:
-    canvas.before:
-        Color:
-            rgba: 0.176, 0.243, 0.314, 1.0
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
-
-
-
-
-
-<SegInput@TextInput>:
-    background_normal:'data/images/src/textinput.png'
-    background_active:'data/images/src/textinput_active.png'
-    background_disabled_normal:'data/images/src/textinput_disabled.png'
-    background_disabled_active:'data/images/src/textinput_disabled.png'
-    font_name: 'Lato-Regular.ttf'
-    font_size: '18sp'
-    cursor_color: 0.498, 0.549, 0.552,1.0
-    foreground_color: 0.204, 0.286, 0.369, 1.0
-    selection_color: 0.925, 0.941, 0.937, 0.5
-    padding: '16dp', '16dp'
-    halign:'justify'
-    border: 10,10,10,10
-
-<LoginInput@SegInput>:
-    multiline: False
-    allow_copy: False
-    background_disabled_normal:'data/images/src/logininput_disabled.png'
-    background_disabled_active:'data/images/src/logininput_disabled.png'
-
 <SegButton@Button>:
     font_name: 'Lato-Bold.ttf'
     font_size: '22sp'
@@ -400,7 +477,6 @@
             background_down:'data/images/src/close_down.png'
             on_release:root.exit(None)
 
-
 <IdeaTitleBar@BoxLayout>:
     orientation:'horizontal'
     but_edit:but_edit
@@ -443,7 +519,6 @@
             background_down:'data/images/src/but_edit_down.png'
             on_release:root.dispatch('on_edit_pressed')
 
-
 <IdeaWidget@StackLayout>:
     orientation:'lr-tb'
     padding:'16dp'
@@ -469,42 +544,6 @@
         id:inp_idea
         size_hint_y:None
         height: self.minimum_height
-
-
-<LoginGrid@BoxLayout>:
-    orientation:'vertical'
-    canvas:
-        Color:
-            rgba: 0.925, 0.941, 0.937, 1.0
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: 10,10,10,10
-    LoginInput:
-        id: inp_username
-        size_hint_y:None
-        height: self.minimum_height
-        hint_text: 'Cuenta'
-        on_text:root.on_username(self.text)
-    Space:
-    LoginInput:
-        id:inp_password
-        size_hint_y:None
-        height: self.minimum_height
-        hint_text: 'Contraseña'
-        on_text:root.on_password(self.text)
-    Space:
-    SegButton:
-        id:but_login
-        size_hint_y:None
-        height:'48dp'
-        text: 'Login'
-        background_normal:'data/images/src/but_turq.png'
-        background_down:'data/images/src/but_turq_down.png'
-        on_release:root.dispatch('on_login')
-
-
-
 
 # <SegButton@Button>:
 #     font_name: 'Lato-Bold.ttf'
@@ -565,7 +604,6 @@
     #         text: 'Seleccionar Factura'
     #         size_hint_x: 40 
 
-
 <CusInputFeatures@TextInput>:
     background_normal:'data/images/src/textinput.png'
     background_active:'data/images/src/textinput_active.png'
@@ -585,7 +623,6 @@
     allow_copy: False
     background_disabled_normal:'data/images/src/logininput_disabled.png'
     background_disabled_active:'data/images/src/logininput_disabled.png'
-
 
 <IdeawidgetContainer@ScrollView>:
     StackLayout:
@@ -779,9 +816,6 @@
             # background_down:'data/images/src/but_turq_down.png'
             # on_release:root.dispatch('on_login')
 
-
-
-
 <FieldsContainer@BoxLayout>:
     orientation: 'vertical'
     size_hint_y:None
@@ -789,7 +823,6 @@
     height:self.minimum_height
     padding:'16dp', '0dp','16dp','16dp'
     spacing:'16dp'
-
 
 <Toolbar@BoxLayout>:
     orientation: 'horizontal'

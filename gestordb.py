@@ -17,6 +17,7 @@ from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
 # Site's Models
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from configuration.models import Log
 from security.models import Profile
@@ -27,7 +28,7 @@ from jde.models import F41001
 from jde.models import F0116
 
 
-class ModelProfile(object):
+class ModeloUsuario(object):
 
     @classmethod
     def get(self, _user=None):
@@ -41,15 +42,50 @@ class ModelProfile(object):
             pass
 
     @classmethod
-    def add(self, _username, _first_name, _last_name):
+    def add(self, _username, _first_name, _last_name, _password):
 
         try:
 
-            perfil = User()
-            perfil.username = _username
-            perfil.first_name = _first_name
-            perfil.last_name = _last_name
-            perfil.save()
+            usuario = User()
+            usuario.username = _username
+            usuario.first_name = _first_name
+            usuario.last_name = _last_name
+            if _password != '':
+                usuario.set_password(_password)
+            else:
+                usuario.set_password("12345")
+            usuario.save()
+
+        except Exception as e:
+            print str(e)
+
+    @classmethod
+    def edit(self, _username, _first_name, _last_name, _password):
+
+        try:
+
+            usuario = User.objects.get(username=_username)
+            usuario.first_name = _first_name
+            usuario.last_name = _last_name
+
+            if _password != '':
+                usuario.set_password(_password)
+
+            usuario.save()
+
+        except Exception as e:
+            print str(e)
+
+    @classmethod
+    def login(self, _username, _password):
+
+        try:
+            usuario = authenticate(username=_username, password=_password)
+
+            if usuario:
+                return True
+            else:
+                return False
 
         except Exception as e:
             print str(e)

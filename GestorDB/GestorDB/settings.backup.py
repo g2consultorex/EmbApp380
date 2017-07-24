@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     # Own's Apps
     'configuration.apps.ConfigurationConfig',
     'security.apps.SecurityConfig',
-    # 'jde.apps.JdeConfig',
+    'jde.apps.JdeConfig',
 ]
 
 MIDDLEWARE = [
