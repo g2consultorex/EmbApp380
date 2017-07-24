@@ -49,7 +49,7 @@ class SegretoApp(App):
 
         self.ideascreen = IdeaScreen(name='screen-idea')
         self.ideascreen.bind(on_quit_app=self.quit)
-        self.ideascreen.bind(on_Users=self.goto_Users)
+        # self.ideascreen.bind(on_Users=self.goto_Users)
 
         self.indexscreeen = IndexScreen(name='screen-index')
 
@@ -102,9 +102,11 @@ class SegretoApp(App):
         #     self.password = ''
         #     self.crypt_file_path = ''
 
-    def goto_Users(self):
-        print "ir a users"
-        # self.screenmanager.current = "screen-index"
+    def goto_Usuarios(self):
+        self.screenmanager.current = "screen-user"
+
+    def goto_Etiquetas(self):
+        self.screenmanager.current = "screen-idea"
 
     def decrypt_data(self, crypt_data, password):
         try:

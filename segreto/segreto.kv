@@ -39,6 +39,51 @@
     background_disabled_normal:'data/images/src/logininput_disabled.png'
     background_disabled_active:'data/images/src/logininput_disabled.png'
 
+<Toast@AnchorLayout>:
+    size_hint:None,None
+    y:'-50dp'
+    size: '300dp','48dp'
+    anchor_x:'right'
+    canvas:
+        Color:
+            rgba: 0.910, 0.298, 0.239, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10,10,10,10
+    Label:
+        id:label
+        font_size: '16sp'
+        font_name: 'Lato-Bold.ttf'
+    AnchorLayout:
+        size_hint:None, None
+        size:'48dp','48dp'
+        anchor_x:'center'
+        SegButton:
+            size_hint:None, None
+            size:'24dp', '24dp'
+            border:0,0,0,0
+            background_normal:'data/images/src/close.png'
+            background_down:'data/images/src/close_down.png'
+            on_release:root.exit(None)
+
+<Menu@BoxLayout>:
+    size_hint_y:None
+    height:'50dp'
+    orientation: 'horizontal'
+    # on_add_ideawidget:root.new_idea()
+    # on_quit_pressed:root.pre_quit_exec()
+    
+    Button:
+        text: 'Generar Etiquetas'
+        size_hint_x: 30
+        on_release: app.goto_Etiquetas()
+
+    Button:
+        text: 'Usuarios'
+        size_hint_x: 30
+        on_release: app.goto_Usuarios()
+
 
 ########################### LOGIN ###########################
 
@@ -116,25 +161,7 @@
             orientation:'vertical'
 
             # MENU
-            BoxLayout:
-                size_hint_y:None
-                height:'50dp'
-                orientation: 'horizontal'
-                # on_add_ideawidget:root.new_idea()
-                # on_quit_pressed:root.pre_quit_exec()
-                
-                Button:
-                    text: 'Facturas'
-                    size_hint_x: 30
-                    # on_release: 
-
-                Button:
-                    text: 'Clientes'
-                    size_hint_x: 30
-
-                Button:
-                    text: 'Usuarios'
-                    size_hint_x: 30
+            Menu:
 
             # SEARCH
             BoxLayout:
@@ -196,7 +223,7 @@
         Label:
             id: lbl_cuenta
             color: 0.404, 0.522, 0.549, 1.0
-            size_hint_x: .2
+            size_hint_x: .3
             font_size: '25sp'
             font_name: 'Lato-Heavy.ttf' 
 
@@ -217,15 +244,15 @@
         BoxLayout:
             orientation:'horizontal'
             spacing:'16dp'
-            size_hint_x: .2
+            size_hint_x: .1
             Space:
-            SegButton:
-                id:but_del
-                size_hint:None, None
-                size:'36dp', '36dp'
-                border:8,8,8,8
-                background_normal:'data/images/src/but_del.png'
-                background_down:'data/images/src/but_del_down.png'
+            # SegButton:
+            #     id:but_del
+            #     size_hint:None, None
+            #     size:'36dp', '36dp'
+            #     border:8,8,8,8
+            #     background_normal:'data/images/src/but_del.png'
+            #     background_down:'data/images/src/but_del_down.png'
                 # on_release:root.dispatch('on_del_pressed')
             SegButton:
                 id:but_edit
@@ -243,9 +270,6 @@
     #     height: '16dp'
 
     # UsuarioBody:
-
-# <UsuarioTituloBar@BoxLayout>:
-#     id: user_title_bar
 
 <UsuarioBody@BoxLayout>:
     orientation: 'horizontal'
@@ -302,7 +326,7 @@
 
 <UserEditPopup>:
     title: 'Editar Usuario'
-    size_hint: (.5, .5)
+    size_hint: (.5, .6)
     GridLayout:
         cols: 1
         BoxLayout:
@@ -312,8 +336,7 @@
                 size_hint_x: .2
             CampoGenerico:
                 id: txt_cuenta
-                focus: True
-                active: False
+                disabled: True
                 size_hint_x: .8
 
         BoxLayout:
@@ -321,6 +344,7 @@
                 text: 'Nombre'
                 size_hint_x: .2
             CampoGenerico:
+                focus: True
                 id: txt_nombre
                 size_hint_x: .8
 
@@ -331,6 +355,15 @@
             CampoGenerico:
                 id: txt_apellidos
                 size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Activo'
+                size_hint_x: .2
+            CheckBox:
+                id: chk_activo 
+                text: ''
+                active: False
 
         BoxLayout:
             Label:
@@ -349,44 +382,39 @@
                 text: 'Guardar'
                 on_release: root.click_SaveButton()
 
-########################### INDEX ###########################
-
-
-# Screen
-<IndexScreen>:
-    FONDO:
-        Label:
-            text: 'Ejemplo de pantalla'
-
 
 ########################### IDEAS ###########################
 
 # Screen
 <IdeaScreen>:
     FONDO:
+
         BoxLayout:
             orientation:'vertical'
-            BoxLayout:
-                size_hint_y:None
-                height:'50dp'
-                orientation: 'horizontal'
-                # on_add_ideawidget:root.new_idea()
-                # on_quit_pressed:root.pre_quit_exec()
+
+            # MENU
+            Menu:            
+            # BoxLayout:
+            #     size_hint_y:None
+            #     height:'50dp'
+            #     orientation: 'horizontal'
+            #     # on_add_ideawidget:root.new_idea()
+            #     # on_quit_pressed:root.pre_quit_exec()
                 
-                Button:
-                    text: 'Facturas'
-                    size_hint_x: 30
-                    # on_release: 
+            #     Button:
+            #         text: 'Facturas'
+            #         size_hint_x: 30
+            #         # on_release: 
 
-                Button:
-                    text: 'Clientes'
-                    size_hint_x: 30
+            #     Button:
+            #         text: 'Clientes'
+            #         size_hint_x: 30
 
-                Button:
-                    text: 'Usuarios'
-                    size_hint_x: 30
-                    on_release: root.goto_Usuario()
-                    # on_release:root.dispatch('on_Users')
+            #     Button:
+            #         text: 'Usuarios'
+            #         size_hint_x: 30
+            #         on_release: root.goto_Usuario()
+            #         # on_release:root.dispatch('on_Users')
 
             Space:
                 size_hint_y:None
@@ -448,34 +476,6 @@
         size_hint:None, None
         size:'32dp','32dp'
         source:'data/images/src/search.png'
-
-<Toast@AnchorLayout>:
-    size_hint:None,None
-    y:'-50dp'
-    size: '300dp','48dp'
-    anchor_x:'right'
-    canvas:
-        Color:
-            rgba: 0.910, 0.298, 0.239, 1.0
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: 10,10,10,10
-    Label:
-        id:label
-        font_size: '18sp'
-        font_name: 'Lato-Bold.ttf'
-    AnchorLayout:
-        size_hint:None, None
-        size:'48dp','48dp'
-        anchor_x:'center'
-        SegButton:
-            size_hint:None, None
-            size:'24dp', '24dp'
-            border:0,0,0,0
-            background_normal:'data/images/src/close.png'
-            background_down:'data/images/src/close_down.png'
-            on_release:root.exit(None)
 
 <IdeaTitleBar@BoxLayout>:
     orientation:'horizontal'
@@ -843,3 +843,11 @@
         # on_release:root.dispatch('on_Users')
 
 
+
+########################### INDEX ###########################
+
+# Screen
+<IndexScreen>:
+    FONDO:
+        Label:
+            text: 'Ejemplo de pantalla'

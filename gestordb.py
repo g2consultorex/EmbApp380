@@ -31,6 +31,20 @@ from jde.models import F0116
 class ModeloUsuario(object):
 
     @classmethod
+    def login(self, _username, _password):
+
+        try:
+            usuario = authenticate(username=_username, password=_password)
+
+            if usuario:
+                return usuario.is_active
+            else:
+                return False
+
+        except Exception as e:
+            print str(e)
+
+    @classmethod
     def get(self, _user=None):
 
         try:
@@ -60,13 +74,14 @@ class ModeloUsuario(object):
             print str(e)
 
     @classmethod
-    def edit(self, _username, _first_name, _last_name, _password):
+    def edit(self, _username, _first_name, _last_name, _password, _active):
 
         try:
 
             usuario = User.objects.get(username=_username)
             usuario.first_name = _first_name
             usuario.last_name = _last_name
+            usuario.is_active = _active
 
             if _password != '':
                 usuario.set_password(_password)
@@ -76,19 +91,7 @@ class ModeloUsuario(object):
         except Exception as e:
             print str(e)
 
-    @classmethod
-    def login(self, _username, _password):
 
-        try:
-            usuario = authenticate(username=_username, password=_password)
-
-            if usuario:
-                return True
-            else:
-                return False
-
-        except Exception as e:
-            print str(e)
 
 
 class ModeloLog(object):

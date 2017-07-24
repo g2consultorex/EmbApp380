@@ -48,12 +48,12 @@ class IdeaScreen(Screen):
     def on_Users(self):
         pass
 
-    def goto_Usuario(self):
-        # import ipdb
-        # ipdb.set_trace()
-        self.manager.current = "screen-user"
-        # self.manger
-        # self.parent.parent.parent.manager.current = "screen-index"
+    # def goto_Usuarios(self):
+    #     # import ipdb
+    #     # ipdb.set_trace()
+    #     self.manager.current = "screen-user"
+    #     # self.manger
+    #     # self.parent.parent.parent.manager.current = "screen-index"
 
 
 class TopBar(BoxLayout):

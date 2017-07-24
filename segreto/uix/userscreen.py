@@ -71,12 +71,13 @@ class UserAddPopup(Popup):
 
 class UserEditPopup(Popup):
 
-    def __init__(self, usuario, **kwargs):
+    def __init__(self, _usuario, **kwargs):
         super(UserEditPopup, self).__init__(**kwargs)
 
-        self.ids['txt_cuenta'].text = usuario.username
-        self.ids['txt_nombre'].text = usuario.first_name
-        self.ids['txt_apellidos'].text = usuario.last_name
+        self.ids['txt_cuenta'].text = _usuario.username
+        self.ids['txt_nombre'].text = _usuario.first_name
+        self.ids['txt_apellidos'].text = _usuario.last_name
+        self.ids['chk_activo'].active = _usuario.is_active
 
     def click_SaveButton(self):
 
@@ -84,7 +85,7 @@ class UserEditPopup(Popup):
         nombre = self.ids['txt_nombre'].text
         descripcion = self.ids['txt_apellidos'].text
         contrasena = self.ids['txt_password'].text
-
-        ModeloUsuario.edit(clave, nombre, descripcion, contrasena)
+        activo = self.ids['chk_activo'].active
+        ModeloUsuario.edit(clave, nombre, descripcion, contrasena, activo)
 
         self.dismiss()
