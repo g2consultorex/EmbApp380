@@ -6,7 +6,7 @@ from kivy.properties import StringProperty, ObjectProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.animation import Animation
-from segreto.uix.widget import Toast
+from CapaPresentacion.uix.widget import Toast
 from kivy.clock import Clock
 
 

@@ -10,13 +10,14 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.screenmanager import SwapTransition
 
-from segreto.uix.loginscreen import LoginScreen
-from segreto.uix.ideascreen import IdeaScreen
-from segreto.uix.indexscreen import IndexScreen
-from segreto.uix.userscreen import UserScreen
-from gestordb import ModeloUsuario
+from CapaPresentacion.uix.loginscreen import LoginScreen
+from CapaPresentacion.uix.createlabelscreen import CreateLabelScreen
+from CapaPresentacion.uix.userscreen import UserScreen
+from CapaPresentacion.uix.ideascreen import IdeaScreen
 
-from segreto.idea import IdeaCollection
+from CapaNegocio.gestordb import ModeloUsuario
+
+from CapaPresentacion.idea import IdeaCollection
 
 import configparser
 import threading
@@ -47,18 +48,20 @@ class SegretoApp(App):
 
         self.userscreen = UserScreen(name='screen-user')
 
+        self.createlabelscreen = CreateLabelScreen(name='screen-createlabel')
+
         self.ideascreen = IdeaScreen(name='screen-idea')
-        self.ideascreen.bind(on_quit_app=self.quit)
+        # self.ideascreen.bind(on_quit_app=self.quit)
         # self.ideascreen.bind(on_Users=self.goto_Users)
 
-        self.indexscreeen = IndexScreen(name='screen-index')
-
         self.screenmanager.add_widget(self.loginscreen)
-        self.screenmanager.add_widget(self.ideascreen)
         self.screenmanager.add_widget(self.userscreen)
-        self.screenmanager.add_widget(self.indexscreeen)
+        self.screenmanager.add_widget(self.createlabelscreen)
+
+        self.screenmanager.add_widget(self.ideascreen)
+
         self.screenmanager.current = 'screen-login'
-        # self.screenmanager.current = 'screen-index'
+        # self.screenmanager.current = 'screen-createlabel'
 
     def encrypt_store_data(self, crypt_file_path, password, idea_collection):
         self.screenmanager.clear_widgets()
@@ -73,7 +76,7 @@ class SegretoApp(App):
         self.password = self.loginscreen.ids['grid'].password
 
         if ModeloUsuario.login(self.username, self.password):
-            self.screenmanager.current = 'screen-index'
+            self.screenmanager.current = 'screen-createlabel'
         else:
             self.loginscreen.login_failure('Usuario o Contrasena no valida')
             self.username = ''
@@ -106,7 +109,7 @@ class SegretoApp(App):
         self.screenmanager.current = "screen-user"
 
     def goto_Etiquetas(self):
-        self.screenmanager.current = "screen-index"
+        self.screenmanager.current = "screen-createlabel"
 
     def decrypt_data(self, crypt_data, password):
         try:

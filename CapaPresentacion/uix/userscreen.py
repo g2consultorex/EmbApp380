@@ -6,7 +6,7 @@ from kivy.uix.popup import Popup
 from kivy.uix.stacklayout import StackLayout
 from kivy.properties import ObjectProperty
 
-from gestordb import ModeloUsuario
+from CapaNegocio.gestordb import ModeloUsuario
 
 
 class UserScreen(Screen):
