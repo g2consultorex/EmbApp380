@@ -73,7 +73,7 @@ class SegretoApp(App):
         self.password = self.loginscreen.ids['grid'].password
 
         if ModeloUsuario.login(self.username, self.password):
-            self.screenmanager.current = 'screen-idea'
+            self.screenmanager.current = 'screen-index'
         else:
             self.loginscreen.login_failure('Usuario o Contrasena no valida')
             self.username = ''
@@ -106,7 +106,7 @@ class SegretoApp(App):
         self.screenmanager.current = "screen-user"
 
     def goto_Etiquetas(self):
-        self.screenmanager.current = "screen-idea"
+        self.screenmanager.current = "screen-index"
 
     def decrypt_data(self, crypt_data, password):
         try:
