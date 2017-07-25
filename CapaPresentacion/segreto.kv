@@ -78,23 +78,6 @@
             background_down:'data/images/src/close_down.png'
             on_release:root.exit(None)
 
-<Menu@BoxLayout>:
-    size_hint_y:None
-    height:'50dp'
-    orientation: 'horizontal'
-    # on_add_ideawidget:root.new_idea()
-    # on_quit_pressed:root.pre_quit_exec()
-    
-    Button:
-        text: 'Generar Etiquetas'
-        size_hint_x: 30
-        on_release: app.goto_Etiquetas()
-
-    Button:
-        text: 'Usuarios'
-        size_hint_x: 30
-        on_release: app.goto_Usuarios()
-
 <CusInputFeatures@TextInput>:
     background_normal:'data/images/src/textinput.png'
     background_active:'data/images/src/textinput_active.png'
@@ -115,6 +98,27 @@
     background_disabled_normal:'data/images/src/logininput_disabled.png'
     background_disabled_active:'data/images/src/logininput_disabled.png'
 
+<Menu@BoxLayout>:
+    size_hint_y:None
+    height:'50dp'
+    orientation: 'horizontal'
+    # on_add_ideawidget:root.new_idea()
+    # on_quit_pressed:root.pre_quit_exec()
+    
+    Button:
+        text: 'Generar Etiquetas'
+        size_hint_x: 30
+        on_release: app.goto_Etiquetas()
+
+    Button:
+        text: 'Usuarios'
+        size_hint_x: 30
+        on_release: app.goto_Usuarios()
+
+    Button:
+        text: 'Estafeta Cuentas'
+        size_hint_x: 30
+        on_release: app.goto_EstafetaCuentas()
 
 ########################### LOGIN ###########################
 
@@ -410,8 +414,6 @@
                 on_release: root.click_SaveButton()
 
 
-
-
 ########################### CREATE LABEL ###########################
 
 <CreateLabelScreen>:
@@ -457,9 +459,8 @@
         ServicioWidget:
         PaqueteWidget:
         OrigenWidget:
+        # EstafetaWidget:
         ControlWidget:
-
-
 
 <ServicioWidget@StackLayout>:
     id: user_widget
@@ -662,7 +663,7 @@
                     size_hint_x: .45            
 
 <OrigenWidget@StackLayout>:
-    id: user_widget
+    id: origen_widget
     orientation: 'lr-tb'
     padding: '10dp'
     size_hint_y:None
@@ -690,6 +691,36 @@
             padding:'16dp', '10dp','16dp','10dp'
             spacing: 40, 16            
 
+# <EstafetaWidget@StackLayout>:
+#     id: estafeta_widget
+#     orientation: 'lr-tb'
+#     padding: '10dp'
+#     size_hint_y:None
+#     height: '180dp'
+#     canvas:
+#         Color:
+#             rgba: 0.925, 0.941, 0.937, 1.0
+#         RoundedRectangle:
+#             pos: self.pos
+#             size: self.size
+#             radius: 10, 10, 10, 10
+
+#     BoxLayout:
+#         orientation: 'vertical'
+#         spacing: '2dp'
+#         Label:
+#             size_hint_y: None
+#             height: '40dp'
+#             text: 'CREDENCIALES DE ESTAFETA'
+#             color: hex('#000000')
+#             font_size: '16sp'
+
+#         GridLayout:
+#             cols: 2
+#             padding:'16dp', '10dp','16dp','10dp'
+#             spacing: 40, 16           
+
+
 <ControlWidget@StackLayout>:
     id: user_widget
     orientation: 'lr-tb'
@@ -706,10 +737,268 @@
             text: 'Crear Etiqueta'
 
 
+########################### ESTAFETA SCREEN ###########################
+
+<EstafetaScreen>:
+    FONDO:
+        BoxLayout:
+            orientation:'vertical'
+
+            # MENU
+            Menu:
+
+            # SEARCH
+            BoxLayout:
+                size_hint_y: None
+                height: '50dp'
+                orientation: 'horizontal'
+
+                Button:
+                    size_hint:None, None
+                    size:'48dp', '48dp'
+                    border:10,10,10,10
+                    background_normal:'data/images/src/but_new.png'
+                    background_down:'data/images/src/but_new_down.png'
+                    on_release: root.open_AddPopup()
+
+                CampoGenerico:
+                    hint_text: 'Texto a buscar'
+                    size_hint_x: .8
+
+                Button:
+                    text: 'Buscar'
+                    size_hint_x: .2
+                    on_release: root.show_All_Records()
+
+            # LIST
+            UsuariosContainer:
+                id: estafeta_container
+
+<EstafetaContainer@ScrollView>:
+    StackLayout:
+        id: container
+        size_hint_y: None
+        size_hint_x: 1
+        height: self.minimum_height
+        orientation: 'lr-tb'
+        padding:'15dp', '15dp','15dp','15dp'
+        spacing:'15dp'
+        # UsuarioWidget:
+        # UsuarioWidget:
+
+<EstafetaWidget@StackLayout>:
+    id: user_widget
+    orientation: 'lr-tb'
+    padding: '16dp'
+    size_hint_y:None
+    height: self.minimum_height
+    canvas:
+        Color:
+            rgba: 0.925, 0.941, 0.937, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
+    
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: '36dp'   
+        Label:
+            id: lbl_clave
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .3
+            font_size: '25sp'
+            font_name: 'Lato-Heavy.ttf' 
+
+        Label:
+            id: lbl_login
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .4
+            font_size: '18sp'
+            font_name: 'Lato-Heavy.ttf' 
+
+        Label:
+            id: lbl_date
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .2
+            font_size: '15sp'
+            font_name: 'Lato-Semibold.ttf'
+
+        BoxLayout:
+            orientation:'horizontal'
+            spacing:'16dp'
+            size_hint_x: .1
+            Space:
+            SegButton:
+                id:but_edit
+                size_hint:None, None
+                size:'36dp', '36dp'
+                border:8,8,8,8
+                background_normal:'data/images/src/but_edit.png'
+                background_down:'data/images/src/but_edit_down.png'
+                on_release : root.click_BotonEditar()
+                
+<EstafetaAddPopup>:
+    title: 'Nuevo Usuario de Estafeta'
+    size_hint: (.5, .7)
+    GridLayout:
+        cols: 1
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "Clave"
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_clave
+                focus: True
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Login'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_login
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Password'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_password
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Quadrant'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_quadrant
+                input_type: 'number'
+                input_filter: 'float'
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Suscriber ID'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_suscriber_id
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Tipo Papel'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_paper_type
+                input_type: 'number'
+                input_filter: 'float'
+                size_hint_x: .8                                
+
+        BoxLayout:
+            Label:
+                text: 'Principal'
+                size_hint_x: .2
+            CheckBox:
+                id: chk_es_principal 
+                text: ''
+                active: False
+
+
+        Space:
+        BoxLayout:
+            padding: 30, 0, 30, 5
+            Button:
+                size_hint_x: 1
+                text: 'Crear'
+                on_release: root.click_CreateButton()
+
+<EstafetaEditPopup>:
+    title: 'Editar Usuario de Estafeta'
+    size_hint: (.5, .7)
+    GridLayout:
+        cols: 1
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "Clave"
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_clave
+                focus: True
+                disabled: True
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Login'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_login
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Password'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_password
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Quadrant'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_quadrant
+                input_type: 'number'
+                input_filter: 'float'
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Suscriber ID'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_suscriber_id
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Tipo Papel'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_paper_type
+                input_type: 'number'
+                input_filter: 'float'
+                size_hint_x: .8                                
+
+        BoxLayout:
+            Label:
+                text: 'Principal'
+                size_hint_x: .2
+            CheckBox:
+                id: chk_es_principal 
+                text: ''
+                active: False
+            
+
+        Space:
+        BoxLayout:
+            padding: 30, 0, 30, 5
+            Button:
+                size_hint_x: 1
+                text: 'Guardar'
+                on_release: root.click_SaveButton()
+
+
 
 ########################### IDEAS ###########################
 
-# Screen
+
 <IdeaScreen>:
     FONDO:
 

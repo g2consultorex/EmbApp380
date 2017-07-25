@@ -19,8 +19,8 @@ application = get_wsgi_application()
 # Site's Models
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
-
-from configuration.models import EstafetaUser
+from configuration.models import Log
+from security.models import Profile
 from jde.models import F0101
 from jde.models import F4211
 from jde.models import F42119
@@ -92,54 +92,24 @@ class ModeloUsuario(object):
             print str(e)
 
 
-class ModeloEstafetaUser(object):
+
+
+class ModeloLog(object):
 
     @classmethod
-    def get(self):
+    def add(self, _titulo, _texto):
 
         try:
-            connection.close()
-            records = EstafetaUser.objects.all().order_by('created_date')
-            return records
+            usuario = Profile.objects.get(user__username="rgonzalezz")
 
-        except Exception:
-            pass
+            log = Log()
+            log.titulo = _titulo
+            log.comentario = _texto
+            log.created_by = usuario
+            log.updated_by = usuario
+            log.save()
 
-    @classmethod
-    def add(self, _clave, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal):
-
-        try:
-
-            estafeta = EstafetaUser()
-
-            estafeta.clave = _clave
-            estafeta.login = _login
-            estafeta.password = _password
-            estafeta.quadrant = _quadrant
-            estafeta.suscriber_id = _suscriber_id
-            estafeta.paper_type = _paper_type
-            estafeta.es_principal = _es_principal
-
-            estafeta.save()
-
-        except Exception as e:
-            print str(e)
-
-    @classmethod
-    def edit(self, _clave, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal):
-
-        try:
-
-            estafeta = EstafetaUser.objects.get(clave=_clave)
-            estafeta.login = _login
-            estafeta.password = _password
-            estafeta.quadrant = _quadrant
-            estafeta.suscriber_id = _suscriber_id
-            estafeta.paper_type = _paper_type
-            estafeta.es_principal = _es_principal
-
-            estafeta.save()
-
+            print "OK"
         except Exception as e:
             print str(e)
 
