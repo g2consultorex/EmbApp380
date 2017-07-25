@@ -4,7 +4,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.stacklayout import StackLayout
 from kivy.properties import StringProperty, ObjectProperty, BooleanProperty
-from segreto.idea import IdeaCollection, Idea
+from CapaPresentacion.idea import IdeaCollection
+from CapaPresentacion.idea import Idea
 
 
 class IdeaScreen(Screen):
@@ -72,7 +73,6 @@ class TopBar(BoxLayout):
 
 class Toolbar(BoxLayout):
     pass
-
 
 
 class IdeaTitleBar(BoxLayout):

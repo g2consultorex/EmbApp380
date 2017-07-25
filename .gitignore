@@ -11,7 +11,7 @@ Thumbs.db
 # Python Files
 # ---------------------------------------
 db.*
-GestorDB/GestorDB/settings.py
+CapaDatos/GestorDB/settings.py
 
 # DIRECTORIES
 # ---------------------------------------
@@ -19,3 +19,7 @@ GestorDB/GestorDB/settings.py
 GestorDB/configuration/migrations/*
 GestorDB/jde/migrations/*
 GestorDB/security/migrations/*
+
+CapaDatos/configuration/migrations/*
+CapaDatos/jde/migrations/*
+CapaDatos/security/migrations/*

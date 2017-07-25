@@ -1,4 +1,6 @@
 #:import AsyncImage kivy.uix.image.AsyncImage
+#:import hex kivy.utils.get_color_from_hex
+
 
 ########################### GENERIC ###########################
 
@@ -12,11 +14,20 @@
 
 <Space@Label>:
 
+<LabelGeneric@Label>:
+    color: hex('#6C6C6C')
+
 <CampoGenerico@TextInput>:
     padding: '16dp', '16dp'
     halign: 'justify'
     multiline: False
     write_tab: False
+
+<CampoGenericoMedium@TextInput>:
+    padding: '10dp', '10dp'
+    halign: 'justify'
+    multiline: False
+    write_tab: False    
 
 <SegInput@TextInput>:
     background_normal:'data/images/src/textinput.png'
@@ -153,6 +164,7 @@
         height: self.minimum_height
         write_tab: False
         hint_text: 'Cuenta'
+        focus: True
         on_text:root.on_username(self.text)
     Space:
     LoginInput:
@@ -291,11 +303,6 @@
 
     # UsuarioBody:
 
-<UsuarioBody@BoxLayout>:
-    orientation: 'horizontal'
-    Label:
-        text: 'Aqui va el cuerpecito'
-
 <UserAddPopup>:
     title: 'Nuevo Usuario'
     size_hint: (.5, .5)
@@ -405,22 +412,21 @@
 
 
 
-########################### INDEX ###########################
+########################### CREATE LABEL ###########################
 
-# Screen
-<IndexScreen>:
+<CreateLabelScreen>:
     FONDO:
-        Label:
+        BoxLayout:
             orientation:'vertical'
 
             # MENU
             Menu:
 
-            # FACTURA
+            # SEARCH
             BoxLayout:
                 size_hint_y: None
                 height: '50dp'
-                orientation: 'horizontal'                
+                orientation: 'horizontal'
 
                 CampoGenerico:
                     hint_text: 'Numero Factura'
@@ -433,25 +439,272 @@
                 Button:
                     text: 'Buscar Informacion'
                     size_hint_x: .4
-                    on_release: root.show_All_Users()
+                    # on_release: root.show_All_Users()
 
+            # LIST
+            CreateLabelContainer:
+                id: label_container
 
-            # DATOS
-            DatosContainer:
-                id: data_container
-
-
-<DatosContainer@ScrollView>:
+<CreateLabelContainer@ScrollView>:
     StackLayout:
         id: container
         size_hint_y: None
-        size_hint_x: 1
         height: self.minimum_height
+        size_hint_x: 1
         orientation: 'lr-tb'
-        padding:'15dp', '15dp','15dp','15dp'
+        padding:'10dp', '10dp','10dp','10dp'
         spacing:'15dp'
-        # UsuarioWidget:
-        # UsuarioWidget:
+        ServicioWidget:
+        PaqueteWidget:
+        OrigenWidget:
+        ControlWidget:
+
+
+
+<ServicioWidget@StackLayout>:
+    id: user_widget
+    orientation: 'lr-tb'
+    padding: '10dp'
+    size_hint_y:None
+    height: '180dp'
+    canvas:
+        Color:
+            rgba: 0.925, 0.941, 0.937, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
+    
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: '2dp'
+        Label:
+            size_hint_y: None
+            height: '40dp'
+            text: 'INFORMACION DEL SERVICIO'
+            # color: 0.404, 0.522, 0.549, 1.0
+            color: hex('#000000')
+            font_size: '16sp'
+
+        GridLayout:
+            cols: 2
+            padding:'16dp', '10dp','16dp','10dp'
+            spacing: 40, 16
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'No. de Cliente:'
+                    size_hint_x: .25
+                CampoGenericoMedium:
+                    id: txt_num_cliente
+                    size_hint_x: .75
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Servicio:'
+                    size_hint_x: .15
+                CampoGenericoMedium:
+                    id: txt_servicio
+                    size_hint_x: .85
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Guías disponibles:'
+                    size_hint_x: .30
+                CampoGenericoMedium:
+                    id: txt_gias_disponibles
+                    size_hint_x: .30
+
+
+
+
+
+        # size_hint_y: None
+        # height: '36dp'   
+
+<PaqueteWidget@StackLayout>:
+    id: user_widget
+    orientation: 'lr-tb'
+    padding: '10dp'
+    size_hint_y:None
+    height: '370dp'
+    canvas:
+        Color:
+            rgba: 0.925, 0.941, 0.937, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: '2dp'
+        Label:
+            size_hint_y: None
+            height: '40dp'
+            text: 'INFORMACION DEL PAQUETE'
+            color: hex('#000000')
+            font_size: '16sp'
+
+        GridLayout:
+            cols: 2
+            padding:'16dp', '10dp','16dp','10dp'
+            spacing: 40, 16
+
+            # Fila 1
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Peso:'
+                    size_hint_x: .10
+                CampoGenericoMedium:
+                    id: txt_peso
+                    input_type: 'number'
+                    input_filter: 'float'                    
+                    size_hint_x: .45
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Kilos disponibles:'
+                    size_hint_x: .35
+                CampoGenericoMedium:
+                    id: txt_kilos
+                    input_type: 'number'
+                    input_filter: 'float'                    
+                    size_hint_x: .45
+
+            # Fila 2
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Tipo:'
+                    size_hint_x: .10
+                CampoGenericoMedium:
+                    id: txt_kilos
+                    size_hint_x: .45                
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                CampoGenericoMedium:
+                    id: txt_peso
+                    input_type: 'number'
+                    input_filter: 'float'
+                    hint_text: 'Largo'
+                    size_hint_x: .33
+                CampoGenericoMedium:
+                    id: txt_peso
+                    input_type: 'number'
+                    input_filter: 'float'
+                    hint_text: 'Alto'
+                    size_hint_x: .33
+                CampoGenericoMedium:
+                    id: txt_peso
+                    input_type: 'number'
+                    input_filter: 'float'                    
+                    hint_text: 'Ancho'
+                    size_hint_x: .33
+
+            # Fila 3
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                CampoGenericoMedium:
+                    id: txt_num_cliente
+                    hint_text: 'Descripcion del contenido'
+                    size_hint_x: 1
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                CampoGenericoMedium:
+                    id: txt_num_cliente
+                    hint_text: 'Informacion adicional'
+                    size_hint_x: 1
+
+            # Fila 4
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                CampoGenericoMedium:
+                    id: txt_num_cliente
+                    hint_text: 'Centros de Costos'
+                    size_hint_x: 1
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                CampoGenericoMedium:
+                    id: txt_num_cliente
+                    hint_text: 'Descripcion'
+                    size_hint_x: 1
+
+            # File 5
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Valor declarado/Valor factura:'
+                    size_hint_x: .45
+                CampoGenericoMedium:
+                    id: txt_kilos
+                    input_type: 'number'
+                    input_filter: 'float'                    
+                    size_hint_x: .45            
+
+<OrigenWidget@StackLayout>:
+    id: user_widget
+    orientation: 'lr-tb'
+    padding: '10dp'
+    size_hint_y:None
+    height: '180dp'
+    canvas:
+        Color:
+            rgba: 0.925, 0.941, 0.937, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: '2dp'
+        Label:
+            size_hint_y: None
+            height: '40dp'
+            text: 'DIRECCION DE ORIGEN'
+            color: hex('#000000')
+            font_size: '16sp'
+
+        GridLayout:
+            cols: 2
+            padding:'16dp', '10dp','16dp','10dp'
+            spacing: 40, 16            
+
+<ControlWidget@StackLayout>:
+    id: user_widget
+    orientation: 'lr-tb'
+    padding: '30dp', '0dp', '30dp', '0dp'
+    size_hint_y:None
+    height: '50dp'
+
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        
+        Button:
+            size_hint_x: .3
+            text: 'Crear Etiqueta'
+
 
 
 ########################### IDEAS ###########################
@@ -787,12 +1040,6 @@
         size_hint_y:None
         height: self.minimum_height
 
-# <SegButton@Button>:
-#     font_name: 'Lato-Bold.ttf'
-#     font_size: '22sp'
-#     border: 10,10,10,10
-#     background_disabled_normal:'data/images/src/but_disabled.png'
-#     background_disabled_down:'data/images/src/but_disabled.png'
 
 
 <TopBar@BoxLayout>:

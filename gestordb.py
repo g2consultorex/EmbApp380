@@ -5,7 +5,7 @@ import os
 import sys
 
 # project_abspath = "C:\Users\Carlos\Proyectos\EstafetaConnect\src\GestorDB"
-project_abspath = os.path.abspath(os.path.join(os.getcwd(), 'GestorDB'))
+project_abspath = os.path.abspath(os.path.join(os.getcwd(), 'CapaDatos'))
 
 sys.path.append(project_abspath)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "GestorDB.settings")
