@@ -107,17 +107,17 @@
     
     Button:
         text: 'Generar Etiquetas'
-        size_hint_x: 30
+        size_hint_x: .20
         on_release: app.goto_Etiquetas()
 
     Button:
         text: 'Usuarios'
-        size_hint_x: 30
+        size_hint_x: .20
         on_release: app.goto_Usuarios()
 
     Button:
         text: 'Estafeta Cuentas'
-        size_hint_x: 30
+        size_hint_x: .20
         on_release: app.goto_EstafetaCuentas()
 
 ########################### LOGIN ###########################
@@ -459,6 +459,7 @@
         ServicioWidget:
         PaqueteWidget:
         OrigenWidget:
+        DestinoWidget:
         CredencialesWidget:
         ControlWidget:
 
@@ -467,7 +468,7 @@
     orientation: 'lr-tb'
     padding: '10dp'
     size_hint_y:None
-    height: '180dp'
+    height: '400dp'
     canvas:
         Color:
             rgba: 0.925, 0.941, 0.937, 1.0
@@ -491,6 +492,8 @@
             cols: 2
             padding:'16dp', '10dp','16dp','10dp'
             spacing: 40, 16
+
+            # Fila 1
             StackLayout:
                 size_hint_y: None
                 height: '40dp'
@@ -505,35 +508,120 @@
                 size_hint_y: None
                 height: '40dp'
                 LabelGeneric:
-                    text: 'Servicio:'
-                    size_hint_x: .15
+                    text: 'Tipo Servicio:'
+                    size_hint_x: .25
                 CampoGenericoMedium:
-                    id: txt_servicio
-                    size_hint_x: .85
+                    id: txt_servicetypeid
+                    size_hint_x: .75
+
+            # Fila 2
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Cantidad Guias:'
+                    size_hint_x: .26
+                CampoGenericoMedium:
+                    id: txt_number_labels
+                    size_hint_x: .74
+                    input_type: 'number'
+                    input_filter: 'int'
 
             StackLayout:
                 size_hint_y: None
                 height: '40dp'
                 LabelGeneric:
-                    text: 'Guías disponibles:'
+                    text: 'Oficina Numero:'
                     size_hint_x: .30
                 CampoGenericoMedium:
-                    id: txt_gias_disponibles
-                    size_hint_x: .30
+                    id: txt_office_num
+                    size_hint_x: .70
 
+            # Fila 3
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                CampoGenericoMedium:
+                    id: txt_contentdescription
+                    hint_text: 'Descripcion del contenido'
+                    size_hint_x: 1
 
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                CampoGenericoMedium:
+                    id: txt_aditionalinfo
+                    hint_text: 'Informacion adicional'
+                    size_hint_x: 1
 
+            # Fila 4
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                CampoGenericoMedium:
+                    id: txt_costcenter
+                    hint_text: 'Centros de Costos'
+                    size_hint_x: 1
 
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                CampoGenericoMedium:
+                    id: txt_content
+                    hint_text: 'Contenido'
+                    size_hint_x: 1
 
-        # size_hint_y: None
-        # height: '36dp'   
+            # File 5
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Valor declarado/Valor factura:'
+                    size_hint_x: .45
+                CampoGenericoMedium:
+                    id: txt_kilos
+                    input_type: 'number'
+                    input_filter: 'float'
+                    size_hint_x: .45
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Entregar en Estafeta:'
+                    size_hint_x: .45
+                CheckBox:
+                    id: chk_deliverytoestafetaoffice
+                    size_hint_x: .45
+
+            # File 6
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Retornar Documento:'
+                    size_hint_x: .45
+                CheckBox:
+                    id: chk_returndocument
+                    size_hint_x: .45
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Tipo Documento Retorno:'
+                    size_hint_x: .45
+                CampoGenericoMedium:
+                    id: txt_servicetypeiddocret
+                    size_hint_x: .45
+           
 
 <PaqueteWidget@StackLayout>:
     id: user_widget
     orientation: 'lr-tb'
     padding: '10dp'
     size_hint_y:None
-    height: '370dp'
+    height: '180dp'
     canvas:
         Color:
             rgba: 0.925, 0.941, 0.937, 1.0
@@ -614,60 +702,14 @@
                     input_filter: 'float'                    
                     hint_text: 'Ancho'
                     size_hint_x: .33
-
-            # Fila 3
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                CampoGenericoMedium:
-                    id: txt_num_cliente
-                    hint_text: 'Descripcion del contenido'
-                    size_hint_x: 1
-
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                CampoGenericoMedium:
-                    id: txt_num_cliente
-                    hint_text: 'Informacion adicional'
-                    size_hint_x: 1
-
-            # Fila 4
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                CampoGenericoMedium:
-                    id: txt_num_cliente
-                    hint_text: 'Centros de Costos'
-                    size_hint_x: 1
-
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                CampoGenericoMedium:
-                    id: txt_num_cliente
-                    hint_text: 'Descripcion'
-                    size_hint_x: 1
-
-            # File 5
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Valor declarado/Valor factura:'
-                    size_hint_x: .45
-                CampoGenericoMedium:
-                    id: txt_kilos
-                    input_type: 'number'
-                    input_filter: 'float'                    
-                    size_hint_x: .45            
+                          
 
 <OrigenWidget@StackLayout>:
     id: origen_widget
     orientation: 'lr-tb'
     padding: '10dp'
     size_hint_y:None
-    height: '180dp'
+    height: '470dp'
     canvas:
         Color:
             rgba: 0.925, 0.941, 0.937, 1.0
@@ -682,14 +724,349 @@
         Label:
             size_hint_y: None
             height: '40dp'
-            text: 'DIRECCION DE ORIGEN'
+            text: 'DIRECCION ORIGEN'
             color: hex('#000000')
             font_size: '16sp'
 
         GridLayout:
             cols: 2
             padding:'16dp', '10dp','16dp','10dp'
-            spacing: 40, 16            
+            spacing: 40, 16
+
+            # Fila 1
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Direccion 1:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_address1
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Direccion 2:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_address2
+                    size_hint_x: .82
+
+            # Fila 2
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Celular:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_cellphone
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Ciudad:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_city
+                    size_hint_x: .82            
+
+            # Fila 3
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Celular:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_cellphone
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Ciudad:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_city
+                    size_hint_x: .82    
+
+            # Fila 4
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Contacto:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_contactname
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Empresa:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_corporatename
+                    size_hint_x: .82    
+
+            # Fila 5
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Cliente:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_customernumber
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Colonia:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_neighborhood
+                    size_hint_x: .82   
+
+            # Fila 6
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Telefono:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_phonenumber
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Estado:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_state
+                    size_hint_x: .82
+
+            # Fila 6
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Zip Codigo:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_zipcode
+                    size_hint_x: .82                    
+
+<DestinoWidget@StackLayout>:
+    id: destino_widget
+    orientation: 'lr-tb'
+    padding: '10dp'
+    size_hint_y:None
+    height: '520dp'
+    canvas:
+        Color:
+            rgba: 0.925, 0.941, 0.937, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: '2dp'
+        Label:
+            size_hint_y: None
+            height: '40dp'
+            text: 'DIRECCION DESTINO'
+            color: hex('#000000')
+            font_size: '16sp'
+
+        GridLayout:
+            cols: 2
+            padding:'16dp', '10dp','16dp','10dp'
+            spacing: 40, 16
+
+            # Fila 1
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Direccion 1:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_address1
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Direccion 2:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_address2
+                    size_hint_x: .82
+
+            # Fila 2
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Celular:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_cellphone
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Ciudad:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_city
+                    size_hint_x: .82            
+
+            # Fila 3
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Celular:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_cellphone
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Ciudad:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_city
+                    size_hint_x: .82    
+
+            # Fila 4
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Contacto:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_contactname
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Empresa:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_corporatename
+                    size_hint_x: .82    
+
+            # Fila 5
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Cliente:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_customernumber
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Colonia:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_neighborhood
+                    size_hint_x: .82   
+
+            # Fila 6
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Telefono:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_phonenumber
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Estado:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_state
+                    size_hint_x: .82
+
+            # Fila 6
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Zip Codigo:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_zipcode
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Pais:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_countriid
+                    size_hint_x: .82 
+
+            # Fila 7
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Referencia:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_reference
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Pais:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_countriid
+                    size_hint_x: .82 
+
 
 <CredencialesWidget@StackLayout>:
     id: credenciales_widget
@@ -798,9 +1175,6 @@
                     disabled: True
                     size_hint_x: .60
 
-
-
-
 <CredencialesPopup>:
     title: 'Cuentas Disponibles'
     size_hint: (.5, .5)
@@ -855,7 +1229,6 @@
         size_hint_x: .9
         text: "Hola"
         color: hex('#121313')
-
 
 <ControlWidget@StackLayout>:
     id: user_widget
@@ -1130,7 +1503,6 @@
                 size_hint_x: 1
                 text: 'Guardar'
                 on_release: root.click_SaveButton()
-
 
 
 ########################### IDEAS ###########################
@@ -1465,8 +1837,6 @@
         id:inp_idea
         size_hint_y:None
         height: self.minimum_height
-
-
 
 <TopBar@BoxLayout>:
     orientation:'horizontal'
