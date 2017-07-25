@@ -198,7 +198,7 @@ class DireccionOrigen(object):
         except Exception as e:
             print str(e)
 
-class DireccionDestino(Object):
+class DireccionDestino(object):
 
     @classmethod
     def get(self,_numero, _tipo):
