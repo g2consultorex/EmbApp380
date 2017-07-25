@@ -83,12 +83,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    'jde': {
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': '192.168.5.234:1521/jdevm',
-        'USER': 'JDE',
-        'PASSWORD': 'JDE'
-    },
+    # 'jde': {
+    #     'ENGINE': 'django.db.backends.oracle',
+    #     'NAME': '192.168.5.234:1521/jdevm',
+    #     'USER': 'JDE',
+    #     'PASSWORD': 'JDE'
+    # },
 }
 
 

@@ -11,7 +11,11 @@ Thumbs.db
 # Python Files
 # ---------------------------------------
 db.*
+GestorDB/GestorDB/settings.py
 
 # DIRECTORIES
 # ---------------------------------------
 .vscode/*
+GestorDB/configuration/migrations/*
+GestorDB/jde/migrations/*
+GestorDB/security/migrations/*

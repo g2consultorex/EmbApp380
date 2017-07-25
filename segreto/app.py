@@ -14,6 +14,7 @@ from segreto.uix.loginscreen import LoginScreen
 from segreto.uix.ideascreen import IdeaScreen
 from segreto.uix.indexscreen import IndexScreen
 from segreto.uix.userscreen import UserScreen
+from gestordb import ModeloUsuario
 
 from segreto.idea import IdeaCollection
 
@@ -48,7 +49,7 @@ class SegretoApp(App):
 
         self.ideascreen = IdeaScreen(name='screen-idea')
         self.ideascreen.bind(on_quit_app=self.quit)
-        self.ideascreen.bind(on_Users=self.goto_Users)
+        # self.ideascreen.bind(on_Users=self.goto_Users)
 
         self.indexscreeen = IndexScreen(name='screen-index')
 
@@ -70,6 +71,14 @@ class SegretoApp(App):
     def login(self, *args):
         self.username = self.loginscreen.ids['grid'].username
         self.password = self.loginscreen.ids['grid'].password
+
+        if ModeloUsuario.login(self.username, self.password):
+            self.screenmanager.current = 'screen-index'
+        else:
+            self.loginscreen.login_failure('Usuario o Contrasena no valida')
+            self.username = ''
+            self.password = ''
+
         # uname = self.loginscreen.ids['grid'].username
         # paswd = self.loginscreen.ids['grid'].password
         # config = configparser.ConfigParser()
@@ -93,11 +102,11 @@ class SegretoApp(App):
         #     self.password = ''
         #     self.crypt_file_path = ''
 
-        self.screenmanager.current = 'screen-idea'
+    def goto_Usuarios(self):
+        self.screenmanager.current = "screen-user"
 
-    def goto_Users(self):
-        print "ir a users"
-        # self.screenmanager.current = "screen-index"
+    def goto_Etiquetas(self):
+        self.screenmanager.current = "screen-index"
 
     def decrypt_data(self, crypt_data, password):
         try:
@@ -131,4 +140,3 @@ class SegretoApp(App):
 
     def on_pause(self):
         return True
-

@@ -1,5 +1,112 @@
 #:import AsyncImage kivy.uix.image.AsyncImage
 
+########################### GENERIC ###########################
+
+<FONDO@FloatLayout>:
+    canvas.before:
+        Color:
+            rgba: 0.176, 0.243, 0.314, 1.0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<Space@Label>:
+
+<CampoGenerico@TextInput>:
+    padding: '16dp', '16dp'
+    halign: 'justify'
+    multiline: False
+    write_tab: False
+
+<SegInput@TextInput>:
+    background_normal:'data/images/src/textinput.png'
+    background_active:'data/images/src/textinput_active.png'
+    background_disabled_normal:'data/images/src/textinput_disabled.png'
+    background_disabled_active:'data/images/src/textinput_disabled.png'
+    font_name: 'Lato-Regular.ttf'
+    font_size: '18sp'
+    cursor_color: 0.498, 0.549, 0.552,1.0
+    foreground_color: 0.204, 0.286, 0.369, 1.0
+    selection_color: 0.925, 0.941, 0.937, 0.5
+    padding: '16dp', '16dp'
+    halign:'justify'
+    border: 10,10,10,10
+
+<LoginInput@SegInput>:
+    multiline: False
+    allow_copy: False
+    write_tab: False
+    background_disabled_normal:'data/images/src/logininput_disabled.png'
+    background_disabled_active:'data/images/src/logininput_disabled.png'
+
+<Toast@AnchorLayout>:
+    size_hint:None,None
+    y:'-50dp'
+    size: '300dp','48dp'
+    anchor_x:'right'
+    canvas:
+        Color:
+            rgba: 0.910, 0.298, 0.239, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10,10,10,10
+    Label:
+        id:label
+        font_size: '16sp'
+        font_name: 'Lato-Bold.ttf'
+    AnchorLayout:
+        size_hint:None, None
+        size:'48dp','48dp'
+        anchor_x:'center'
+        SegButton:
+            size_hint:None, None
+            size:'24dp', '24dp'
+            border:0,0,0,0
+            background_normal:'data/images/src/close.png'
+            background_down:'data/images/src/close_down.png'
+            on_release:root.exit(None)
+
+<Menu@BoxLayout>:
+    size_hint_y:None
+    height:'50dp'
+    orientation: 'horizontal'
+    # on_add_ideawidget:root.new_idea()
+    # on_quit_pressed:root.pre_quit_exec()
+    
+    Button:
+        text: 'Generar Etiquetas'
+        size_hint_x: 30
+        on_release: app.goto_Etiquetas()
+
+    Button:
+        text: 'Usuarios'
+        size_hint_x: 30
+        on_release: app.goto_Usuarios()
+
+<CusInputFeatures@TextInput>:
+    background_normal:'data/images/src/textinput.png'
+    background_active:'data/images/src/textinput_active.png'
+    background_disabled_normal:'data/images/src/textinput_disabled.png'
+    background_disabled_active:'data/images/src/textinput_disabled.png'
+    font_name: 'Lato-Regular.ttf'
+    font_size: '16sp'
+    cursor_color: 0.498, 0.549, 0.552,1.0
+    foreground_color: 0.204, 0.286, 0.369, 1.0
+    selection_color: 0.925, 0.941, 0.937, 0.5
+    padding: '16dp', '16dp'
+    halign:'justify'
+    border: 10,10,10,10
+
+<CusInput@CusInputFeatures>:
+    multiline: False
+    allow_copy: False
+    background_disabled_normal:'data/images/src/logininput_disabled.png'
+    background_disabled_active:'data/images/src/logininput_disabled.png'
+
+
+########################### LOGIN ###########################
+
 <LoginScreen>:
     FONDO:
         AsyncImage:
@@ -31,70 +138,333 @@
             width: min(root.width - dp(32), dp(300))
             x:root.center_x - self.width // 2
 
+<LoginGrid@BoxLayout>:
+    orientation:'vertical'
+    canvas:
+        Color:
+            rgba: 0.925, 0.941, 0.937, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10,10,10,10
+    LoginInput:
+        id: inp_username
+        size_hint_y:None
+        height: self.minimum_height
+        write_tab: False
+        hint_text: 'Cuenta'
+        on_text:root.on_username(self.text)
+    Space:
+    LoginInput:
+        id:inp_password
+        password: True
+        size_hint_y:None
+        height: self.minimum_height
+        hint_text: 'Contraseña'
+        on_text:root.on_password(self.text)
+    Space:
+    SegButton:
+        id:but_login
+        size_hint_y:None
+        height:'48dp'
+        text: 'Login'
+        background_normal:'data/images/src/but_turq.png'
+        background_down:'data/images/src/but_turq_down.png'
+        on_release:root.dispatch('on_login')
+
+
+########################### USUARIOS ###########################
 
 <UserScreen>:
     FONDO:
         BoxLayout:
             orientation:'vertical'
+
+            # MENU
+            Menu:
+
+            # SEARCH
             BoxLayout:
-                size_hint_y:None
-                height:'50dp'
+                size_hint_y: None
+                height: '50dp'
                 orientation: 'horizontal'
-                # on_add_ideawidget:root.new_idea()
-                # on_quit_pressed:root.pre_quit_exec()
-                
-                Button:
-                    text: 'Facturas'
-                    size_hint_x: 30
-                    # on_release: 
 
                 Button:
-                    text: 'Clientes'
-                    size_hint_x: 30
+                    size_hint:None, None
+                    size:'48dp', '48dp'
+                    border:10,10,10,10
+                    background_normal:'data/images/src/but_new.png'
+                    background_down:'data/images/src/but_new_down.png'
+                    on_release: root.open_AddPopup()
+
+                CampoGenerico:
+                    hint_text: 'Texto a buscar'
+                    size_hint_x: .8
 
                 Button:
-                    text: 'Usuarios'
-                    size_hint_x: 30
-                    on_release: root.goto_Usuario()
-                    # on_release:root.dispatch('on_Users')
-            BoxLayout:
-                
+                    text: 'Buscar'
+                    size_hint_x: .2
+                    on_release: root.show_All_Users()
 
+            # LIST
+            UsuariosContainer:
+                id: user_container
+
+<UsuariosContainer@ScrollView>:
+    StackLayout:
+        id: container
+        size_hint_y: None
+        size_hint_x: 1
+        height: self.minimum_height
+        orientation: 'lr-tb'
+        padding:'15dp', '15dp','15dp','15dp'
+        spacing:'15dp'
+        # UsuarioWidget:
+        # UsuarioWidget:
+
+<UsuarioWidget@StackLayout>:
+    id: user_widget
+    orientation: 'lr-tb'
+    padding: '16dp'
+    size_hint_y:None
+    height: self.minimum_height
+    canvas:
+        Color:
+            rgba: 0.925, 0.941, 0.937, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
     
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: '36dp'   
+        Label:
+            id: lbl_cuenta
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .3
+            font_size: '25sp'
+            font_name: 'Lato-Heavy.ttf' 
+
+        Label:
+            id: lbl_descripcion
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .4
+            font_size: '18sp'
+            font_name: 'Lato-Heavy.ttf' 
+
+        Label:
+            id: lbl_date
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .2
+            font_size: '15sp'
+            font_name: 'Lato-Semibold.ttf'
+
+        BoxLayout:
+            orientation:'horizontal'
+            spacing:'16dp'
+            size_hint_x: .1
+            Space:
+            # SegButton:
+            #     id:but_del
+            #     size_hint:None, None
+            #     size:'36dp', '36dp'
+            #     border:8,8,8,8
+            #     background_normal:'data/images/src/but_del.png'
+            #     background_down:'data/images/src/but_del_down.png'
+                # on_release:root.dispatch('on_del_pressed')
+            SegButton:
+                id:but_edit
+                size_hint:None, None
+                size:'36dp', '36dp'
+                border:8,8,8,8
+                background_normal:'data/images/src/but_edit.png'
+                background_down:'data/images/src/but_edit_down.png'
+                on_release : root.click_BotonEditar()
+                
+
+
+    # Space:
+    #     size_hint_y: None
+    #     height: '16dp'
+
+    # UsuarioBody:
+
+<UsuarioBody@BoxLayout>:
+    orientation: 'horizontal'
+    Label:
+        text: 'Aqui va el cuerpecito'
+
+<UserAddPopup>:
+    title: 'Nuevo Usuario'
+    size_hint: (.5, .5)
+    GridLayout:
+        cols: 1
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "Cuenta"
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_cuenta
+                focus: True
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Nombre'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_nombre
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Apellidos'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_apellidos
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Contraseña'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_password
+                password: True
+                size_hint_x: .8
+
+        Space:
+        BoxLayout:
+            padding: 30, 0, 30, 5
+            Button:
+                size_hint_x: 1
+                text: 'Crear'
+                on_release: root.click_CreateButton()
+
+<UserEditPopup>:
+    title: 'Editar Usuario'
+    size_hint: (.5, .6)
+    GridLayout:
+        cols: 1
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "Cuenta"
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_cuenta
+                disabled: True
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Nombre'
+                size_hint_x: .2
+            CampoGenerico:
+                focus: True
+                id: txt_nombre
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Apellidos'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_apellidos
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Activo'
+                size_hint_x: .2
+            CheckBox:
+                id: chk_activo 
+                text: ''
+                active: False
+
+        BoxLayout:
+            Label:
+                text: 'Contraseña'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_password
+                password: True
+                size_hint_x: .8                
+
+        Space:
+        BoxLayout:
+            padding: 30, 0, 30, 5
+            Button:
+                size_hint_x: 1
+                text: 'Guardar'
+                on_release: root.click_SaveButton()
+
+
+
+
+########################### INDEX ###########################
 
 # Screen
 <IndexScreen>:
     FONDO:
         Label:
-            text: 'Ejemplo de pantalla'
+            orientation:'vertical'
 
+            # MENU
+            Menu:
+
+            # FACTURA
+            BoxLayout:
+                size_hint_y: None
+                height: '50dp'
+                orientation: 'horizontal'                
+
+                CampoGenerico:
+                    hint_text: 'Numero Factura'
+                    size_hint_x: .4
+
+                CampoGenerico:
+                    hint_text: 'Tipo'
+                    size_hint_x: .2
+
+                Button:
+                    text: 'Buscar Informacion'
+                    size_hint_x: .4
+                    on_release: root.show_All_Users()
+
+
+            # DATOS
+            DatosContainer:
+                id: data_container
+
+
+<DatosContainer@ScrollView>:
+    StackLayout:
+        id: container
+        size_hint_y: None
+        size_hint_x: 1
+        height: self.minimum_height
+        orientation: 'lr-tb'
+        padding:'15dp', '15dp','15dp','15dp'
+        spacing:'15dp'
+        # UsuarioWidget:
+        # UsuarioWidget:
+
+
+########################### IDEAS ###########################
 
 # Screen
 <IdeaScreen>:
     FONDO:
+
         BoxLayout:
             orientation:'vertical'
-            BoxLayout:
-                size_hint_y:None
-                height:'50dp'
-                orientation: 'horizontal'
-                # on_add_ideawidget:root.new_idea()
-                # on_quit_pressed:root.pre_quit_exec()
-                
-                Button:
-                    text: 'Facturas'
-                    size_hint_x: 30
-                    # on_release: 
 
-                Button:
-                    text: 'Clientes'
-                    size_hint_x: 30
-
-                Button:
-                    text: 'Usuarios'
-                    size_hint_x: 30
-                    on_release: root.goto_Usuario()
-                    # on_release:root.dispatch('on_Users')
+            # MENU
+            Menu:            
 
             Space:
                 size_hint_y:None
@@ -128,283 +498,6 @@
             # Space:
             #     size_hint_y:None
             #     height:'30dp'            
-
-
-<FONDO@FloatLayout>:
-    canvas.before:
-        Color:
-            rgba: 0.176, 0.243, 0.314, 1.0
-        Rectangle:
-            pos: self.pos
-            size: self.size
-
-
-<Space@Label>:
-
-
-
-<SegInput@TextInput>:
-    background_normal:'data/images/src/textinput.png'
-    background_active:'data/images/src/textinput_active.png'
-    background_disabled_normal:'data/images/src/textinput_disabled.png'
-    background_disabled_active:'data/images/src/textinput_disabled.png'
-    font_name: 'Lato-Regular.ttf'
-    font_size: '18sp'
-    cursor_color: 0.498, 0.549, 0.552,1.0
-    foreground_color: 0.204, 0.286, 0.369, 1.0
-    selection_color: 0.925, 0.941, 0.937, 0.5
-    padding: '16dp', '16dp'
-    halign:'justify'
-    border: 10,10,10,10
-
-<LoginInput@SegInput>:
-    multiline: False
-    allow_copy: False
-    background_disabled_normal:'data/images/src/logininput_disabled.png'
-    background_disabled_active:'data/images/src/logininput_disabled.png'
-
-<SegButton@Button>:
-    font_name: 'Lato-Bold.ttf'
-    font_size: '22sp'
-    border: 10,10,10,10
-    background_disabled_normal:'data/images/src/but_disabled.png'
-    background_disabled_down:'data/images/src/but_disabled.png'
-
-<SearchBox@BoxLayout>:
-    padding:'8dp'
-    orientation:'horizontal'
-    spacing:'8dp'
-    canvas.before:
-        Color:
-            rgba: 0.3,0.6,0.1, 1
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    TextInput:
-        hint_text:'Search'
-        font_name: 'Lato-Regular.ttf'
-        font_size: '18sp'
-        background_color:(0,0,0,0)
-        multiline:False
-    Image:
-        size_hint:None, None
-        size:'32dp','32dp'
-        source:'data/images/src/search.png'
-
-<Toast@AnchorLayout>:
-    size_hint:None,None
-    y:'-50dp'
-    size: '300dp','48dp'
-    anchor_x:'right'
-    canvas:
-        Color:
-            rgba: 0.910, 0.298, 0.239, 1.0
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: 10,10,10,10
-    Label:
-        id:label
-        font_size: '18sp'
-        font_name: 'Lato-Bold.ttf'
-    AnchorLayout:
-        size_hint:None, None
-        size:'48dp','48dp'
-        anchor_x:'center'
-        SegButton:
-            size_hint:None, None
-            size:'24dp', '24dp'
-            border:0,0,0,0
-            background_normal:'data/images/src/close.png'
-            background_down:'data/images/src/close_down.png'
-            on_release:root.exit(None)
-
-
-<IdeaTitleBar@BoxLayout>:
-    orientation:'horizontal'
-    but_edit:but_edit
-    but_del:but_del
-    Label:
-        id:lbl_date
-        text: '08:30 Aug 08 2016'
-        text_size: self.size
-        color: 0.404, 0.522, 0.549, 1.0
-        font_size: '15sp'
-        font_name: 'Lato-Semibold.ttf'
-        halign:'left'
-        valign:'middle'
-    Label:
-        id:lbl_idea_no
-        text: '#31'
-        size_hint_x:None
-        width:self.texture_size[0]
-        font_size: '30sp'
-        color: 0.404, 0.522, 0.549, 1.0
-        font_name: 'Lato-Heavy.ttf'
-    BoxLayout:
-        orientation:'horizontal'
-        spacing:'16dp'
-        Space:
-        SegButton:
-            id:but_del
-            size_hint:None, None
-            size:'36dp', '36dp'
-            border:8,8,8,8
-            background_normal:'data/images/src/but_del.png'
-            background_down:'data/images/src/but_del_down.png'
-            on_release:root.dispatch('on_del_pressed')
-        SegButton:
-            id:but_edit
-            size_hint:None, None
-            size:'36dp', '36dp'
-            border:8,8,8,8
-            background_normal:'data/images/src/but_edit.png'
-            background_down:'data/images/src/but_edit_down.png'
-            on_release:root.dispatch('on_edit_pressed')
-
-
-<IdeaWidget@StackLayout>:
-    orientation:'lr-tb'
-    padding:'16dp'
-    size_hint_y:None
-    height: self.minimum_height
-    canvas:
-        Color:
-            rgba: 0.925, 0.941, 0.937, 1.0
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: 10,10,10,10
-    IdeaTitleBar:
-        id:title_bar
-        size_hint_y:None
-        height: '36dp'
-        on_del_pressed:root.dispatch('on_delete')
-        on_edit_pressed:root.toggle_edit_mode()
-    Space:
-        size_hint_y:None
-        height:'16dp'
-    SegInput:
-        id:inp_idea
-        size_hint_y:None
-        height: self.minimum_height
-
-
-<LoginGrid@BoxLayout>:
-    orientation:'vertical'
-    canvas:
-        Color:
-            rgba: 0.925, 0.941, 0.937, 1.0
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: 10,10,10,10
-    LoginInput:
-        id: inp_username
-        size_hint_y:None
-        height: self.minimum_height
-        hint_text: 'Cuenta'
-        on_text:root.on_username(self.text)
-    Space:
-    LoginInput:
-        id:inp_password
-        size_hint_y:None
-        height: self.minimum_height
-        hint_text: 'Contraseña'
-        on_text:root.on_password(self.text)
-    Space:
-    SegButton:
-        id:but_login
-        size_hint_y:None
-        height:'48dp'
-        text: 'Login'
-        background_normal:'data/images/src/but_turq.png'
-        background_down:'data/images/src/but_turq_down.png'
-        on_release:root.dispatch('on_login')
-
-
-
-
-# <SegButton@Button>:
-#     font_name: 'Lato-Bold.ttf'
-#     font_size: '22sp'
-#     border: 10,10,10,10
-#     background_disabled_normal:'data/images/src/but_disabled.png'
-#     background_disabled_down:'data/images/src/but_disabled.png'
-
-
-<TopBar@BoxLayout>:
-    orientation:'horizontal'
-    spacing:'16dp'
-    # SegButton:
-    #     size_hint:None, None
-    #     size:'48dp', '48dp'
-    #     border:10,10,10,10
-    #     background_normal:'data/images/src/but_new.png'
-    #     background_down:'data/images/src/but_new_down.png'
-    #     on_release:root.dispatch('on_add_ideawidget')
-
-    # LoginInput:
-    CusInput:
-        id: inp_tipo
-        size_hint_y:None
-        height: self.minimum_height
-        hint_text: 'Tipo'
-        # on_text:root.on_username(self.text)
-
-    # LoginInput:
-    CusInput:
-        id: inp_empresa
-        size_hint_y:None
-        height: self.minimum_height
-        hint_text: 'Numero'        
-
-    Space:
-    # SearchBox:
-    #     width:'240dp'
-    #     size_hint_x:None
-    SegButton:
-        size_hint:None, None
-        # size:'96dp', '48dp'
-        # text:'Selecciona Factura'
-        height:'48dp'
-        text: 'Factura'        
-        background_normal:'data/images/src/but_turq.png'
-        background_down:'data/images/src/but_turq_down.png'
-        # on_release:root.dispatch('on_quit_pressed')
-
-    # TextInput:
-    #     TextInput:
-    #         size_hint_x: 20
-    #     TextInput:
-    #         size_hint_x: 20
-    #     TextInput:
-    #         size_hint_x: 20
-    #     Button:
-    #         text: 'Seleccionar Factura'
-    #         size_hint_x: 40 
-
-
-<CusInputFeatures@TextInput>:
-    background_normal:'data/images/src/textinput.png'
-    background_active:'data/images/src/textinput_active.png'
-    background_disabled_normal:'data/images/src/textinput_disabled.png'
-    background_disabled_active:'data/images/src/textinput_disabled.png'
-    font_name: 'Lato-Regular.ttf'
-    font_size: '16sp'
-    cursor_color: 0.498, 0.549, 0.552,1.0
-    foreground_color: 0.204, 0.286, 0.369, 1.0
-    selection_color: 0.925, 0.941, 0.937, 0.5
-    padding: '16dp', '16dp'
-    halign:'justify'
-    border: 10,10,10,10
-
-<CusInput@CusInputFeatures>:
-    multiline: False
-    allow_copy: False
-    background_disabled_normal:'data/images/src/logininput_disabled.png'
-    background_disabled_active:'data/images/src/logininput_disabled.png'
-
 
 <IdeawidgetContainer@ScrollView>:
     StackLayout:
@@ -598,8 +691,160 @@
             # background_down:'data/images/src/but_turq_down.png'
             # on_release:root.dispatch('on_login')
 
+<SegButton@Button>:
+    font_name: 'Lato-Bold.ttf'
+    font_size: '22sp'
+    border: 10,10,10,10
+    background_disabled_normal:'data/images/src/but_disabled.png'
+    background_disabled_down:'data/images/src/but_disabled.png'
+
+<SearchBox@BoxLayout>:
+    padding:'8dp'
+    orientation:'horizontal'
+    spacing:'8dp'
+    canvas.before:
+        Color:
+            rgba: 0.3,0.6,0.1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    TextInput:
+        hint_text:'Search'
+        font_name: 'Lato-Regular.ttf'
+        font_size: '18sp'
+        background_color:(0,0,0,0)
+        multiline:False
+    Image:
+        size_hint:None, None
+        size:'32dp','32dp'
+        source:'data/images/src/search.png'
+
+<IdeaTitleBar@BoxLayout>:
+    orientation:'horizontal'
+    but_edit:but_edit
+    but_del:but_del
+    Label:
+        id:lbl_date
+        text: '08:30 Aug 08 2016'
+        text_size: self.size
+        color: 0.404, 0.522, 0.549, 1.0
+        font_size: '15sp'
+        font_name: 'Lato-Semibold.ttf'
+        halign:'left'
+        valign:'middle'
+    Label:
+        id:lbl_idea_no
+        text: '#31'
+        size_hint_x:None
+        width:self.texture_size[0]
+        font_size: '30sp'
+        color: 0.404, 0.522, 0.549, 1.0
+        font_name: 'Lato-Heavy.ttf'
+    BoxLayout:
+        orientation:'horizontal'
+        spacing:'16dp'
+        Space:
+        SegButton:
+            id:but_del
+            size_hint:None, None
+            size:'36dp', '36dp'
+            border:8,8,8,8
+            background_normal:'data/images/src/but_del.png'
+            background_down:'data/images/src/but_del_down.png'
+            on_release:root.dispatch('on_del_pressed')
+        SegButton:
+            id:but_edit
+            size_hint:None, None
+            size:'36dp', '36dp'
+            border:8,8,8,8
+            background_normal:'data/images/src/but_edit.png'
+            background_down:'data/images/src/but_edit_down.png'
+            on_release:root.dispatch('on_edit_pressed')
+
+<IdeaWidget@StackLayout>:
+    orientation:'lr-tb'
+    padding:'16dp'
+    size_hint_y:None
+    height: self.minimum_height
+    canvas:
+        Color:
+            rgba: 0.925, 0.941, 0.937, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10,10,10,10
+    IdeaTitleBar:
+        id:title_bar
+        size_hint_y:None
+        height: '36dp'
+        on_del_pressed:root.dispatch('on_delete')
+        on_edit_pressed:root.toggle_edit_mode()
+    Space:
+        size_hint_y:None
+        height:'16dp'
+    SegInput:
+        id:inp_idea
+        size_hint_y:None
+        height: self.minimum_height
+
+# <SegButton@Button>:
+#     font_name: 'Lato-Bold.ttf'
+#     font_size: '22sp'
+#     border: 10,10,10,10
+#     background_disabled_normal:'data/images/src/but_disabled.png'
+#     background_disabled_down:'data/images/src/but_disabled.png'
 
 
+<TopBar@BoxLayout>:
+    orientation:'horizontal'
+    spacing:'16dp'
+    # SegButton:
+    #     size_hint:None, None
+    #     size:'48dp', '48dp'
+    #     border:10,10,10,10
+    #     background_normal:'data/images/src/but_new.png'
+    #     background_down:'data/images/src/but_new_down.png'
+    #     on_release:root.dispatch('on_add_ideawidget')
+
+    # LoginInput:
+    CusInput:
+        id: inp_tipo
+        size_hint_y:None
+        height: self.minimum_height
+        hint_text: 'Tipo'
+        # on_text:root.on_username(self.text)
+
+    # LoginInput:
+    CusInput:
+        id: inp_empresa
+        size_hint_y:None
+        height: self.minimum_height
+        hint_text: 'Numero'        
+
+    Space:
+    # SearchBox:
+    #     width:'240dp'
+    #     size_hint_x:None
+    SegButton:
+        size_hint:None, None
+        # size:'96dp', '48dp'
+        # text:'Selecciona Factura'
+        height:'48dp'
+        text: 'Factura'        
+        background_normal:'data/images/src/but_turq.png'
+        background_down:'data/images/src/but_turq_down.png'
+        # on_release:root.dispatch('on_quit_pressed')
+
+    # TextInput:
+    #     TextInput:
+    #         size_hint_x: 20
+    #     TextInput:
+    #         size_hint_x: 20
+    #     TextInput:
+    #         size_hint_x: 20
+    #     Button:
+    #         text: 'Seleccionar Factura'
+    #         size_hint_x: 40 
 
 <FieldsContainer@BoxLayout>:
     orientation: 'vertical'
@@ -608,7 +853,6 @@
     height:self.minimum_height
     padding:'16dp', '0dp','16dp','16dp'
     spacing:'16dp'
-
 
 <Toolbar@BoxLayout>:
     orientation: 'horizontal'
@@ -627,5 +871,4 @@
         size_hint_x: 30
         on_release: root.goto_Usuario()
         # on_release:root.dispatch('on_Users')
-
 

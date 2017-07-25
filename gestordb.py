@@ -3,7 +3,6 @@
 # Python's Libraries
 import os
 import sys
-from datetime import datetime
 
 # project_abspath = "C:\Users\Carlos\Proyectos\EstafetaConnect\src\GestorDB"
 project_abspath = os.path.abspath(os.path.join(os.getcwd(), 'GestorDB'))
@@ -18,6 +17,8 @@ from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
 # Site's Models
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 from configuration.models import Log
 from security.models import Profile
 from jde.models import F0101
@@ -26,6 +27,73 @@ from jde.models import F42119
 from jde.models import F41001
 from jde.models import F0116
 from jde.models import F0005
+
+
+class ModeloUsuario(object):
+
+    @classmethod
+    def login(self, _username, _password):
+
+        try:
+            usuario = authenticate(username=_username, password=_password)
+
+            if usuario:
+                return usuario.is_active
+            else:
+                return False
+
+        except Exception as e:
+            print str(e)
+
+    @classmethod
+    def get(self, _user=None):
+
+        try:
+            connection.close()
+            usuario = User.objects.all().order_by('date_joined')
+            return usuario
+
+        except Exception:
+            pass
+
+    @classmethod
+    def add(self, _username, _first_name, _last_name, _password):
+
+        try:
+
+            usuario = User()
+            usuario.username = _username
+            usuario.first_name = _first_name
+            usuario.last_name = _last_name
+            if _password != '':
+                usuario.set_password(_password)
+            else:
+                usuario.set_password("12345")
+            usuario.save()
+
+        except Exception as e:
+            print str(e)
+
+    @classmethod
+    def edit(self, _username, _first_name, _last_name, _password, _active):
+
+        try:
+
+            usuario = User.objects.get(username=_username)
+            usuario.first_name = _first_name
+            usuario.last_name = _last_name
+            usuario.is_active = _active
+
+            if _password != '':
+                usuario.set_password(_password)
+
+            usuario.save()
+
+        except Exception as e:
+            print str(e)
+
+
+
 
 class ModeloLog(object):
 
