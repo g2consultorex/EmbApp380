@@ -15,7 +15,7 @@ from CapaPresentacion.uix.createlabelscreen import CreateLabelScreen
 from CapaPresentacion.uix.userscreen import UserScreen
 from CapaPresentacion.uix.ideascreen import IdeaScreen
 
-from gestordb import ModeloUsuario
+from CapaNegocio.gestordb import ModeloUsuario
 
 from CapaPresentacion.idea import IdeaCollection
 
