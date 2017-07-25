@@ -26,6 +26,7 @@ from jde.models import F4211
 from jde.models import F42119
 from jde.models import F41001
 from jde.models import F0116
+from jde.models import F0005
 
 
 class ModeloUsuario(object):
@@ -176,6 +177,7 @@ class DireccionOrigen(object):
                 factura = F42119.objects.using(
                     'jde').filter(SDDOC=_numero, SDDCT=_tipo)
 
+
             almacen = F41001.objects.using('jde').filter(
                 CIMCU__contains=factura[0].SDMCU)
 
@@ -184,8 +186,39 @@ class DireccionOrigen(object):
 
             direccion_complemento = F0116.objects.using(
                 'jde').filter(ALAN8=almacen[0].CIAN8)
+               
+
+            UDCestado = F0005.objects.using('jde').filter(
+                DRSY__contains='00',DRRT__contains='S',
+                DRKY__contains=direccion_complemento[1].ALADDS)
+
 
             return direccion, direccion_complemento
 
         except Exception as e:
             print str(e)
+
+class DireccionDestino(Object):
+
+    @classmethod
+    def get(self,_numero, _tipo):
+
+        try:
+            factura = F4211.objects.using('jde').filter(
+                SDDOC=_numero, SDDCT=_tipo)
+
+            if len(factura) == 0:
+                factura = F42119.objects.using('jde').filter(
+                    SDDOC=_numero,SDDCT=_tipo)
+
+            direccionDest = F0101.objects.using('jde').filter(
+                    ABAN8=factura[1].SDSHAN)
+
+            direccionDest_complemento = F0116.objets.using(
+                    'jde').filter(ALAN8=factura[1].SDSHAN)
+
+
+
+
+        except Exception as r:
+            print str(r)
