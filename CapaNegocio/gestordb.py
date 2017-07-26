@@ -168,7 +168,7 @@ class DireccionOrigen(object):
         except Exception as e:
             print str(e)
 
-class DireccionDestino(Object):
+class DireccionDestino(object):
 
     @classmethod
     def get(self,_numero, _tipo):
@@ -182,10 +182,10 @@ class DireccionDestino(Object):
                     SDDOC=_numero,SDDCT=_tipo)
 
             direccionDest = F0101.objects.using('jde').filter(
-                    ABAN8=factura[1].SDSHAN)
+                    ABAN8=factura[0].SDSHAN)
 
             direccionDest_complemento = F0116.objets.using(
-                    'jde').filter(ALAN8=factura[1].SDSHAN)
+                    'jde').filter(ALAN8=factura[0].SDSHAN)
 
 
 

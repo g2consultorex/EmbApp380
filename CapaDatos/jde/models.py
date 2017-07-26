@@ -169,7 +169,8 @@ class F4211(models.Model):
   	db_table = u'"CRPDTA"."F4211"'
 
  def __unicode__(self):
- 	return self.SDMCU
+ 	cadena = "%s %s" % (self.SDMCU, self.SDSHAN)
+ 	return cadena
 
 class F42119(models.Model):
  SDKCOO=models.CharField(max_length=5)
