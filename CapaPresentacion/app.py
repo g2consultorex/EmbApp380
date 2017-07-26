@@ -13,6 +13,7 @@ from kivy.uix.screenmanager import SwapTransition
 from CapaPresentacion.uix.loginscreen import LoginScreen
 from CapaPresentacion.uix.createlabelscreen import CreateLabelScreen
 from CapaPresentacion.uix.userscreen import UserScreen
+from CapaPresentacion.uix.estafetascreen import EstafetaScreen
 from CapaPresentacion.uix.ideascreen import IdeaScreen
 
 from CapaNegocio.gestordb import ModeloUsuario
@@ -50,6 +51,8 @@ class SegretoApp(App):
 
         self.createlabelscreen = CreateLabelScreen(name='screen-createlabel')
 
+        self.estafetascreen = EstafetaScreen(name='screen-estafeta')
+
         self.ideascreen = IdeaScreen(name='screen-idea')
         # self.ideascreen.bind(on_quit_app=self.quit)
         # self.ideascreen.bind(on_Users=self.goto_Users)
@@ -57,6 +60,7 @@ class SegretoApp(App):
         self.screenmanager.add_widget(self.loginscreen)
         self.screenmanager.add_widget(self.userscreen)
         self.screenmanager.add_widget(self.createlabelscreen)
+        self.screenmanager.add_widget(self.estafetascreen)
 
         self.screenmanager.add_widget(self.ideascreen)
 
@@ -110,6 +114,9 @@ class SegretoApp(App):
 
     def goto_Etiquetas(self):
         self.screenmanager.current = "screen-createlabel"
+
+    def goto_EstafetaCuentas(self):
+        self.screenmanager.current = "screen-estafeta"
 
     def decrypt_data(self, crypt_data, password):
         try:
