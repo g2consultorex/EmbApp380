@@ -214,11 +214,11 @@ class DireccionDestino(object):
             direccionDest = F0101.objects.using('jde').filter(
                     ABAN8=factura[0].SDSHAN)
 
-            direccionDest_complemento = F0116.objets.using(
+            direccionDest_complemento = F0116.objects.using(
                     'jde').filter(ALAN8=factura[0].SDSHAN)
 
 
-
+            return direccionDest, direccionDest_complemento
 
         except Exception as r:
             print str(r)
