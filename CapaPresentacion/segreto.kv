@@ -464,7 +464,7 @@
         ControlWidget:
 
 <ServicioWidget@StackLayout>:
-    id: user_widget
+    id: servicio_widget
     orientation: 'lr-tb'
     padding: '10dp'
     size_hint_y:None
@@ -615,9 +615,8 @@
                     id: txt_servicetypeiddocret
                     size_hint_x: .45
            
-
 <PaqueteWidget@StackLayout>:
-    id: user_widget
+    id: paquete_widget
     orientation: 'lr-tb'
     padding: '10dp'
     size_hint_y:None
@@ -675,34 +674,94 @@
                 size_hint_y: None
                 height: '40dp'
                 LabelGeneric:
-                    text: 'Tipo:'
+                    text: 'Tipo de Empaque:'
                     size_hint_x: .10
                 CampoGenericoMedium:
-                    id: txt_kilos
-                    size_hint_x: .45                
+                    id: txt_parcelTypeId
+                    size_hint_x: .45
+                Button:
+                    size_hint:None, None
+                    size:'40dp', '40dp'
+                    border:10,10,10,10
+                    background_normal:'data/images/src/but_new.png'
+                    background_down:'data/images/src/but_new_down.png'
+                    on_release: root.open_TipoPaquetePopup()                    
 
             StackLayout:
                 size_hint_y: None
                 height: '40dp'
                 CampoGenericoMedium:
-                    id: txt_peso
+                    id: txt_weight
                     input_type: 'number'
                     input_filter: 'float'
                     hint_text: 'Largo'
                     size_hint_x: .33
                 CampoGenericoMedium:
-                    id: txt_peso
+                    id: txt_alto
                     input_type: 'number'
                     input_filter: 'float'
                     hint_text: 'Alto'
                     size_hint_x: .33
                 CampoGenericoMedium:
-                    id: txt_peso
+                    id: txt_ancho
                     input_type: 'number'
                     input_filter: 'float'                    
                     hint_text: 'Ancho'
                     size_hint_x: .33
-                          
+
+<TipoPaquetePopup>:
+    title: 'Tipos de paquetes'
+    size_hint: (.5, .5)
+    GridLayout:
+        cols: 1
+        ScrollView:
+            id: tipospaquetes_list
+            size_hint_x: 1
+            StackLayout:
+                id: container
+                size_hint_y: None
+                height: self.minimum_height
+                size_hint_x: 1
+                orientation: 'lr-tb'
+                # padding:'10dp', '10dp','10dp','10dp'
+                spacing:'15dp'            
+                # CuentaWidget:
+                # CuentaWidget:
+                # CuentaWidget:
+
+        AnchorLayout:
+            padding: 30, 0, 30, 5
+            size_hint_y: None
+            height: '60dp'
+            Button:
+                size_hint_y: None
+                height: '60dp'
+                size_hint_x: 1
+                text: 'Seleccionar'
+                on_release: root.click_SelectButton()
+
+<TipoPaqueteWidget@BoxLayout>:
+    id: tipospaquetes_widget
+    padding: '10dp'
+    size_hint_y: None
+    height: '50dp'
+    orientation: 'horizontal'
+    canvas:
+        Color:
+            rgba: hex('#D5E1FF')
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
+
+    CheckBox:
+        id: chk_tipo
+        size_hint_x: .1
+        group: "tipo_paquete"
+    Label:
+        id: lbl_tipo
+        size_hint_x: .9
+        color: hex('#121313')
 
 <OrigenWidget@StackLayout>:
     id: origen_widget
@@ -1064,9 +1123,8 @@
                     text: 'Pais:'
                     size_hint_x: .18
                 CampoGenericoMedium:
-                    id: txt_destino_countriid
+                    id: txt_destino_countriyid
                     size_hint_x: .82 
-
 
 <CredencialesWidget@StackLayout>:
     id: credenciales_widget
@@ -1244,7 +1302,6 @@
         Button:
             size_hint_x: .3
             text: 'Crear Etiqueta'
-
 
 
 ########################### ESTAFETA SCREEN ###########################

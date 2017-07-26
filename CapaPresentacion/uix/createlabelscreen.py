@@ -13,6 +13,33 @@ class CreateLabelScreen(Screen):
         super(CreateLabelScreen, self).__init__(**kwargs)
 
 
+class PaqueteWidget(Screen):
+
+    def open_TipoPaquetePopup(self):
+        TipoPaquetePopup(self).open()
+
+
+class TipoPaquetePopup(Popup):
+    padre = ObjectProperty(None)
+
+    def __init__(self, padre, **kwargs):
+        super(TipoPaquetePopup, self).__init__(**kwargs)
+        self.padre = padre
+
+    def click_SelectButton(self):
+
+        value = ""
+
+        for hijo in self.ids['container'].children:
+            
+            if hijo.ids['chk_tipo'].active == True:
+                value = hijo.ids['lbl_tipo'].text
+
+        if value:
+            self.padre.fill_TipoPaquete(value)
+            self.dismiss()
+
+
 class CredencialesWidget(StackLayout):
 
     def open_CredencialesPopup(self):
