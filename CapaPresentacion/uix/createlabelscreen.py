@@ -13,10 +13,18 @@ class CreateLabelScreen(Screen):
         super(CreateLabelScreen, self).__init__(**kwargs)
 
 
-class PaqueteWidget(Screen):
+class PaqueteWidget(StackLayout):
 
     def open_TipoPaquetePopup(self):
         TipoPaquetePopup(self).open()
+
+    def fill_Campos(self, _value):
+
+        self.clear_Campos()
+        self.ids['txt_parcelTypeId'].text = _value
+
+    def clear_Campos(self):
+        self.ids['txt_parcelTypeId'].text = ''
 
 
 class TipoPaquetePopup(Popup):
@@ -26,18 +34,40 @@ class TipoPaquetePopup(Popup):
         super(TipoPaquetePopup, self).__init__(**kwargs)
         self.padre = padre
 
+        self.show_All_Options()
+
+    def show_All_Options(self):
+
+        self.ids['container'].clear_widgets()
+
+        widgetSobre = TipoPaqueteWidget(1, "Sobre")
+        widgetPaquete = TipoPaqueteWidget(4, "Paquete")
+
+        self.ids['container'].add_widget(widgetSobre)
+        self.ids['container'].add_widget(widgetPaquete)
+
     def click_SelectButton(self):
 
         value = ""
 
         for hijo in self.ids['container'].children:
-            
-            if hijo.ids['chk_tipo'].active == True:
+
+            if hijo.ids['chk_tipo'].active is True:
                 value = hijo.ids['lbl_tipo'].text
 
         if value:
-            self.padre.fill_TipoPaquete(value)
+            self.padre.fill_Campos(value)
             self.dismiss()
+
+
+class TipoPaqueteWidget(BoxLayout):
+
+    valor = ObjectProperty(None)
+
+    def __init__(self, _valor, _descripcion, **kwargs):
+        super(TipoPaqueteWidget, self).__init__(**kwargs)
+        self.ids["lbl_tipo"].text = _descripcion
+        self.valor = _valor
 
 
 class CredencialesWidget(StackLayout):
@@ -47,14 +77,13 @@ class CredencialesWidget(StackLayout):
 
     def fill_Campos(self, cuenta):
 
-        self.clear_Campos() 
-        self.ids['txt_cuenta'].text = cuenta.clave 
+        self.clear_Campos()
+        self.ids['txt_cuenta'].text = cuenta.clave
         self.ids['txt_login'].text = cuenta.login
         self.ids['txt_suscriber_id'].text = cuenta.suscriber_id
         self.ids['txt_password'].text = cuenta.password
         self.ids['txt_quadrant'].text = str(cuenta.quadrant)
         self.ids['txt_tipo_papel'].text = str(cuenta.paper_type)
-
 
     def clear_Campos(self):
         self.ids['txt_cuenta'].text = ''
@@ -62,14 +91,14 @@ class CredencialesWidget(StackLayout):
         self.ids['txt_suscriber_id'].text = ''
         self.ids['txt_password'].text = ''
         self.ids['txt_quadrant'].text = ''
-        self.ids['txt_tipo_papel'].text = ''        
+        self.ids['txt_tipo_papel'].text = ''
 
 
 class CredencialesPopup(Popup):
 
     padre = ObjectProperty(None)
 
-    def __init__(self, padre,**kwargs):
+    def __init__(self, padre, **kwargs):
 
         super(CredencialesPopup, self).__init__(**kwargs)
 
@@ -92,8 +121,8 @@ class CredencialesPopup(Popup):
         cuenta = None
 
         for hijo in self.ids['container'].children:
-            
-            if hijo.ids['chk_cuenta'].active == True:
+
+            if hijo.ids['chk_cuenta'].active is True:
                 cuenta = hijo.cuenta
 
         if cuenta:
