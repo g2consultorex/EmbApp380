@@ -40,8 +40,8 @@ class TipoPaquetePopup(Popup):
 
         self.ids['container'].clear_widgets()
 
-        widgetSobre = TipoPaqueteWidget(1, "Sobre")
-        widgetPaquete = TipoPaqueteWidget(4, "Paquete")
+        widgetSobre = TipoPaqueteWidget("1", "Sobre")
+        widgetPaquete = TipoPaqueteWidget("4", "Paquete")
 
         self.ids['container'].add_widget(widgetSobre)
         self.ids['container'].add_widget(widgetPaquete)
@@ -53,7 +53,7 @@ class TipoPaquetePopup(Popup):
         for hijo in self.ids['container'].children:
 
             if hijo.ids['chk_tipo'].active is True:
-                value = hijo.ids['lbl_tipo'].text
+                value = hijo.valor
 
         if value:
             self.padre.fill_Campos(value)
@@ -66,8 +66,9 @@ class TipoPaqueteWidget(BoxLayout):
 
     def __init__(self, _valor, _descripcion, **kwargs):
         super(TipoPaqueteWidget, self).__init__(**kwargs)
-        self.ids["lbl_tipo"].text = _descripcion
         self.valor = _valor
+        self.ids["lbl_tipo"].text = _descripcion
+
 
 
 class CredencialesWidget(StackLayout):
