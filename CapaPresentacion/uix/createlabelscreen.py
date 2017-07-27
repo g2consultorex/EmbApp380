@@ -70,7 +70,6 @@ class TipoPaqueteWidget(BoxLayout):
         self.ids["lbl_tipo"].text = _descripcion
 
 
-
 class CredencialesWidget(StackLayout):
 
     def open_CredencialesPopup(self):
