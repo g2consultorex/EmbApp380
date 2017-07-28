@@ -220,7 +220,7 @@ class EstafetaWebService:
 
     def create_Label(self):
 
-        ssl._create_default_https_context = ssl._create_unverified_context
+        # ssl._create_default_https_context = ssl._create_unverified_context
 
         base = self.get_Base_CreateLabel()
         body = base % (self.modulo_servicio, self.modulo_credenciales)

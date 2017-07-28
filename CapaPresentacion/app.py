@@ -1,10 +1,10 @@
 import os.path
 from kivy.config import Config
 Config.set('graphics', 'window_state', 'maximized')
-Config.set('graphics', 'resizable', False)
+# Config.set('graphics', 'resizable', True)
 Config.set('graphics', 'width', '1080')
 Config.set('graphics', 'height', '720')
-Config.set('kivy', 'exit_on_escape', '0')
+# Config.set('kivy', 'exit_on_escape', '0')
 from kivy.app import App
 
 from kivy.uix.screenmanager import ScreenManager
