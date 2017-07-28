@@ -166,7 +166,7 @@ class Factura(object):
                     SDDCT=_tipo
                 )
 
-            print factura
+            return factura
 
         except Exception as e:
             print str(e)
@@ -176,6 +176,19 @@ class DireccionOrigen(object):
 
     @classmethod
     def get(self, _numero, _tipo):
+
+        datos = {}
+        datos['corporatename'] = ""
+        datos['address1'] = ""
+        datos['address2'] = ""
+        datos['cellphone'] = ""
+        datos['city'] = ""
+        datos['contactname'] = ""
+        datos['customernumber'] = ""
+        datos['neighborhood'] = ""
+        datos['phonenumber'] = ""
+        datos['zipcode'] = ""
+        datos['state'] = ""
 
         try:
             factura = F4211.objects.using('jde').filter(
@@ -191,25 +204,57 @@ class DireccionOrigen(object):
             direccion = F0101.objects.using(
                 'jde').filter(ABAN8=almacen[0].CIAN8)
 
-            direccion_complemento = F0116.objects.using(
+            dir_complemento = F0116.objects.using(
                 'jde').filter(ALAN8=almacen[0].CIAN8)
 
             UDCestado = F0005.objects.using('jde').filter(
                 DRSY__contains='00',
                 DRRT__contains='S',
-                DRKY__contains=direccion_complemento[1].ALADDS
+                DRKY__contains=dir_complemento[0].ALADDS
             )
 
-            return direccion, direccion_complemento
+            if len(factura) > 0:
 
-        except Exception as e:
-            print str(e)
+                datos['corporatename'] = factura[0].SDKCOO
+
+                if len(dir_complemento) > 0:
+
+                    datos["address1"] = dir_complemento[0].ALADD2
+                    datos["address2"] = dir_complemento[0].ALADD3
+                    # datos['cellphone'] = dir_complemento[0]  <--- Falta sacarlo de algun lado
+                    datos['city'] = dir_complemento[0].ALCTY1
+                    # datos['contactname'] = dir_complemento[0]
+                    # datos['customernumber'] = dir_complemento[0]
+                    datos['neighborhood'] = dir_complemento[0].ALADD4
+                    # datos['phonenumber'] = dir_complemento[0]
+                    datos['zipcode'] = dir_complemento[0].ALADDZ
+                    datos['state'] = dir_complemento[0].ALADDS
+                    # if len(UDCestado) > 0:
+                    #     datos['state'] = "%s %s" % (UDCestado[0].DRDL01, )
+
+            return True, datos
+
+        except Exception:
+            return False, {}
 
 
 class DireccionDestino(object):
 
     @classmethod
     def get(self, _numero, _tipo):
+
+        datos = {}
+        datos['corporatename'] = ""
+        datos['address1'] = ""
+        datos['address2'] = ""
+        datos['cellphone'] = ""
+        datos['city'] = ""
+        datos['contactname'] = ""
+        datos['customernumber'] = ""
+        datos['neighborhood'] = ""
+        datos['phonenumber'] = ""
+        datos['zipcode'] = ""
+        datos['state'] = ""
 
         try:
             factura = F4211.objects.using('jde').filter(
@@ -224,7 +269,7 @@ class DireccionDestino(object):
             direccionDest = F0101.objects.using('jde').filter(
                     ABAN8=factura[0].SDSHAN)
 
-            direccionDest_complemento = F0116.objects.using(
+            dir_complemento = F0116.objects.using(
                     'jde').filter(ALAN8=factura[0].SDSHAN)
 
             direccionDest_Tel = F0115.objects.using('jde').filter(
@@ -241,7 +286,34 @@ class DireccionDestino(object):
                 WWAN8=factura[0].SDSHAN
             )
 
-            return direccionDest, direccionDest_complemento
+            if len(factura) > 0:
 
-        except Exception as r:
-            print str(r)
+                datos['corporatename'] = factura[0].SDKCOO
+
+                if len(dir_complemento) > 0:
+
+                    datos["address1"] = dir_complemento[0].ALADD2
+                    datos["address2"] = dir_complemento[0].ALADD3
+                    # datos['cellphone'] = dir_complemento[0]  <--- Falta sacarlo de algun lado
+                    datos['city'] = dir_complemento[0].ALCTY1
+
+                    # datos['customernumber'] = dir_complemento[0]
+                    datos['neighborhood'] = dir_complemento[0].ALADD4
+
+                    datos['zipcode'] = dir_complemento[0].ALADDZ
+                    datos['state'] = dir_complemento[0].ALADDS
+                    # if len(UDCestado) > 0:
+                    #     datos['state'] = "%s %s" % (UDCestado[0].DRDL01,)
+                    if len(direccionDest_Tel) > 0:
+                        datos['phonenumber'] = "%s %s" % (
+                            direccionDest_Tel[0].WWMLMN,
+                            direccionDest_Tel[0].WWALPH
+                        )
+
+                    if len(direccionDest_Resp) > 0:
+                        datos['contactname'] = direccionDest_Resp[0].WWALPH
+
+            return True, datos
+
+        except Exception:
+            return False, {}

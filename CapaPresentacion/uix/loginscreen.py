@@ -63,7 +63,7 @@ class LoginGrid(BoxLayout):
             return
         self.ids['inp_password'].text = len(self.password) * u"\u2022"
 
-    def on_username(self,value):
+    def on_username(self, value):
         self.username = value
 
     def on_disabled(self, instance, disabled):

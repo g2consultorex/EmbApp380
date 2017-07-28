@@ -3,8 +3,12 @@ from kivy.uix.popup import Popup
 from kivy.uix.stacklayout import StackLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
+from CapaPresentacion.uix.widget import Toast
 
 from CapaNegocio.gestordb import ModeloEstafetaUser
+from CapaNegocio.gestordb import Factura
+from CapaNegocio.gestordb import DireccionOrigen
+from CapaNegocio.gestordb import DireccionDestino
 
 
 class CreateLabelScreen(Screen):
@@ -12,12 +16,52 @@ class CreateLabelScreen(Screen):
     def __init__(self, **kwargs):
         super(CreateLabelScreen, self).__init__(**kwargs)
 
+    def failure(self, error):
+        self._show_toast(error)
+
+    def _show_toast(self, text):
+        self.ids['toast'].show(text)
+
     def buscar_Factura(self):
 
-        self.clear_DireccionOrigen()
-        self.clear_DireccionDestino()
-        self.clear_Servicio()
-        self.clear_Paquete()
+        factura_numero = str(self.ids['txt_factura_numero'].text)
+        factura_tipo = self.ids['txt_factura_tipo'].text
+
+        # fact = Factura.get(factura_numero, factura_tipo)
+        # fact = Factura.get(543, 'RI')
+        if factura_numero != "" and factura_tipo != "":
+
+            self.clear_DireccionOrigen()
+            self.clear_DireccionDestino()
+            self.clear_Servicio()
+            self.clear_Paquete()
+
+            bandera, dir_origen = DireccionOrigen.get(factura_numero, factura_tipo)
+
+            if bandera:
+                self.fill_DireccionOrigen(dir_origen)
+
+            bandera, dir_destino = DireccionDestino.get(factura_numero, factura_tipo)
+
+            if bandera:
+                self.fill_DireccionDestino(dir_destino)
+
+        else:
+            self.failure("Falto especificar Factura")
+
+    def fill_DireccionOrigen(self, _data):
+        data = self.ids['label_container'].ids['origen_widget']
+        data.ids['txt_origen_address1'].text = _data["address1"]
+        data.ids['txt_origen_address2'].text = _data["address2"]
+        data.ids['txt_origen_cellphone'].text = ""
+        data.ids['txt_origen_city'].text = _data['city']
+        data.ids['txt_origen_contactname'].text = ""
+        data.ids['txt_origen_corporatename'].text = _data["corporatename"]
+        data.ids['txt_origen_customernumber'].text = "000000"
+        data.ids['txt_origen_neighborhood'].text = _data['neighborhood']
+        data.ids['txt_origen_phonenumber'].text = ""
+        data.ids['txt_origen_state'].text = _data['state']
+        data.ids['txt_origen_zipcode'].text = _data['zipcode']
 
     def clear_DireccionOrigen(self):
         data = self.ids['label_container'].ids['origen_widget']
@@ -33,6 +77,20 @@ class CreateLabelScreen(Screen):
         data.ids['txt_origen_state'].text = ""
         data.ids['txt_origen_zipcode'].text = ""
 
+    def fill_DireccionDestino(self, _data):
+        data = self.ids['label_container'].ids['destino_widget']
+        data.ids['txt_destino_address1'].text = _data["address1"]
+        data.ids['txt_destino_address2'].text = _data["address2"]
+        data.ids['txt_destino_cellphone'].text = ""
+        data.ids['txt_destino_city'].text = _data['city']
+        data.ids['txt_destino_contactname'].text = _data['contactname']
+        data.ids['txt_destino_corporatename'].text = _data["corporatename"]
+        data.ids['txt_destino_customernumber'].text = "000000"
+        data.ids['txt_destino_neighborhood'].text = _data['neighborhood']
+        data.ids['txt_destino_phonenumber'].text = _data['phonenumber']
+        data.ids['txt_destino_state'].text = _data['state']
+        data.ids['txt_destino_zipcode'].text = _data['zipcode']
+
     def clear_DireccionDestino(self):
         data = self.ids['label_container'].ids['destino_widget']
         data.ids['txt_destino_address1'].text = ""
@@ -47,12 +105,27 @@ class CreateLabelScreen(Screen):
         data.ids['txt_destino_state'].text = ""
         data.ids['txt_destino_zipcode'].text = ""
 
+    def fill_Servicio(self, _data):
+        data = self.ids['label_container'].ids['servicio_widget']
+        data.ids['txt_num_cliente'].text = ""
+        data.ids['txt_servicetypeid'].text = "70"
+        data.ids['txt_number_labels'].text = "1"
+        data.ids['txt_office_num'].text = "130"
+        data.ids['txt_contentdescription'].text = ""
+        data.ids['txt_aditionalinfo'].text = ""
+        data.ids['txt_costcenter'].text = ""
+        data.ids['txt_content'].text = ""
+        data.ids['txt_kilos'].text = ""
+        data.ids['txt_servicetypeiddocret'].text = ""
+        data.ids['txt_destino_countryid'].text = ""
+        data.ids['txt_reference'].text = ""
+
     def clear_Servicio(self):
         data = self.ids['label_container'].ids['servicio_widget']
         data.ids['txt_num_cliente'].text = ""
-        data.ids['txt_servicetypeid'].text = ""
-        data.ids['txt_number_labels'].text = ""
-        data.ids['txt_office_num'].text = ""
+        data.ids['txt_servicetypeid'].text = "70"
+        data.ids['txt_number_labels'].text = "1"
+        data.ids['txt_office_num'].text = "130"
         data.ids['txt_contentdescription'].text = ""
         data.ids['txt_aditionalinfo'].text = ""
         data.ids['txt_costcenter'].text = ""

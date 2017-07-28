@@ -31,16 +31,16 @@ class F41001(models.Model):
 	CISYM5 = models.CharField(max_length=1)
 	CISECD = models.CharField(max_length=1)
 	CISEPL = models.CharField(max_length=1)
-	CISE01 = models.IntegerField()  
-	CISE02 = models.IntegerField()  
-	CISE03 = models.IntegerField()  
-	CISE04 = models.IntegerField()  
-	CISE05 = models.IntegerField()  
-	CISE06 = models.IntegerField()  
-	CISE07 = models.IntegerField()  
-	CISE08 = models.IntegerField()  
-	CISE09 = models.IntegerField()  
-	CISE10 = models.IntegerField()  
+	CISE01 = models.IntegerField()
+	CISE02 = models.IntegerField()
+	CISE03 = models.IntegerField()
+	CISE04 = models.IntegerField()
+	CISE05 = models.IntegerField()
+	CISE06 = models.IntegerField()
+	CISE07 = models.IntegerField()
+	CISE08 = models.IntegerField()
+	CISE09 = models.IntegerField()
+	CISE10 = models.IntegerField()
 	CILR01 = models.CharField(max_length=1)
 	CILR02 = models.CharField(max_length=1)
 	CILR03 = models.CharField(max_length=1)
@@ -51,28 +51,28 @@ class F41001(models.Model):
 	CILR08 = models.CharField(max_length=1)
 	CILR09 = models.CharField(max_length=1)
 	CILR10 = models.CharField(max_length=1)
-	CIAN8  = models.IntegerField()  
-	CIPOCS = models.IntegerField()  
-	CIINCS = models.IntegerField()  
-	CIIALP = models.IntegerField()  
-	CIBSDY = models.IntegerField()  
-	CIIA1  = models.IntegerField()  
-	CIIB1  = models.IntegerField()  
-	CIIC1  = models.IntegerField()  
-	CIIA2  = models.IntegerField()  
-	CIIB2  = models.IntegerField()  
-	CIIC2  = models.IntegerField()  
-	CIIA3  = models.IntegerField()  
-	CIIB3  = models.IntegerField()  
-	CIIC3  = models.IntegerField()  
-	CIPNC  = models.IntegerField()  
+	CIAN8  = models.IntegerField()
+	CIPOCS = models.IntegerField()
+	CIINCS = models.IntegerField()
+	CIIALP = models.IntegerField()
+	CIBSDY = models.IntegerField()
+	CIIA1  = models.IntegerField()
+	CIIB1  = models.IntegerField()
+	CIIC1  = models.IntegerField()
+	CIIA2  = models.IntegerField()
+	CIIB2  = models.IntegerField()
+	CIIC2  = models.IntegerField()
+	CIIA3  = models.IntegerField()
+	CIIB3  = models.IntegerField()
+	CIIC3  = models.IntegerField()
+	CIPNC  = models.IntegerField()
 	CIGLPO = models.CharField(max_length=1)
 	CIUNGL = models.CharField(max_length=1)
 	CICMGL = models.CharField(max_length=1)
 	CICSMT = models.CharField(max_length=2)
 	CIPCSM = models.CharField(max_length=2)
 	CIBACK = models.CharField(max_length=1)
-	CICOMH = models.IntegerField()  
+	CICOMH = models.IntegerField()
 	CIICRI = models.CharField(max_length=1)
 	CIIARI = models.CharField(max_length=1)
 	CIMATY = models.CharField(max_length=1)
@@ -107,7 +107,7 @@ class F41001(models.Model):
 	CIXLOC = models.CharField(max_length=20)
 	CISTPU = models.CharField(max_length=1)
 	CIDNTP = models.CharField(max_length=1)
-	CITMPS = models.IntegerField()  
+	CITMPS = models.IntegerField()
 	CIUSMT = models.CharField(max_length=1)
 	CIOT1Y = models.CharField(max_length=1)
 	CIOT2Y = models.CharField(max_length=1)
@@ -169,7 +169,7 @@ class F4211(models.Model):
   	db_table = u'"CRPDTA"."F4211"'
 
  def __unicode__(self):
- 	cadena = "%s %s" % (self.SDMCU, self.SDSHAN)
+ 	cadena = "%s %s" % (self.SDDOC, self.SDDCT)
  	return cadena
 
 class F42119(models.Model):
@@ -213,7 +213,7 @@ class F0116(models.Model):
 	ALCTY1=models.CharField(max_length=25)
 	ALADDS=models.CharField(max_length=3)
 	ALCTR=models.CharField(max_length=3)
-	class Meta:	
+	class Meta:
  		managed = False
  		db_table = u'"CRPDTA"."F0116"'
 	def __unicode__(self):
@@ -263,5 +263,3 @@ class F01151(models.Model):
 		db_table = u'"CRPDTA"."F01151"'
 	def __unicode__(self):
 		return str(self.EAAN8)
-
-

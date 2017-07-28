@@ -433,10 +433,14 @@
                 CampoGenerico:
                     hint_text: 'Numero Factura'
                     size_hint_x: .4
+                    id: txt_factura_numero
+                    input_type: 'number'
+                    input_filter: 'int'
 
                 CampoGenerico:
                     hint_text: 'Tipo'
                     size_hint_x: .2
+                    id: txt_factura_tipo
 
                 Button:
                     text: 'Buscar Informacion'
@@ -446,6 +450,10 @@
             # LIST
             CreateLabelContainer:
                 id: label_container
+        Toast:
+            id:toast
+            width: min(root.width - dp(32), dp(300))
+            x:root.center_x - self.width // 2
 
 <CreateLabelContainer@ScrollView>:
     StackLayout:
