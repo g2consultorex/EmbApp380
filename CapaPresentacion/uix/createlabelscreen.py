@@ -12,8 +12,64 @@ class CreateLabelScreen(Screen):
     def __init__(self, **kwargs):
         super(CreateLabelScreen, self).__init__(**kwargs)
 
-    def crear_Etiqueta(self):
-        print "awebo"
+    def buscar_Factura(self):
+
+        self.clear_DireccionOrigen()
+        self.clear_DireccionDestino()
+        self.clear_Servicio()
+        self.clear_Paquete()
+
+    def clear_DireccionOrigen(self):
+        data = self.ids['label_container'].ids['origen_widget']
+        data.ids['txt_origen_address1'].text = ""
+        data.ids['txt_origen_address2'].text = ""
+        data.ids['txt_origen_cellphone'].text = ""
+        data.ids['txt_origen_city'].text = ""
+        data.ids['txt_origen_contactname'].text = ""
+        data.ids['txt_origen_corporatename'].text = ""
+        data.ids['txt_origen_customernumber'].text = ""
+        data.ids['txt_origen_neighborhood'].text = ""
+        data.ids['txt_origen_phonenumber'].text = ""
+        data.ids['txt_origen_state'].text = ""
+        data.ids['txt_origen_zipcode'].text = ""
+
+    def clear_DireccionDestino(self):
+        data = self.ids['label_container'].ids['destino_widget']
+        data.ids['txt_destino_address1'].text = ""
+        data.ids['txt_destino_address2'].text = ""
+        data.ids['txt_destino_cellphone'].text = ""
+        data.ids['txt_destino_city'].text = ""
+        data.ids['txt_destino_contactname'].text = ""
+        data.ids['txt_destino_corporatename'].text = ""
+        data.ids['txt_destino_customernumber'].text = ""
+        data.ids['txt_destino_neighborhood'].text = ""
+        data.ids['txt_destino_phonenumber'].text = ""
+        data.ids['txt_destino_state'].text = ""
+        data.ids['txt_destino_zipcode'].text = ""
+
+    def clear_Servicio(self):
+        data = self.ids['label_container'].ids['servicio_widget']
+        data.ids['txt_num_cliente'].text = ""
+        data.ids['txt_servicetypeid'].text = ""
+        data.ids['txt_number_labels'].text = ""
+        data.ids['txt_office_num'].text = ""
+        data.ids['txt_contentdescription'].text = ""
+        data.ids['txt_aditionalinfo'].text = ""
+        data.ids['txt_costcenter'].text = ""
+        data.ids['txt_content'].text = ""
+        data.ids['txt_kilos'].text = ""
+        data.ids['txt_servicetypeiddocret'].text = ""
+        data.ids['txt_destino_countryid'].text = ""
+        data.ids['txt_reference'].text = ""
+
+    def clear_Paquete(self):
+        data = self.ids['label_container'].ids['paquete_widget']
+        data.ids['txt_peso'].text = ""
+        data.ids['txt_kilos'].text = ""
+        data.ids['txt_parcelTypeId'].text = "1"
+        data.ids['txt_largo'].text = ""
+        data.ids['txt_alto'].text = ""
+        data.ids['txt_ancho'].text = ""
 
 
 class PaqueteWidget(StackLayout):
