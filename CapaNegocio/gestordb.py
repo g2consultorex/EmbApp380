@@ -113,7 +113,6 @@ class ModeloEstafetaUser(object):
     def add(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal):
 
         try:
-
             estafeta = EstafetaUser()
 
             estafeta.clave = _clave
@@ -157,11 +156,15 @@ class Factura(object):
 
         try:
             factura = F4211.objects.using('jde').filter(
-                SDDOC=_numero, SDDCT=_tipo)
+                SDDOC=_numero,
+                SDDCT=_tipo
+            )
 
             if len(factura) == 0:
-                factura = F42119.objects.using(
-                    'jde').filter(SDDOC=_numero, SDDCT=_tipo)
+                factura = F42119.objects.using('jde').filter(
+                    SDDOC=_numero,
+                    SDDCT=_tipo
+                )
 
             print factura
 
@@ -182,7 +185,6 @@ class DireccionOrigen(object):
                 factura = F42119.objects.using(
                     'jde').filter(SDDOC=_numero, SDDCT=_tipo)
 
-
             almacen = F41001.objects.using('jde').filter(
                 CIMCU__contains=factura[0].SDMCU)
 
@@ -192,21 +194,22 @@ class DireccionOrigen(object):
             direccion_complemento = F0116.objects.using(
                 'jde').filter(ALAN8=almacen[0].CIAN8)
 
-
             UDCestado = F0005.objects.using('jde').filter(
-                DRSY__contains='00',DRRT__contains='S',
-                DRKY__contains=direccion_complemento[1].ALADDS)
-
+                DRSY__contains='00',
+                DRRT__contains='S',
+                DRKY__contains=direccion_complemento[1].ALADDS
+            )
 
             return direccion, direccion_complemento
 
         except Exception as e:
             print str(e)
 
+
 class DireccionDestino(object):
 
     @classmethod
-    def get(self,_numero, _tipo):
+    def get(self, _numero, _tipo):
 
         try:
             factura = F4211.objects.using('jde').filter(
@@ -214,7 +217,9 @@ class DireccionDestino(object):
 
             if len(factura) == 0:
                 factura = F42119.objects.using('jde').filter(
-                    SDDOC=_numero,SDDCT=_tipo)
+                    SDDOC=_numero,
+                    SDDCT=_tipo
+                )
 
             direccionDest = F0101.objects.using('jde').filter(
                     ABAN8=factura[0].SDSHAN)
@@ -225,15 +230,16 @@ class DireccionDestino(object):
             direccionDest_Tel = F0115.objects.using('jde').filter(
                     WPAN8=factura[0].SDSHAN)
 
-            direccionDest_Correo = F01151.objects.using('jde').
-                    filter(EAAN8=factura[0].SDSHAN,
-                        EAETP__contains='E',EAEHIER=0,
-                        EAECLASS__contains='ASN')
+            direccionDest_Correo = F01151.objects.using('jde').filter(
+                EAAN8=factura[0].SDSHAN,
+                EAETP__contains='E',
+                EAEHIER=0,
+                EAECLASS__contains='ASN'
+            )
 
             direccionDest_Resp = F0111.objects.using('jde').filter(
-                        WWAN8=factura[0].SDSHAN)
-
-
+                WWAN8=factura[0].SDSHAN
+            )
 
             return direccionDest, direccionDest_complemento
 
