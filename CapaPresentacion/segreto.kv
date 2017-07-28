@@ -27,7 +27,7 @@
     padding: '10dp', '10dp'
     halign: 'justify'
     multiline: False
-    write_tab: False    
+    write_tab: False
 
 <SegInput@TextInput>:
     background_normal:'data/images/src/textinput.png'
@@ -104,7 +104,7 @@
     orientation: 'horizontal'
     # on_add_ideawidget:root.new_idea()
     # on_quit_pressed:root.pre_quit_exec()
-    
+
     Button:
         text: 'Generar Etiquetas'
         size_hint_x: .20
@@ -251,24 +251,24 @@
             pos: self.pos
             size: self.size
             radius: 10, 10, 10, 10
-    
+
     BoxLayout:
         orientation: 'horizontal'
         size_hint_y: None
-        height: '36dp'   
+        height: '36dp'
         Label:
             id: lbl_cuenta
             color: 0.404, 0.522, 0.549, 1.0
             size_hint_x: .3
             font_size: '25sp'
-            font_name: 'Lato-Heavy.ttf' 
+            font_name: 'Lato-Heavy.ttf'
 
         Label:
             id: lbl_descripcion
             color: 0.404, 0.522, 0.549, 1.0
             size_hint_x: .4
             font_size: '18sp'
-            font_name: 'Lato-Heavy.ttf' 
+            font_name: 'Lato-Heavy.ttf'
 
         Label:
             id: lbl_date
@@ -298,7 +298,7 @@
                 background_normal:'data/images/src/but_edit.png'
                 background_down:'data/images/src/but_edit_down.png'
                 on_release : root.click_BotonEditar()
-                
+
 
 
     # Space:
@@ -392,7 +392,7 @@
                 text: 'Activo'
                 size_hint_x: .2
             CheckBox:
-                id: chk_activo 
+                id: chk_activo
                 text: ''
                 active: False
 
@@ -403,7 +403,7 @@
             CampoGenerico:
                 id: txt_password
                 password: True
-                size_hint_x: .8                
+                size_hint_x: .8
 
         Space:
         BoxLayout:
@@ -461,6 +461,7 @@
         OrigenWidget:
         DestinoWidget:
         CredencialesWidget:
+            id: credenciales_widget
         ControlWidget:
 
 <ServicioWidget@StackLayout>:
@@ -476,7 +477,7 @@
             pos: self.pos
             size: self.size
             radius: 10, 10, 10, 10
-    
+
     BoxLayout:
         orientation: 'vertical'
         spacing: '2dp'
@@ -484,7 +485,6 @@
             size_hint_y: None
             height: '40dp'
             text: 'INFORMACION DEL SERVICIO'
-            # color: 0.404, 0.522, 0.549, 1.0
             color: hex('#000000')
             font_size: '16sp'
 
@@ -614,7 +614,29 @@
                 CampoGenericoMedium:
                     id: txt_servicetypeiddocret
                     size_hint_x: .45
-           
+
+            # File 7
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Pais Destino:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_destino_countriid
+                    size_hint_x: .82
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Referencia:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_reference
+                    size_hint_x: .82
+
+
 <PaqueteWidget@StackLayout>:
     id: paquete_widget
     orientation: 'lr-tb'
@@ -654,7 +676,7 @@
                 CampoGenericoMedium:
                     id: txt_peso
                     input_type: 'number'
-                    input_filter: 'float'                    
+                    input_filter: 'float'
                     size_hint_x: .45
 
             StackLayout:
@@ -666,7 +688,7 @@
                 CampoGenericoMedium:
                     id: txt_kilos
                     input_type: 'number'
-                    input_filter: 'float'                    
+                    input_filter: 'float'
                     size_hint_x: .45
 
             # Fila 2
@@ -685,7 +707,7 @@
                     border:10,10,10,10
                     background_normal:'data/images/src/but_new.png'
                     background_down:'data/images/src/but_new_down.png'
-                    on_release: root.open_TipoPaquetePopup()                    
+                    on_release: root.open_TipoPaquetePopup()
 
             StackLayout:
                 size_hint_y: None
@@ -705,7 +727,7 @@
                 CampoGenericoMedium:
                     id: txt_ancho
                     input_type: 'number'
-                    input_filter: 'float'                    
+                    input_filter: 'float'
                     hint_text: 'Ancho'
                     size_hint_x: .33
 
@@ -724,7 +746,7 @@
                 size_hint_x: 1
                 orientation: 'lr-tb'
                 # padding:'10dp', '10dp','10dp','10dp'
-                spacing:'15dp'            
+                spacing:'15dp'
                 # CuentaWidget:
                 # CuentaWidget:
                 # CuentaWidget:
@@ -832,7 +854,7 @@
                     size_hint_x: .18
                 CampoGenericoMedium:
                     id: txt_origen_city
-                    size_hint_x: .82            
+                    size_hint_x: .82
 
             # Fila 3
             StackLayout:
@@ -853,7 +875,7 @@
                     size_hint_x: .18
                 CampoGenericoMedium:
                     id: txt_origen_city
-                    size_hint_x: .82    
+                    size_hint_x: .82
 
             # Fila 4
             StackLayout:
@@ -874,7 +896,7 @@
                     size_hint_x: .18
                 CampoGenericoMedium:
                     id: txt_origen_corporatename
-                    size_hint_x: .82    
+                    size_hint_x: .82
 
             # Fila 5
             StackLayout:
@@ -895,7 +917,7 @@
                     size_hint_x: .18
                 CampoGenericoMedium:
                     id: txt_origen_neighborhood
-                    size_hint_x: .82   
+                    size_hint_x: .82
 
             # Fila 6
             StackLayout:
@@ -927,7 +949,7 @@
                     size_hint_x: .18
                 CampoGenericoMedium:
                     id: txt_origen_zipcode
-                    size_hint_x: .82                    
+                    size_hint_x: .82
 
 <DestinoWidget@StackLayout>:
     id: destino_widget
@@ -998,7 +1020,7 @@
                     size_hint_x: .18
                 CampoGenericoMedium:
                     id: txt_destino_city
-                    size_hint_x: .82            
+                    size_hint_x: .82
 
             # Fila 3
             StackLayout:
@@ -1019,7 +1041,7 @@
                     size_hint_x: .18
                 CampoGenericoMedium:
                     id: txt_destino_city
-                    size_hint_x: .82    
+                    size_hint_x: .82
 
             # Fila 4
             StackLayout:
@@ -1040,7 +1062,7 @@
                     size_hint_x: .18
                 CampoGenericoMedium:
                     id: txt_destino_corporatename
-                    size_hint_x: .82    
+                    size_hint_x: .82
 
             # Fila 5
             StackLayout:
@@ -1061,7 +1083,7 @@
                     size_hint_x: .18
                 CampoGenericoMedium:
                     id: txt_destino_neighborhood
-                    size_hint_x: .82   
+                    size_hint_x: .82
 
             # Fila 6
             StackLayout:
@@ -1095,39 +1117,14 @@
                     id: txt_destino_zipcode
                     size_hint_x: .82
 
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Pais:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_destino_countriid
-                    size_hint_x: .82 
 
-            # Fila 7
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Referencia:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_reference
-                    size_hint_x: .82
 
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Pais:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_destino_countriyid
-                    size_hint_x: .82 
+
+
+
 
 <CredencialesWidget@StackLayout>:
-    id: credenciales_widget
+    # id: credenciales_widget
     orientation: 'lr-tb'
     padding: '10dp'
     size_hint_y:None
@@ -1167,6 +1164,17 @@
                 background_normal:'data/images/src/but_new.png'
                 background_down:'data/images/src/but_new_down.png'
                 on_release: root.open_CredencialesPopup()
+
+        StackLayout:
+            size_hint_y: None
+            height: '40dp'
+            LabelGeneric:
+                text: 'URL Servicio:'
+                size_hint_x: .16
+            CampoGenericoMedium:
+                id: txt_url
+                hint_text: "url"
+                size_hint_x: .84
 
         GridLayout:
             cols: 2
@@ -1219,7 +1227,7 @@
                 CampoGenericoMedium:
                     id: txt_quadrant
                     disabled: True
-                    size_hint_x: .45                    
+                    size_hint_x: .45
 
             # Fila 3
             StackLayout:
@@ -1248,7 +1256,7 @@
                 size_hint_x: 1
                 orientation: 'lr-tb'
                 # padding:'10dp', '10dp','10dp','10dp'
-                spacing:'15dp'            
+                spacing:'15dp'
                 # CuentaWidget:
                 # CuentaWidget:
                 # CuentaWidget:
@@ -1298,10 +1306,11 @@
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'center'
-        
+
         Button:
             size_hint_x: .3
             text: 'Crear Etiqueta'
+            on_release: app.crear_Etiqueta()
 
 
 ########################### ESTAFETA SCREEN ###########################
@@ -1366,24 +1375,24 @@
             pos: self.pos
             size: self.size
             radius: 10, 10, 10, 10
-    
+
     BoxLayout:
         orientation: 'horizontal'
         size_hint_y: None
-        height: '36dp'   
+        height: '36dp'
         Label:
             id: lbl_clave
             color: 0.404, 0.522, 0.549, 1.0
             size_hint_x: .3
             font_size: '25sp'
-            font_name: 'Lato-Heavy.ttf' 
+            font_name: 'Lato-Heavy.ttf'
 
         Label:
             id: lbl_login
             color: 0.404, 0.522, 0.549, 1.0
             size_hint_x: .4
             font_size: '18sp'
-            font_name: 'Lato-Heavy.ttf' 
+            font_name: 'Lato-Heavy.ttf'
 
         Label:
             id: lbl_date
@@ -1405,10 +1414,10 @@
                 background_normal:'data/images/src/but_edit.png'
                 background_down:'data/images/src/but_edit_down.png'
                 on_release : root.click_BotonEditar()
-                
+
 <EstafetaAddPopup>:
     title: 'Nuevo Usuario de Estafeta'
-    size_hint: (.5, .7)
+    size_hint: (.5, .8)
     GridLayout:
         cols: 1
         BoxLayout:
@@ -1418,6 +1427,16 @@
                 size_hint_x: .2
             CampoGenerico:
                 id: txt_clave
+                focus: True
+                size_hint_x: .8
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "URL"
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_url
                 focus: True
                 size_hint_x: .8
 
@@ -1463,14 +1482,14 @@
                 id: txt_paper_type
                 input_type: 'number'
                 input_filter: 'float'
-                size_hint_x: .8                                
+                size_hint_x: .8
 
         BoxLayout:
             Label:
                 text: 'Principal'
                 size_hint_x: .2
             CheckBox:
-                id: chk_es_principal 
+                id: chk_es_principal
                 text: ''
                 active: False
 
@@ -1485,7 +1504,7 @@
 
 <EstafetaEditPopup>:
     title: 'Editar Usuario de Estafeta'
-    size_hint: (.5, .7)
+    size_hint: (.5, .8)
     GridLayout:
         cols: 1
         BoxLayout:
@@ -1497,6 +1516,16 @@
                 id: txt_clave
                 focus: True
                 disabled: True
+                size_hint_x: .8
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "URL"
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_url
+                focus: True
                 size_hint_x: .8
 
         BoxLayout:
@@ -1541,17 +1570,17 @@
                 id: txt_paper_type
                 input_type: 'number'
                 input_filter: 'float'
-                size_hint_x: .8                                
+                size_hint_x: .8
 
         BoxLayout:
             Label:
                 text: 'Principal'
                 size_hint_x: .2
             CheckBox:
-                id: chk_es_principal 
+                id: chk_es_principal
                 text: ''
                 active: False
-            
+
 
         Space:
         BoxLayout:
@@ -1572,7 +1601,7 @@
             orientation:'vertical'
 
             # MENU
-            Menu:            
+            Menu:
 
             Space:
                 size_hint_y:None
@@ -1581,11 +1610,11 @@
             TopBar:
                 size_hint_y:None
                 padding:'16dp','16dp','16dp','0dp'
-                height:'50dp'   
+                height:'50dp'
 
             Space:
                 size_hint_y:None
-                height:'16dp'                      
+                height:'16dp'
 
             IdeawidgetContainer:
                 id:idea_container
@@ -1605,7 +1634,7 @@
 
             # Space:
             #     size_hint_y:None
-            #     height:'30dp'            
+            #     height:'30dp'
 
 <IdeawidgetContainer@ScrollView>:
     StackLayout:
@@ -1646,7 +1675,7 @@
             size:'48dp', '48dp'
             border:10,10,10,10
             background_normal:'data/images/src/but_new.png'
-            background_down:'data/images/src/but_new_down.png'            
+            background_down:'data/images/src/but_new_down.png'
 
         CusInput:
             # id: inp_cliente
@@ -1677,8 +1706,8 @@
             size_hint_x:.8
             # width: '400dp'
             height: self.minimum_height
-            hint_text: 'Contenido'            
-    
+            hint_text: 'Contenido'
+
         CusInput:
             # id: inp_cliente
             size_hint_y:None
@@ -1717,7 +1746,7 @@
             size_hint_x:1
             # width: '150dp'
             height: self.minimum_height
-            hint_text: 'Informacion Adicional'        
+            hint_text: 'Informacion Adicional'
 
         CusInput:
             # id: inp_cliente
@@ -1749,7 +1778,7 @@
             size_hint_x:1
             # width: '150dp'
             height: self.minimum_height
-            hint_text: 'Valor declarado/ Valor factura'            
+            hint_text: 'Valor declarado/ Valor factura'
 
         CusInput:
             id: inp_cliente
@@ -1763,7 +1792,7 @@
             size_hint:None, None
             # size:'48dp', '48dp'
             height:'48dp'
-            text: 'Buscar'        
+            text: 'Buscar'
             background_normal:'data/images/src/but_turq.png'
             background_down:'data/images/src/but_turq_down.png'
 
@@ -1779,9 +1808,9 @@
             size_hint:None, None
             # size:'48dp', '48dp'
             height:'48dp'
-            text: 'Buscar'        
+            text: 'Buscar'
             background_normal:'data/images/src/but_turq.png'
-            background_down:'data/images/src/but_turq_down.png'            
+            background_down:'data/images/src/but_turq_down.png'
 
         Space:
             size_hint_y:None
@@ -1919,7 +1948,7 @@
         id: inp_empresa
         size_hint_y:None
         height: self.minimum_height
-        hint_text: 'Numero'        
+        hint_text: 'Numero'
 
     Space:
     # SearchBox:
@@ -1930,7 +1959,7 @@
         # size:'96dp', '48dp'
         # text:'Selecciona Factura'
         height:'48dp'
-        text: 'Factura'        
+        text: 'Factura'
         background_normal:'data/images/src/but_turq.png'
         background_down:'data/images/src/but_turq_down.png'
         # on_release:root.dispatch('on_quit_pressed')
@@ -1944,7 +1973,7 @@
     #         size_hint_x: 20
     #     Button:
     #         text: 'Seleccionar Factura'
-    #         size_hint_x: 40 
+    #         size_hint_x: 40
 
 <FieldsContainer@BoxLayout>:
     orientation: 'vertical'
@@ -1960,7 +1989,7 @@
     Button:
         text: 'Facturas'
         size_hint_x: 30
-        # on_release: 
+        # on_release:
 
     Button:
         text: 'Clientes'
@@ -1971,4 +2000,3 @@
         size_hint_x: 30
         on_release: root.goto_Usuario()
         # on_release:root.dispatch('on_Users')
-

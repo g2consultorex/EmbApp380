@@ -17,6 +17,7 @@ from CapaPresentacion.uix.estafetascreen import EstafetaScreen
 from CapaPresentacion.uix.ideascreen import IdeaScreen
 
 from CapaNegocio.gestordb import ModeloUsuario
+from CapaNegocio.estafeta import EstafetaWebService
 
 from CapaPresentacion.idea import IdeaCollection
 
@@ -150,3 +151,19 @@ class SegretoApp(App):
 
     def on_pause(self):
         return True
+
+    def crear_Etiqueta(self):
+
+        # Datos de Coneccion:
+        cfields = self.createlabelscreen.ids['label_container'].ids['credenciales_widget'].ids
+
+        login = cfields['txt_login'].text
+        suscriber_id = cfields['txt_suscriber_id'].text
+        password = cfields['txt_password'].text
+        quadrant = cfields['txt_quadrant'].text
+        tipo_papel = cfields['txt_tipo_papel'].text
+        url = cfields['txt_url'].text
+
+        ws = EstafetaWebService(url)
+        ws.set_Credenciales(login, tipo_papel, password, quadrant, suscriber_id)
+        print ws.create_Label()

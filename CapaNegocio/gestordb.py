@@ -107,13 +107,14 @@ class ModeloEstafetaUser(object):
             pass
 
     @classmethod
-    def add(self, _clave, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal):
+    def add(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal):
 
         try:
 
             estafeta = EstafetaUser()
 
             estafeta.clave = _clave
+            estafeta.url = _url
             estafeta.login = _login
             estafeta.password = _password
             estafeta.quadrant = _quadrant
@@ -127,12 +128,13 @@ class ModeloEstafetaUser(object):
             print str(e)
 
     @classmethod
-    def edit(self, _clave, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal):
+    def edit(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal):
 
         try:
 
             estafeta = EstafetaUser.objects.get(clave=_clave)
             estafeta.login = _login
+            estafeta.url = _url
             estafeta.password = _password
             estafeta.quadrant = _quadrant
             estafeta.suscriber_id = _suscriber_id
@@ -186,7 +188,7 @@ class DireccionOrigen(object):
 
             direccion_complemento = F0116.objects.using(
                 'jde').filter(ALAN8=almacen[0].CIAN8)
-               
+
 
             UDCestado = F0005.objects.using('jde').filter(
                 DRSY__contains='00',DRRT__contains='S',

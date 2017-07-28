@@ -30,6 +30,7 @@ class Log(models.Model):
 class EstafetaUser(models.Model):
 
     clave = models.CharField(max_length=144, unique=True)
+    url = models.CharField(max_length=255)
     login = models.CharField(max_length=144)
     password = models.CharField(max_length=144)
     quadrant = models.IntegerField()

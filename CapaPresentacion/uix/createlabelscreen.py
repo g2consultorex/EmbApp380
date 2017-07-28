@@ -12,6 +12,9 @@ class CreateLabelScreen(Screen):
     def __init__(self, **kwargs):
         super(CreateLabelScreen, self).__init__(**kwargs)
 
+    def crear_Etiqueta(self):
+        print "awebo"
+
 
 class PaqueteWidget(StackLayout):
 
@@ -79,6 +82,7 @@ class CredencialesWidget(StackLayout):
 
         self.clear_Campos()
         self.ids['txt_cuenta'].text = cuenta.clave
+        self.ids['txt_url'].text = cuenta.url
         self.ids['txt_login'].text = cuenta.login
         self.ids['txt_suscriber_id'].text = cuenta.suscriber_id
         self.ids['txt_password'].text = cuenta.password
@@ -87,6 +91,7 @@ class CredencialesWidget(StackLayout):
 
     def clear_Campos(self):
         self.ids['txt_cuenta'].text = ''
+        self.ids['txt_url'].text = ''
         self.ids['txt_login'].text = ''
         self.ids['txt_suscriber_id'].text = ''
         self.ids['txt_password'].text = ''

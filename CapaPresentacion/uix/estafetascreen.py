@@ -55,6 +55,7 @@ class EstafetaAddPopup(Popup):
     def click_CreateButton(self):
 
         clave = self.ids['txt_clave'].text
+        url = self.ids['txt_url'].text
         login = self.ids['txt_login'].text
         password = self.ids['txt_password'].text
         quadrant = self.ids['txt_quadrant'].text
@@ -62,7 +63,7 @@ class EstafetaAddPopup(Popup):
         paper_type = self.ids['txt_paper_type'].text
         es_principal = self.ids['chk_es_principal'].active
 
-        ModeloEstafetaUser.add(clave, login, password, quadrant, suscriber_id, paper_type, es_principal)
+        ModeloEstafetaUser.add(clave, url, login, password, quadrant, suscriber_id, paper_type, es_principal)
 
         self.dismiss()
 
@@ -73,6 +74,7 @@ class EstafetaEditPopup(Popup):
         super(EstafetaEditPopup, self).__init__(**kwargs)
 
         self.ids['txt_clave'].text = _registro.clave
+        self.ids['txt_url'].text = _registro.url
         self.ids['txt_login'].text = _registro.login
         self.ids['txt_password'].text = _registro.password
         self.ids['txt_quadrant'].text = str(_registro.quadrant)
@@ -83,6 +85,7 @@ class EstafetaEditPopup(Popup):
     def click_SaveButton(self):
 
         clave = self.ids['txt_clave'].text
+        url = self.ids['txt_url'].text
         login = self.ids['txt_login'].text
         password = self.ids['txt_password'].text
         quadrant = self.ids['txt_quadrant'].text
@@ -90,6 +93,6 @@ class EstafetaEditPopup(Popup):
         paper_type = self.ids['txt_paper_type'].text
         es_principal = self.ids['chk_es_principal'].active
 
-        ModeloEstafetaUser.edit(clave, login, password, quadrant, suscriber_id, paper_type, es_principal)
+        ModeloEstafetaUser.edit(clave, url, login, password, quadrant, suscriber_id, paper_type, es_principal)
 
         self.dismiss()
