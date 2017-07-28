@@ -27,6 +27,9 @@ from jde.models import F42119
 from jde.models import F41001
 from jde.models import F0116
 from jde.models import F0005
+from jde.models import F0115
+from jde.models import F01151
+from jde.models import F0111
 
 
 class ModeloUsuario(object):
@@ -218,6 +221,18 @@ class DireccionDestino(object):
 
             direccionDest_complemento = F0116.objects.using(
                     'jde').filter(ALAN8=factura[0].SDSHAN)
+
+            direccionDest_Tel = F0115.objects.using('jde').filter(
+                    WPAN8=factura[0].SDSHAN)
+
+            direccionDest_Correo = F01151.objects.using('jde').
+                    filter(EAAN8=factura[0].SDSHAN,
+                        EAETP__contains='E',EAEHIER=0,
+                        EAECLASS__contains='ASN')
+
+            direccionDest_Resp = F0111.objects.using('jde').filter(
+                        WWAN8=factura[0].SDSHAN)
+
 
 
             return direccionDest, direccionDest_complemento
