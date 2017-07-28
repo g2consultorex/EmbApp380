@@ -24,6 +24,7 @@ class EstafetaWebService:
                             <ns0:createLabel>
                                 <in0 xsi:type="ns4:EstafetaLabelRequest">
                                 %s
+                                %s
                                 </in0>
                             </ns0:createLabel>
                        </ns1:Body>
@@ -39,37 +40,47 @@ class EstafetaWebService:
 
         return cabecera
 
-    def set_Servicio(self):
+    def set_Servicio(self, _cliente_no, _dir_origen,
+                     _dir_destino, _dir_alterna, _numero_etiquetas,
+                     _oficina_numero, _informacion_adicional,
+                     _contenido, _descripcion_contenido,
+                     _centro_costo, _entregar_en_estafeta,
+                     _pais_destino, _cp_destino, _tipo_empaque,
+                     _referencia, _documento_retorno,
+                     _tipo_servicio, _peso):
 
         modulo = """<customerNumber xsi:type="ns2:string">%s</customerNumber>
-                        <labelDescriptionList xsi:type="ns4:LabelDescriptionList">
-                            <effectiveDate xsi:type="ns2:string" xsi:nil="true"/>
-                            %s
-                            <numberOfLabels xsi:type="ns2:int">%s</numberOfLabels>
-                            <officeNum xsi:type="ns2:string">%s</officeNum>
+                    <labelDescriptionList xsi:type="ns4:LabelDescriptionList">
+                        <effectiveDate xsi:type="ns2:string" xsi:nil="true"/>
+                        %s
+                        %s
+                        %s
+                        <numberOfLabels xsi:type="ns2:int">%s</numberOfLabels>
+                        <officeNum xsi:type="ns2:string">%s</officeNum>
 
-                            <aditionalInfo xsi:type="ns2:string">%s</aditionalInfo>
-                            <content xsi:type="ns2:string">%s</content>
-                            <contentDescription xsi:type="ns2:string">%s</contentDescription>
-                            <costCenter xsi:type="ns2:string">%s</costCenter>
-                            <deliveryToEstafetaOffice xsi:type="ns2:boolean">%s</deliveryToEstafetaOffice>
-                            <destinationCountryId xsi:type="ns2:string">%s</destinationCountryId>
-                            <originZipCodeForRouting xsi:type="ns2:string">%s</originZipCodeForRouting>
-                            <parcelTypeId xsi:type="ns2:int">%s</parcelTypeId>
-                            <reference xsi:type="ns2:string">%s</reference>
-                            <returnDocument xsi:type="ns2:boolean">%s</returnDocument>
-                            <serviceTypeId xsi:type="ns2:string">%s</serviceTypeId>
-                            <serviceTypeIdDocRet xsi:type="ns2:string" xsi:nil="true"/>
-                            <valid xsi:type="ns2:boolean">true</valid>
-                            <weight xsi:type="ns2:float">%s</weight>
+                        <aditionalInfo xsi:type="ns2:string">%s</aditionalInfo>
+                        <content xsi:type="ns2:string">%s</content>
+                        <contentDescription xsi:type="ns2:string">%s</contentDescription>
+                        <costCenter xsi:type="ns2:string">%s</costCenter>
+                        <deliveryToEstafetaOffice xsi:type="ns2:boolean">%s</deliveryToEstafetaOffice>
+                        <destinationCountryId xsi:type="ns2:string">%s</destinationCountryId>
+                        <originZipCodeForRouting xsi:type="ns2:string">%s</originZipCodeForRouting>
+                        <parcelTypeId xsi:type="ns2:int">%s</parcelTypeId>
+                        <reference xsi:type="ns2:string">%s</reference>
+                        <returnDocument xsi:type="ns2:boolean">%s</returnDocument>
+                        <serviceTypeId xsi:type="ns2:string">%s</serviceTypeId>
+                        <serviceTypeIdDocRet xsi:type="ns2:string" xsi:nil="true"/>
+                        <valid xsi:type="ns2:boolean">true</valid>
+                        <weight xsi:type="ns2:float">%s</weight>
 
-                        </labelDescriptionList>
-                        <labelDescriptionListCount xsi:type="ns2:int">1</labelDescriptionListCount>"""
-
+                    </labelDescriptionList>
+                    <labelDescriptionListCount xsi:type="ns2:int">1</labelDescriptionListCount>"""
 
         self.modulo_servicio = modulo % (
             _cliente_no,
-            "", # Aqui van las direcciones origen y destino
+            _dir_origen,
+            _dir_destino,
+            _dir_alterna,
             _numero_etiquetas,
             _oficina_numero,
             _informacion_adicional,
@@ -78,14 +89,13 @@ class EstafetaWebService:
             _centro_costo,
             _entregar_en_estafeta,
             _pais_destino,
-            "", # codigo postal destino
-            "", # Tipo, paquete o sobre
+            _cp_destino,
+            _tipo_empaque,
             _referencia,
             _documento_retorno,
             _tipo_servicio,
-            "" # Peso
+            _peso
         )
-
 
     def set_Credenciales(self, _login, _paper_type, _password, _quadrant, _suscribeid):
 
@@ -176,6 +186,6 @@ class EstafetaWebService:
 
     def create_Label(self):
         base = self.get_Base_CreateLabel()
-        body = base % (self.modulo_credenciales)
+        body = base % (self.modulo_servicio, self.modulo_credenciales)
 
         return body

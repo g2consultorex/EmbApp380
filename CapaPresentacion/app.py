@@ -154,16 +154,56 @@ class SegretoApp(App):
 
     def crear_Etiqueta(self):
 
-        # Datos de Coneccion:
-        cfields = self.createlabelscreen.ids['label_container'].ids['credenciales_widget'].ids
+        # Datos de Servicio:
+        service_fields = self.createlabelscreen.ids['label_container'].ids['servicio_widget'].ids
 
-        login = cfields['txt_login'].text
-        suscriber_id = cfields['txt_suscriber_id'].text
-        password = cfields['txt_password'].text
-        quadrant = cfields['txt_quadrant'].text
-        tipo_papel = cfields['txt_tipo_papel'].text
-        url = cfields['txt_url'].text
+        num_cliente = service_fields['txt_num_cliente'].text
+        servicetypeid = service_fields['txt_servicetypeid'].text
+        number_labels = str(service_fields['txt_number_labels'].text)
+        office_num = service_fields['txt_office_num'].text
+        contentdescription = service_fields['txt_contentdescription'].text
+        aditionalinfo = service_fields['txt_aditionalinfo'].text
+        costcenter = service_fields['txt_costcenter'].text
+        content = service_fields['txt_content'].text
+        # kilos = service_fields['txt_kilos'].text
+        destino_countryid = service_fields['txt_destino_countryid'].text
+        reference = service_fields['txt_reference'].text
+
+        deliverytoestafetaoffice = str(service_fields['chk_deliverytoestafetaoffice'].active)
+        returndocument = str(service_fields['chk_returndocument'].active)
+
+        # Datos de Conexion:
+        credentials_fields = self.createlabelscreen.ids['label_container'].ids['credenciales_widget'].ids
+
+        login = credentials_fields['txt_login'].text
+        suscriber_id = credentials_fields['txt_suscriber_id'].text
+        password = credentials_fields['txt_password'].text
+        quadrant = credentials_fields['txt_quadrant'].text
+        tipo_papel = credentials_fields['txt_tipo_papel'].text
+        url = credentials_fields['txt_url'].text
 
         ws = EstafetaWebService(url)
+
+        ws.set_Servicio(
+            num_cliente,
+            "",
+            "",
+            "",
+            number_labels,
+            office_num,
+            aditionalinfo,
+            content,
+            contentdescription,
+            costcenter,
+            deliverytoestafetaoffice,
+            destino_countryid,
+            "",
+            "",
+            reference,
+            returndocument,
+            servicetypeid,
+            ""
+        )
         ws.set_Credenciales(login, tipo_papel, password, quadrant, suscriber_id)
+
         print ws.create_Label()

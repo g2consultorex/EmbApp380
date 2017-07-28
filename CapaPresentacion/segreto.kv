@@ -457,6 +457,7 @@
         padding:'10dp', '10dp','10dp','10dp'
         spacing:'15dp'
         ServicioWidget:
+            id: servicio_widget
         PaqueteWidget:
         OrigenWidget:
         DestinoWidget:
@@ -465,11 +466,10 @@
         ControlWidget:
 
 <ServicioWidget@StackLayout>:
-    id: servicio_widget
     orientation: 'lr-tb'
     padding: '10dp'
     size_hint_y:None
-    height: '400dp'
+    height: '470dp'
     canvas:
         Color:
             rgba: 0.925, 0.941, 0.937, 1.0
@@ -503,6 +503,7 @@
                 CampoGenericoMedium:
                     id: txt_num_cliente
                     size_hint_x: .75
+                    text: "0000000"
 
             StackLayout:
                 size_hint_y: None
@@ -513,6 +514,7 @@
                 CampoGenericoMedium:
                     id: txt_servicetypeid
                     size_hint_x: .75
+                    text: "70"
 
             # Fila 2
             StackLayout:
@@ -526,6 +528,7 @@
                     size_hint_x: .74
                     input_type: 'number'
                     input_filter: 'int'
+                    text: "1"
 
             StackLayout:
                 size_hint_y: None
@@ -536,6 +539,7 @@
                 CampoGenericoMedium:
                     id: txt_office_num
                     size_hint_x: .70
+                    text: "130"
 
             # Fila 3
             StackLayout:
@@ -545,6 +549,7 @@
                     id: txt_contentdescription
                     hint_text: 'Descripcion del contenido'
                     size_hint_x: 1
+                    text: "ORO"
 
             StackLayout:
                 size_hint_y: None
@@ -553,6 +558,7 @@
                     id: txt_aditionalinfo
                     hint_text: 'Informacion adicional'
                     size_hint_x: 1
+                    text: "OPERACION"
 
             # Fila 4
             StackLayout:
@@ -562,6 +568,7 @@
                     id: txt_costcenter
                     hint_text: 'Centros de Costos'
                     size_hint_x: 1
+                    text: "12345"
 
             StackLayout:
                 size_hint_y: None
@@ -570,6 +577,7 @@
                     id: txt_content
                     hint_text: 'Contenido'
                     size_hint_x: 1
+                    text: "JOYAS"
 
             # File 5
             StackLayout:
@@ -593,6 +601,7 @@
                 CheckBox:
                     id: chk_deliverytoestafetaoffice
                     size_hint_x: .45
+                    active: False
 
             # File 6
             StackLayout:
@@ -604,6 +613,7 @@
                 CheckBox:
                     id: chk_returndocument
                     size_hint_x: .45
+                    active: False
 
             StackLayout:
                 size_hint_y: None
@@ -614,6 +624,7 @@
                 CampoGenericoMedium:
                     id: txt_servicetypeiddocret
                     size_hint_x: .45
+                    text: ""
 
             # File 7
             StackLayout:
@@ -621,10 +632,11 @@
                 height: '40dp'
                 LabelGeneric:
                     text: 'Pais Destino:'
-                    size_hint_x: .18
+                    size_hint_x: .19
                 CampoGenericoMedium:
-                    id: txt_destino_countriid
-                    size_hint_x: .82
+                    id: txt_destino_countryid
+                    size_hint_x: .42
+                    text: "MX"
 
             StackLayout:
                 size_hint_y: None
@@ -634,8 +646,8 @@
                     size_hint_x: .18
                 CampoGenericoMedium:
                     id: txt_reference
+                    text: "FRENTE AL SONBORNS"
                     size_hint_x: .82
-
 
 <PaqueteWidget@StackLayout>:
     id: paquete_widget
@@ -678,6 +690,7 @@
                     input_type: 'number'
                     input_filter: 'float'
                     size_hint_x: .45
+                    text: "5.0"
 
             StackLayout:
                 size_hint_y: None
@@ -700,7 +713,10 @@
                     size_hint_x: .29
                 CampoGenericoMedium:
                     id: txt_parcelTypeId
+                    input_type: 'number'
+                    input_filter: 'int'
                     size_hint_x: .40
+                    text: "1"
                 Button:
                     size_hint:None, None
                     size:'40dp', '40dp'
@@ -956,7 +972,7 @@
     orientation: 'lr-tb'
     padding: '10dp'
     size_hint_y:None
-    height: '520dp'
+    height: '470dp'
     canvas:
         Color:
             rgba: 0.925, 0.941, 0.937, 1.0
@@ -1117,18 +1133,12 @@
                     id: txt_destino_zipcode
                     size_hint_x: .82
 
-
-
-
-
-
-
 <CredencialesWidget@StackLayout>:
     # id: credenciales_widget
     orientation: 'lr-tb'
     padding: '10dp'
     size_hint_y:None
-    height: '320dp'
+    height: '360dp'
     canvas:
         Color:
             rgba: 0.925, 0.941, 0.937, 1.0
@@ -1139,7 +1149,7 @@
 
     BoxLayout:
         orientation: 'vertical'
-        spacing: '2dp'
+        spacing: '12dp'
         Label:
             size_hint_y: None
             height: '40dp'
@@ -1204,7 +1214,6 @@
                     id: txt_suscriber_id
                     disabled: True
                     size_hint_x: .45
-
 
             # Fila 2
             StackLayout:
