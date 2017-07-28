@@ -254,13 +254,14 @@ class F0111(models.Model):
 class F01151(models.Model):
 	EAAN8=models.IntegerField(primary_key=True)
 	EAEMAL=models.CharField(max_length=256)     # ojo NVARCHAR(256)
+	EAETP=models.CharField(max_length=4)
+	EAEHIER=models.IntegerField()
+	EAECLASS=models.CharField(max_length=3)
+
 	class Meta:
 		managed = False
 		db_table = u'"CRPDTA"."F01151"'
 	def __unicode__(self):
 		return str(self.EAAN8)
-
-
-
 
 
