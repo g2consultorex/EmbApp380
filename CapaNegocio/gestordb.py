@@ -110,7 +110,7 @@ class ModeloEstafetaUser(object):
             pass
 
     @classmethod
-    def add(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal):
+    def add(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal, _customer_number):
 
         try:
             estafeta = EstafetaUser()
@@ -123,6 +123,7 @@ class ModeloEstafetaUser(object):
             estafeta.suscriber_id = _suscriber_id
             estafeta.paper_type = _paper_type
             estafeta.es_principal = _es_principal
+            estafeta.customer_number = _customer_number
 
             estafeta.save()
 
@@ -130,7 +131,7 @@ class ModeloEstafetaUser(object):
             print str(e)
 
     @classmethod
-    def edit(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal):
+    def edit(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal, _customer_number):
 
         try:
 
@@ -142,6 +143,7 @@ class ModeloEstafetaUser(object):
             estafeta.suscriber_id = _suscriber_id
             estafeta.paper_type = _paper_type
             estafeta.es_principal = _es_principal
+            estafeta.customer_number = _customer_number
 
             estafeta.save()
 

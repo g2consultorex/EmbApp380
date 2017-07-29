@@ -36,6 +36,7 @@ class EstafetaUser(models.Model):
     quadrant = models.IntegerField()
     suscriber_id = models.CharField(max_length=144)
     paper_type = models.IntegerField()
+    customer_number = models.CharField(max_length=144, null=True)
     es_principal = models.BooleanField(default=False)
 
     created_date = models.DateTimeField(auto_now=False, auto_now_add=True)
