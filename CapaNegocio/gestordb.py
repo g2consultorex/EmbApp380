@@ -195,7 +195,6 @@ class DireccionOrigen(object):
         datos['zipcode'] = ""
         datos['state'] = ""
 
-
         try:
             factura = F4211.objects.using('jde').filter(
                 SDDOC=_numero,

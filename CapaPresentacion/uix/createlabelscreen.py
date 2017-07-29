@@ -26,6 +26,11 @@ class CreateLabelScreen(Screen):
         factura_numero = str(self.ids['txt_factura_numero'].text)
         factura_tipo = self.ids['txt_factura_tipo'].text
 
+        self.clear_DireccionOrigen()
+        self.clear_DireccionDestino()
+        self.clear_Servicio()
+        self.clear_Paquete()
+
         # fact = Factura.get(543, 'RI')
 
         if factura_numero != "" and factura_tipo != "":
@@ -35,12 +40,6 @@ class CreateLabelScreen(Screen):
                 factura_numero,
                 factura_tipo
             )
-
-            self.clear_DireccionOrigen()
-            self.clear_DireccionDestino()
-            self.clear_Servicio()
-            self.clear_Paquete()
-
 
             bandera, dir_origen = DireccionOrigen.get(factura_numero, factura_tipo)
 
@@ -53,7 +52,7 @@ class CreateLabelScreen(Screen):
 
             if bandera:
                 self.fill_DireccionDestino(dir_destino)
-                
+
                 servicio['destino_countryid'] = dir_destino['Country']
                 self.fill_Servicio(servicio)
 
