@@ -28,7 +28,7 @@ from jde.models import F41001
 from jde.models import F0116
 from jde.models import F0005
 from jde.models import F0115
-from jde.models import F01151
+# from jde.models import F01151
 from jde.models import F0111
 
 
@@ -168,8 +168,11 @@ class Factura(object):
 
             return factura
 
-        except Exception as e:
-            return []
+        except Exception as error:
+            value = {
+                'mensaje': str(error)
+            }
+            return False, value
 
 
 class DireccionOrigen(object):
@@ -321,12 +324,12 @@ class DireccionDestino(object):
                 WPPHTP__contains='CAR'
             )
 
-            direccionDest_Correo = F01151.objects.using('jde').filter(
-                EAAN8=factura[0].SDSHAN,
-                EAETP__contains='E',
-                EAEHIER=0,
-                EAECLASS__contains='ASN'
-            )
+            # direccionDest_Correo = F01151.objects.using('jde').filter(
+            #     EAAN8=factura[0].SDSHAN,
+            #     EAETP__contains='E',
+            #     EAEHIER=0,
+            #     EAECLASS__contains='ASN'
+            # )
 
             direccionDest_Resp = F0111.objects.using('jde').filter(
                 WWAN8=factura[0].SDSHAN
