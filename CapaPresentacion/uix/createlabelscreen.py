@@ -29,6 +29,8 @@ class CreateLabelScreen(Screen):
 
         # fact = Factura.get(factura_numero, factura_tipo)
         # fact = Factura.get(543, 'RI')
+
+
         if factura_numero != "" and factura_tipo != "":
 
             self.clear_DireccionOrigen()
@@ -53,13 +55,13 @@ class CreateLabelScreen(Screen):
         data = self.ids['label_container'].ids['origen_widget']
         data.ids['txt_origen_address1'].text = _data["address1"]
         data.ids['txt_origen_address2'].text = _data["address2"]
-        data.ids['txt_origen_cellphone'].text = ""
+        data.ids['txt_origen_cellphone'].text = _data["cellphone"]
         data.ids['txt_origen_city'].text = _data['city']
-        data.ids['txt_origen_contactname'].text = ""
+        data.ids['txt_origen_contactname'].text = _data["contactname"]
         data.ids['txt_origen_corporatename'].text = _data["corporatename"]
         data.ids['txt_origen_customernumber'].text = "000000"
         data.ids['txt_origen_neighborhood'].text = _data['neighborhood']
-        data.ids['txt_origen_phonenumber'].text = ""
+        data.ids['txt_origen_phonenumber'].text = _data["phonenumber"]
         data.ids['txt_origen_state'].text = _data['state']
         data.ids['txt_origen_zipcode'].text = _data['zipcode']
 
@@ -81,13 +83,13 @@ class CreateLabelScreen(Screen):
         data = self.ids['label_container'].ids['destino_widget']
         data.ids['txt_destino_address1'].text = _data["address1"]
         data.ids['txt_destino_address2'].text = _data["address2"]
-        data.ids['txt_destino_cellphone'].text = ""
+        data.ids['txt_destino_cellphone'].text = _data["cellphone"]
         data.ids['txt_destino_city'].text = _data['city']
-        data.ids['txt_destino_contactname'].text = _data['contactname']
+        data.ids['txt_destino_contactname'].text = _data["contactname"]
         data.ids['txt_destino_corporatename'].text = _data["corporatename"]
         data.ids['txt_destino_customernumber'].text = "000000"
         data.ids['txt_destino_neighborhood'].text = _data['neighborhood']
-        data.ids['txt_destino_phonenumber'].text = _data['phonenumber']
+        data.ids['txt_destino_phonenumber'].text = _data["phonenumber"]
         data.ids['txt_destino_state'].text = _data['state']
         data.ids['txt_destino_zipcode'].text = _data['zipcode']
 

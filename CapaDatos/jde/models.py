@@ -235,6 +235,7 @@ class F0115(models.Model):
 	WPAN8=models.IntegerField(primary_key=True)
 	WPAR1=models.CharField(max_length=6)
 	WPPH1=models.CharField(max_length=20)
+	WPPHTP=models.CharField(max_length=4)
 	class Meta:
  		managed = False
  		db_table = u'"CRPDTA"."F0115"'

@@ -207,6 +207,17 @@ class DireccionOrigen(object):
             dir_complemento = F0116.objects.using(
                 'jde').filter(ALAN8=almacen[0].CIAN8)
 
+            direccion_Tel = F0115.objects.using('jde').filter(
+                    WPAN8=almacen[0].CIAN8)
+
+            direccion_Cel = F0115.objects.using('jde').filter(
+                    WPAN8=almacen[0].CIAN8, 
+                    WPPHTP__contains='CAR')
+
+            direccion_Resp = F0111.objects.using('jde').filter(
+                WWAN8=almacen[0].CIAN8
+            )
+
             UDCestado = F0005.objects.using('jde').filter(
                 DRSY__contains='00',
                 DRRT__contains='S',
@@ -215,22 +226,31 @@ class DireccionOrigen(object):
 
             if len(factura) > 0:
 
-                datos['corporatename'] = factura[0].SDKCOO
-
                 if len(dir_complemento) > 0:
-
+                    datos['corporatename'] = "%s %s" % (direccion[0].ABALPH, dir_complemento[0].ALADD1) 
                     datos["address1"] = dir_complemento[0].ALADD2
                     datos["address2"] = dir_complemento[0].ALADD3
                     # datos['cellphone'] = dir_complemento[0]  <--- Falta sacarlo de algun lado
                     datos['city'] = dir_complemento[0].ALCTY1
-                    # datos['contactname'] = dir_complemento[0]
-                    # datos['customernumber'] = dir_complemento[0]
+                    # datos['customernumber'] = dir_complemento[0] <-- Usuario Estafeta
                     datos['neighborhood'] = dir_complemento[0].ALADD4
-                    # datos['phonenumber'] = dir_complemento[0]
                     datos['zipcode'] = dir_complemento[0].ALADDZ
-                    datos['state'] = dir_complemento[0].ALADDS
-                    # if len(UDCestado) > 0:
-                    #     datos['state'] = "%s %s" % (UDCestado[0].DRDL01, )
+
+                    if len(UDCestado) > 0:
+                        datos['state'] = "%s %s" % (UDCestado[0].DRDL01, UDCestado[0].DRDL02)
+
+                    if len(direccion_Tel) > 0:
+                        datos['phonenumber'] = "%s %s" % (
+                            direccion_Tel[0].WPAR1,
+                            direccion_Tel[0].WPPH1
+                        )
+                    if len(direccion_Resp) > 0:
+                        datos['contactname'] = direccion_Resp[0].WWALPH
+
+                    if len(direccion_Cel) > 0:
+                        datos['cellphone'] = "%s %s" % (
+                        direccion_Cel[0].WPAR1,
+                        direccion_Cel[0].WPPH1)
 
             return True, datos
 
@@ -255,6 +275,7 @@ class DireccionDestino(object):
         datos['phonenumber'] = ""
         datos['zipcode'] = ""
         datos['state'] = ""
+        datos['Country']=""
 
         try:
             factura = F4211.objects.using('jde').filter(
@@ -269,11 +290,15 @@ class DireccionDestino(object):
             direccionDest = F0101.objects.using('jde').filter(
                     ABAN8=factura[0].SDSHAN)
 
-            dir_complemento = F0116.objects.using(
+            dir_complementoDestino = F0116.objects.using(
                     'jde').filter(ALAN8=factura[0].SDSHAN)
 
             direccionDest_Tel = F0115.objects.using('jde').filter(
                     WPAN8=factura[0].SDSHAN)
+
+            direccionDest_Cel = F0115.objects.using('jde').filter(
+                    WPAN8=factura[0].SDSHAN, 
+                    WPPHTP__contains='CAR')
 
             direccionDest_Correo = F01151.objects.using('jde').filter(
                 EAAN8=factura[0].SDSHAN,
@@ -286,32 +311,46 @@ class DireccionDestino(object):
                 WWAN8=factura[0].SDSHAN
             )
 
+            UDCestadoDest = F0005.objects.using('jde').filter(
+                DRSY__contains='00',
+                DRRT__contains='S',
+                DRKY__contains=dir_complementoDestino[0].ALADDS
+            )
+
             if len(factura) > 0:
 
-                datos['corporatename'] = factura[0].SDKCOO
+                
+                datos['customernumber'] = factura[0].SDSHAN
 
-                if len(dir_complemento) > 0:
+                if len(dir_complementoDestino) > 0:
+                    datos['corporatename'] = "%s %s" % (direccionDest[0].ABALPH, dir_complementoDestino[0].ALADD1) 
+                    datos["address1"] = dir_complementoDestino[0].ALADD2
+                    datos["address2"] = dir_complementoDestino[0].ALADD3
+                    datos['city'] = dir_complementoDestino[0].ALCTY1
 
-                    datos["address1"] = dir_complemento[0].ALADD2
-                    datos["address2"] = dir_complemento[0].ALADD3
-                    # datos['cellphone'] = dir_complemento[0]  <--- Falta sacarlo de algun lado
-                    datos['city'] = dir_complemento[0].ALCTY1
+                    
+                    datos['neighborhood'] = dir_complementoDestino[0].ALADD4
 
-                    # datos['customernumber'] = dir_complemento[0]
-                    datos['neighborhood'] = dir_complemento[0].ALADD4
+                    datos['zipcode'] = dir_complementoDestino[0].ALADDZ
+                    datos['Country']=dir_complementoDestino[0].ALCTR
 
-                    datos['zipcode'] = dir_complemento[0].ALADDZ
-                    datos['state'] = dir_complemento[0].ALADDS
-                    # if len(UDCestado) > 0:
-                    #     datos['state'] = "%s %s" % (UDCestado[0].DRDL01,)
+                    if len(UDCestadoDest) > 0:
+                        datos['state'] = "%s %s" % (UDCestadoDest[0].DRDL01, UDCestadoDest[0].DRDL02)
+
                     if len(direccionDest_Tel) > 0:
                         datos['phonenumber'] = "%s %s" % (
-                            direccionDest_Tel[0].WWMLMN,
-                            direccionDest_Tel[0].WWALPH
+                            direccionDest_Tel[0].WPAR1,
+                            direccionDest_Tel[0].WPPH1
                         )
 
                     if len(direccionDest_Resp) > 0:
                         datos['contactname'] = direccionDest_Resp[0].WWALPH
+                    
+                    if len(direccionDest_Cel) > 0:
+                        datos['cellphone'] = "%s %s" % (
+                        direccionDest_Cel[0].WPAR1,
+                        direccionDest_Cel[0].WPPH1)
+
 
             return True, datos
 
