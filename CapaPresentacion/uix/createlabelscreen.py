@@ -27,10 +27,15 @@ class CreateLabelScreen(Screen):
         factura_numero = str(self.ids['txt_factura_numero'].text)
         factura_tipo = self.ids['txt_factura_tipo'].text
 
-        # fact = Factura.get(factura_numero, factura_tipo)
         # fact = Factura.get(543, 'RI')
 
         if factura_numero != "" and factura_tipo != "":
+
+            servicio = {}
+            servicio['aditionalinfo'] = "%s %s" % (
+                factura_numero,
+                factura_tipo
+            )
 
             self.clear_DireccionOrigen()
             self.clear_DireccionDestino()
@@ -46,6 +51,9 @@ class CreateLabelScreen(Screen):
 
             if bandera:
                 self.fill_DireccionDestino(dir_destino)
+                servicio['destino_countryid'] = dir_destino['Country']
+
+                self.fill_Servicio(servicio)
 
         else:
             self.failure("Falto especificar Factura")
@@ -86,7 +94,7 @@ class CreateLabelScreen(Screen):
         data.ids['txt_destino_city'].text = _data['city']
         data.ids['txt_destino_contactname'].text = _data["contactname"]
         data.ids['txt_destino_corporatename'].text = _data["corporatename"]
-        data.ids['txt_destino_customernumber'].text = "000000"
+        data.ids['txt_destino_customernumber'].text = _datos['customernumber']
         data.ids['txt_destino_neighborhood'].text = _data['neighborhood']
         data.ids['txt_destino_phonenumber'].text = _data["phonenumber"]
         data.ids['txt_destino_state'].text = _data['state']
@@ -111,14 +119,14 @@ class CreateLabelScreen(Screen):
         data.ids['txt_num_cliente'].text = ""
         data.ids['txt_servicetypeid'].text = "70"
         data.ids['txt_number_labels'].text = "1"
-        data.ids['txt_office_num'].text = "130"
+        # data.ids['txt_office_num'].text = "130"
         data.ids['txt_contentdescription'].text = ""
-        data.ids['txt_aditionalinfo'].text = ""
+        data.ids['txt_aditionalinfo'].text = _data['aditionalinfo']
         data.ids['txt_costcenter'].text = ""
         data.ids['txt_content'].text = ""
         data.ids['txt_kilos'].text = ""
         data.ids['txt_servicetypeiddocret'].text = ""
-        data.ids['txt_destino_countryid'].text = ""
+        data.ids['txt_destino_countryid'].text = _data['destino_countryid']
         data.ids['txt_reference'].text = ""
 
     def clear_Servicio(self):
@@ -126,7 +134,7 @@ class CreateLabelScreen(Screen):
         data.ids['txt_num_cliente'].text = ""
         data.ids['txt_servicetypeid'].text = "70"
         data.ids['txt_number_labels'].text = "1"
-        data.ids['txt_office_num'].text = "130"
+        data.ids['txt_office_num'].text = ""
         data.ids['txt_contentdescription'].text = ""
         data.ids['txt_aditionalinfo'].text = ""
         data.ids['txt_costcenter'].text = ""
