@@ -62,8 +62,9 @@ class EstafetaAddPopup(Popup):
         suscriber_id = self.ids['txt_suscriber_id'].text
         paper_type = self.ids['txt_paper_type'].text
         es_principal = self.ids['chk_es_principal'].active
+        cliente_numero = self.ids['txt_customernumber'].text
 
-        ModeloEstafetaUser.add(clave, url, login, password, quadrant, suscriber_id, paper_type, es_principal)
+        ModeloEstafetaUser.add(clave, url, login, password, quadrant, suscriber_id, paper_type, es_principal, cliente_numero)
 
         self.dismiss()
 
@@ -81,6 +82,7 @@ class EstafetaEditPopup(Popup):
         self.ids['txt_suscriber_id'].text = _registro.suscriber_id
         self.ids['txt_paper_type'].text = str(_registro.paper_type)
         self.ids['chk_es_principal'].active = _registro.es_principal
+        self.ids['txt_customernumber'].text = str(_registro.customer_number)
 
     def click_SaveButton(self):
 
@@ -92,7 +94,8 @@ class EstafetaEditPopup(Popup):
         suscriber_id = self.ids['txt_suscriber_id'].text
         paper_type = self.ids['txt_paper_type'].text
         es_principal = self.ids['chk_es_principal'].active
+        cliente_numero = self.ids['txt_customernumber'].text
 
-        ModeloEstafetaUser.edit(clave, url, login, password, quadrant, suscriber_id, paper_type, es_principal)
+        ModeloEstafetaUser.edit(clave, url, login, password, quadrant, suscriber_id, paper_type, es_principal, cliente_numero)
 
         self.dismiss()

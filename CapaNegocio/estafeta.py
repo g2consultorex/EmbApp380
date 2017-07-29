@@ -226,6 +226,7 @@ class EstafetaWebService:
         body = base % (self.modulo_servicio, self.modulo_credenciales)
 
         try:
+            print body
             response = requests.post(self.url, data=body, headers=self.get_CreateLabel_Header(), verify=False)
 
             return response.content

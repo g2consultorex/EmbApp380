@@ -505,16 +505,6 @@
             spacing: 40, 16
 
             # Fila 1
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'No. de Cliente:'
-                    size_hint_x: .25
-                CampoGenericoMedium:
-                    id: txt_num_cliente
-                    size_hint_x: .75
-                    text: "0000000"
 
             StackLayout:
                 size_hint_y: None
@@ -527,7 +517,6 @@
                     size_hint_x: .75
                     text: "70"
 
-            # Fila 2
             StackLayout:
                 size_hint_y: None
                 height: '40dp'
@@ -540,6 +529,18 @@
                     input_type: 'number'
                     input_filter: 'int'
                     text: "1"
+
+            # Fila 2
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Entregar en Estafeta:'
+                    size_hint_x: .45
+                CheckBox:
+                    id: chk_deliverytoestafetaoffice
+                    size_hint_x: .45
+                    active: False
 
             StackLayout:
                 size_hint_y: None
@@ -557,11 +558,21 @@
                 size_hint_y: None
                 height: '40dp'
                 CampoGenericoMedium:
+                    id: txt_content
+                    hint_text: 'Contenido'
+                    size_hint_x: 1
+                    text: "JOYAS"
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                CampoGenericoMedium:
                     id: txt_contentdescription
                     hint_text: 'Descripcion del contenido'
                     size_hint_x: 1
                     text: "ORO"
 
+            # Fila 4
             StackLayout:
                 size_hint_y: None
                 height: '40dp'
@@ -571,7 +582,6 @@
                     size_hint_x: 1
                     text: "OPERACION"
 
-            # Fila 4
             StackLayout:
                 size_hint_y: None
                 height: '40dp'
@@ -581,40 +591,7 @@
                     size_hint_x: 1
                     text: "12345"
 
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                CampoGenericoMedium:
-                    id: txt_content
-                    hint_text: 'Contenido'
-                    size_hint_x: 1
-                    text: "JOYAS"
-
             # File 5
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Valor declarado/Valor factura:'
-                    size_hint_x: .45
-                CampoGenericoMedium:
-                    id: txt_kilos
-                    input_type: 'number'
-                    input_filter: 'float'
-                    size_hint_x: .45
-
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Entregar en Estafeta:'
-                    size_hint_x: .45
-                CheckBox:
-                    id: chk_deliverytoestafetaoffice
-                    size_hint_x: .45
-                    active: False
-
-            # File 6
             StackLayout:
                 size_hint_y: None
                 height: '40dp'
@@ -637,7 +614,7 @@
                     size_hint_x: .45
                     text: ""
 
-            # File 7
+            # File 6
             StackLayout:
                 size_hint_y: None
                 height: '40dp'
@@ -659,6 +636,19 @@
                     id: txt_reference
                     text: "FRENTE AL SONBORNS"
                     size_hint_x: .82
+
+            # File 7
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Valor declarado/Valor factura:'
+                    size_hint_x: .45
+                CampoGenericoMedium:
+                    id: txt_kilos
+                    input_type: 'number'
+                    input_filter: 'float'
+                    size_hint_x: .45
 
 <PaqueteWidget@StackLayout>:
     orientation: 'lr-tb'
@@ -815,7 +805,7 @@
     orientation: 'lr-tb'
     padding: '10dp'
     size_hint_y:None
-    height: '470dp'
+    height: '400dp'
     canvas:
         Color:
             rgba: 0.925, 0.941, 0.937, 1.0
@@ -913,17 +903,6 @@
                 size_hint_y: None
                 height: '40dp'
                 LabelGeneric:
-                    text: 'Cliente:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_origen_customernumber
-                    size_hint_x: .82
-                    text: "0000000"
-
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
                     text: 'Colonia:'
                     size_hint_x: .18
                 CampoGenericoMedium:
@@ -931,7 +910,6 @@
                     size_hint_x: .82
                     text: "CENTRO"
 
-            # Fila 5
             StackLayout:
                 size_hint_y: None
                 height: '40dp'
@@ -942,6 +920,18 @@
                     id: txt_origen_phonenumber
                     size_hint_x: .82
                     text: "9999999"
+
+            # Fila 5
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Zip Codigo:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_origen_zipcode
+                    size_hint_x: .82
+                    text: "02300"
 
             StackLayout:
                 size_hint_y: None
@@ -954,23 +944,11 @@
                     size_hint_x: .82
                     text: "DF"
 
-            # Fila 6
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Zip Codigo:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_origen_zipcode
-                    size_hint_x: .82
-                    text: "02300"
-
 <DestinoWidget@StackLayout>:
     orientation: 'lr-tb'
     padding: '10dp'
     size_hint_y:None
-    height: '470dp'
+    height: '440dp'
     canvas:
         Color:
             rgba: 0.925, 0.941, 0.937, 1.0
@@ -1230,6 +1208,17 @@
                 size_hint_y: None
                 height: '40dp'
                 LabelGeneric:
+                    text: 'No. Cliente:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_customernumber
+                    disabled: True
+                    size_hint_x: .60
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
                     text: 'Tipo Papel:'
                     size_hint_x: .18
                 CampoGenericoMedium:
@@ -1482,13 +1471,20 @@
 
         BoxLayout:
             Label:
+                text: 'No. Cliente'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_customernumber
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
                 text: 'Principal'
                 size_hint_x: .2
             CheckBox:
                 id: chk_es_principal
                 text: ''
                 active: False
-
 
         Space:
         BoxLayout:
@@ -1566,6 +1562,14 @@
                 id: txt_paper_type
                 input_type: 'number'
                 input_filter: 'float'
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'No. Cliente'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_customernumber
                 size_hint_x: .8
 
         BoxLayout:

@@ -26,6 +26,11 @@ class CreateLabelScreen(Screen):
         factura_numero = str(self.ids['txt_factura_numero'].text)
         factura_tipo = self.ids['txt_factura_tipo'].text
 
+        self.clear_DireccionOrigen()
+        self.clear_DireccionDestino()
+        self.clear_Servicio()
+        self.clear_Paquete()
+
         # fact = Factura.get(543, 'RI')
 
         if factura_numero != "" and factura_tipo != "":
@@ -35,12 +40,6 @@ class CreateLabelScreen(Screen):
                 factura_numero,
                 factura_tipo
             )
-
-            self.clear_DireccionOrigen()
-            self.clear_DireccionDestino()
-            self.clear_Servicio()
-            self.clear_Paquete()
-
 
             bandera, dir_origen = DireccionOrigen.get(factura_numero, factura_tipo)
 
@@ -68,7 +67,6 @@ class CreateLabelScreen(Screen):
         data.ids['txt_origen_city'].text = _data['city']
         data.ids['txt_origen_contactname'].text = _data["contactname"]
         data.ids['txt_origen_corporatename'].text = _data["corporatename"]
-        data.ids['txt_origen_customernumber'].text = "000000"
         data.ids['txt_origen_neighborhood'].text = _data['neighborhood']
         data.ids['txt_origen_phonenumber'].text = _data["phonenumber"]
         data.ids['txt_origen_state'].text = _data['state']
@@ -82,7 +80,6 @@ class CreateLabelScreen(Screen):
         data.ids['txt_origen_city'].text = ""
         data.ids['txt_origen_contactname'].text = ""
         data.ids['txt_origen_corporatename'].text = ""
-        data.ids['txt_origen_customernumber'].text = ""
         data.ids['txt_origen_neighborhood'].text = ""
         data.ids['txt_origen_phonenumber'].text = ""
         data.ids['txt_origen_state'].text = ""
@@ -118,7 +115,6 @@ class CreateLabelScreen(Screen):
 
     def fill_Servicio(self, _data):
         data = self.ids['label_container'].ids['servicio_widget']
-        data.ids['txt_num_cliente'].text = ""
         data.ids['txt_servicetypeid'].text = "70"
         data.ids['txt_number_labels'].text = "1"
         # data.ids['txt_office_num'].text = "130"
@@ -133,7 +129,6 @@ class CreateLabelScreen(Screen):
 
     def clear_Servicio(self):
         data = self.ids['label_container'].ids['servicio_widget']
-        data.ids['txt_num_cliente'].text = ""
         data.ids['txt_servicetypeid'].text = "70"
         data.ids['txt_number_labels'].text = "1"
         data.ids['txt_office_num'].text = ""
@@ -228,6 +223,7 @@ class CredencialesWidget(StackLayout):
         self.ids['txt_password'].text = cuenta.password
         self.ids['txt_quadrant'].text = str(cuenta.quadrant)
         self.ids['txt_tipo_papel'].text = str(cuenta.paper_type)
+        self.ids['txt_customernumber'].text = cuenta.customer_number
 
     def clear_Campos(self):
         self.ids['txt_cuenta'].text = ''
@@ -237,6 +233,7 @@ class CredencialesWidget(StackLayout):
         self.ids['txt_password'].text = ''
         self.ids['txt_quadrant'].text = ''
         self.ids['txt_tipo_papel'].text = ''
+        self.ids['txt_customernumber'].text = ''
 
 
 class CredencialesPopup(Popup):

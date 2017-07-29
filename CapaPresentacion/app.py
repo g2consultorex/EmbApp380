@@ -171,7 +171,6 @@ class SegretoApp(App):
         origen_city = origin_fields['txt_origen_city'].text
         origen_contactname = origin_fields['txt_origen_contactname'].text
         origen_corporatename = origin_fields['txt_origen_corporatename'].text
-        origen_customernumber = origin_fields['txt_origen_customernumber'].text
         origen_neighborhood = origin_fields['txt_origen_neighborhood'].text
         origen_phonenumber = origin_fields['txt_origen_phonenumber'].text
         origen_state = origin_fields['txt_origen_state'].text
@@ -185,15 +184,14 @@ class SegretoApp(App):
         destino_city = destino_fields['txt_destino_city'].text
         destino_contactname = destino_fields['txt_destino_contactname'].text
         destino_corporatename = destino_fields['txt_destino_corporatename'].text
-        destino_customernumber = destino_fields['txt_destino_customernumber'].text
         destino_neighborhood = destino_fields['txt_destino_neighborhood'].text
+        destino_customernumber = destino_fields['txt_destino_customernumber'].text
         destino_phonenumber = destino_fields['txt_destino_phonenumber'].text
         destino_state = destino_fields['txt_destino_state'].text
         destino_zipcode = destino_fields['txt_destino_zipcode'].text
 
         # Datos de Servicio:
         service_fields = self.createlabelscreen.ids['label_container'].ids['servicio_widget'].ids
-        num_cliente = service_fields['txt_num_cliente'].text
         servicetypeid = service_fields['txt_servicetypeid'].text
         number_labels = str(service_fields['txt_number_labels'].text)
         office_num = service_fields['txt_office_num'].text
@@ -208,13 +206,13 @@ class SegretoApp(App):
 
         # Datos de Conexion:
         credentials_fields = self.createlabelscreen.ids['label_container'].ids['credenciales_widget'].ids
-
         login = credentials_fields['txt_login'].text
         suscriber_id = credentials_fields['txt_suscriber_id'].text
         password = credentials_fields['txt_password'].text
         quadrant = credentials_fields['txt_quadrant'].text
         tipo_papel = credentials_fields['txt_tipo_papel'].text
         url = credentials_fields['txt_url'].text
+        customer_number = credentials_fields['txt_customernumber'].text
 
         ws = EstafetaWebService(url)
 
@@ -225,7 +223,7 @@ class SegretoApp(App):
             origen_city,
             origen_contactname,
             origen_corporatename,
-            origen_customernumber,
+            customer_number,
             origen_neighborhood,
             origen_phonenumber,
             origen_state,
@@ -261,7 +259,7 @@ class SegretoApp(App):
         )
 
         ws.set_Servicio(
-            num_cliente,
+            customer_number,
             number_labels,
             office_num,
             aditionalinfo,
