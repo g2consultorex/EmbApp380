@@ -195,6 +195,7 @@ class DireccionOrigen(object):
         datos['zipcode'] = ""
         datos['state'] = ""
 
+
         try:
             factura = F4211.objects.using('jde').filter(
                 SDDOC=_numero,
@@ -253,7 +254,7 @@ class DireccionOrigen(object):
                     datos['zipcode'] = dir_complemento[0].ALADDZ
 
                     if len(UDCestado) > 0:
-                        datos['state'] = "%s %s" % (UDCestado[0].DRDL01)
+                        datos['state'] = "%s" % (UDCestado[0].DRDL01)
 
                     if len(direccion_Tel) > 0:
                         datos['phonenumber'] = "%s %s" % (
@@ -345,12 +346,12 @@ class DireccionDestino(object):
 
             if len(factura) > 0:
 
-                datos['customernumber'] = factura[0].SDSHAN
+                datos['customernumber'] = str(factura[0].SDSHAN)
 
                 if len(dir_complementoDestino) > 0:
                     datos['corporatename'] = "%s %s" % (
-                        direccionDest[0].ABALPH,
-                        dir_complementoDestino[0].ALADD1
+                        direccionDest[0].ABALPH.strip(),
+                        dir_complementoDestino[0].ALADD1.strip()
                     )
                     datos["address1"] = dir_complementoDestino[0].ALADD2
                     datos["address2"] = dir_complementoDestino[0].ALADD3
@@ -360,7 +361,7 @@ class DireccionDestino(object):
                     datos['Country'] = dir_complementoDestino[0].ALCTR
 
                     if len(UDCestadoDest) > 0:
-                        datos['state'] = "%s %s" % (UDCestadoDest[0].DRDL01)
+                        datos['state'] = "%s" % (UDCestadoDest[0].DRDL01)
 
                     if len(direccionDest_Tel) > 0:
                         datos['phonenumber'] = "%s %s" % (

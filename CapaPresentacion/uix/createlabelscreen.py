@@ -41,6 +41,7 @@ class CreateLabelScreen(Screen):
             self.clear_Servicio()
             self.clear_Paquete()
 
+
             bandera, dir_origen = DireccionOrigen.get(factura_numero, factura_tipo)
 
             if bandera:
@@ -52,8 +53,8 @@ class CreateLabelScreen(Screen):
 
             if bandera:
                 self.fill_DireccionDestino(dir_destino)
+                
                 servicio['destino_countryid'] = dir_destino['Country']
-
                 self.fill_Servicio(servicio)
 
         else:
@@ -93,7 +94,7 @@ class CreateLabelScreen(Screen):
         data.ids['txt_destino_city'].text = _data['city']
         data.ids['txt_destino_contactname'].text = _data["contactname"]
         data.ids['txt_destino_corporatename'].text = _data["corporatename"]
-        data.ids['txt_destino_customernumber'].text = _datos['customernumber']
+        data.ids['txt_destino_customernumber'].text = _data['customernumber']
         data.ids['txt_destino_neighborhood'].text = _data['neighborhood']
         data.ids['txt_destino_phonenumber'].text = _data["phonenumber"]
         data.ids['txt_destino_state'].text = _data['state']
