@@ -3,10 +3,9 @@ from kivy.uix.popup import Popup
 from kivy.uix.stacklayout import StackLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
-from CapaPresentacion.uix.widget import Toast
-
+# from CapaPresentacion.uix.widget import Toast
 from CapaNegocio.gestordb import ModeloEstafetaUser
-from CapaNegocio.gestordb import Factura
+# from CapaNegocio.gestordb import Factura
 from CapaNegocio.gestordb import DireccionOrigen
 from CapaNegocio.gestordb import DireccionDestino
 
@@ -41,11 +40,15 @@ class CreateLabelScreen(Screen):
 
             if bandera:
                 self.fill_DireccionOrigen(dir_origen)
+            else:
+                self.failure(dir_origen['mensaje'])
 
             bandera, dir_destino = DireccionDestino.get(factura_numero, factura_tipo)
 
             if bandera:
                 self.fill_DireccionDestino(dir_destino)
+            else:
+                self.failure(dir_origen['mensaje'])
 
         else:
             self.failure("Falto especificar Factura")
