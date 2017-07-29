@@ -169,7 +169,7 @@ class Factura(object):
             return factura
 
         except Exception as e:
-            print str(e)
+            return []
 
 
 class DireccionOrigen(object):
@@ -192,27 +192,36 @@ class DireccionOrigen(object):
 
         try:
             factura = F4211.objects.using('jde').filter(
-                SDDOC=_numero, SDDCT=_tipo)
+                SDDOC=_numero,
+                SDDCT=_tipo
+            )
 
             if len(factura) == 0:
-                factura = F42119.objects.using(
-                    'jde').filter(SDDOC=_numero, SDDCT=_tipo)
+                factura = F42119.objects.using('jde').filter(
+                    SDDOC=_numero,
+                    SDDCT=_tipo
+                )
 
             almacen = F41001.objects.using('jde').filter(
-                CIMCU__contains=factura[0].SDMCU)
+                CIMCU__contains=factura[0].SDMCU
+            )
 
-            direccion = F0101.objects.using(
-                'jde').filter(ABAN8=almacen[0].CIAN8)
+            direccion = F0101.objects.using('jde').filter(
+                ABAN8=almacen[0].CIAN8
+            )
 
-            dir_complemento = F0116.objects.using(
-                'jde').filter(ALAN8=almacen[0].CIAN8)
+            dir_complemento = F0116.objects.using('jde').filter(
+                ALAN8=almacen[0].CIAN8
+            )
 
             direccion_Tel = F0115.objects.using('jde').filter(
-                    WPAN8=almacen[0].CIAN8)
+                WPAN8=almacen[0].CIAN8
+            )
 
             direccion_Cel = F0115.objects.using('jde').filter(
-                    WPAN8=almacen[0].CIAN8, 
-                    WPPHTP__contains='CAR')
+                WPAN8=almacen[0].CIAN8,
+                WPPHTP__contains='CAR'
+            )
 
             direccion_Resp = F0111.objects.using('jde').filter(
                 WWAN8=almacen[0].CIAN8
@@ -227,17 +236,19 @@ class DireccionOrigen(object):
             if len(factura) > 0:
 
                 if len(dir_complemento) > 0:
-                    datos['corporatename'] = "%s %s" % (direccion[0].ABALPH, dir_complemento[0].ALADD1) 
+                    datos['corporatename'] = "%s %s" % (
+                        direccion[0].ABALPH,
+                        dir_complemento[0].ALADD1
+                    )
                     datos["address1"] = dir_complemento[0].ALADD2
                     datos["address2"] = dir_complemento[0].ALADD3
-                    # datos['cellphone'] = dir_complemento[0]  <--- Falta sacarlo de algun lado
                     datos['city'] = dir_complemento[0].ALCTY1
                     # datos['customernumber'] = dir_complemento[0] <-- Usuario Estafeta
                     datos['neighborhood'] = dir_complemento[0].ALADD4
                     datos['zipcode'] = dir_complemento[0].ALADDZ
 
                     if len(UDCestado) > 0:
-                        datos['state'] = "%s %s" % (UDCestado[0].DRDL01, UDCestado[0].DRDL02)
+                        datos['state'] = "%s %s" % (UDCestado[0].DRDL01)
 
                     if len(direccion_Tel) > 0:
                         datos['phonenumber'] = "%s %s" % (
@@ -249,13 +260,17 @@ class DireccionOrigen(object):
 
                     if len(direccion_Cel) > 0:
                         datos['cellphone'] = "%s %s" % (
-                        direccion_Cel[0].WPAR1,
-                        direccion_Cel[0].WPPH1)
+                            direccion_Cel[0].WPAR1,
+                            direccion_Cel[0].WPPH1
+                        )
 
             return True, datos
 
-        except Exception:
-            return False, {}
+        except Exception as error:
+            value = {
+                'mensaje': str(error)
+            }
+            return False, value
 
 
 class DireccionDestino(object):
@@ -275,11 +290,13 @@ class DireccionDestino(object):
         datos['phonenumber'] = ""
         datos['zipcode'] = ""
         datos['state'] = ""
-        datos['Country']=""
+        datos['Country'] = ""
 
         try:
             factura = F4211.objects.using('jde').filter(
-                SDDOC=_numero, SDDCT=_tipo)
+                SDDOC=_numero,
+                SDDCT=_tipo
+            )
 
             if len(factura) == 0:
                 factura = F42119.objects.using('jde').filter(
@@ -288,17 +305,21 @@ class DireccionDestino(object):
                 )
 
             direccionDest = F0101.objects.using('jde').filter(
-                    ABAN8=factura[0].SDSHAN)
+                ABAN8=factura[0].SDSHAN
+            )
 
-            dir_complementoDestino = F0116.objects.using(
-                    'jde').filter(ALAN8=factura[0].SDSHAN)
+            dir_complementoDestino = F0116.objects.using('jde').filter(
+                ALAN8=factura[0].SDSHAN
+            )
 
             direccionDest_Tel = F0115.objects.using('jde').filter(
-                    WPAN8=factura[0].SDSHAN)
+                WPAN8=factura[0].SDSHAN
+            )
 
             direccionDest_Cel = F0115.objects.using('jde').filter(
-                    WPAN8=factura[0].SDSHAN, 
-                    WPPHTP__contains='CAR')
+                WPAN8=factura[0].SDSHAN,
+                WPPHTP__contains='CAR'
+            )
 
             direccionDest_Correo = F01151.objects.using('jde').filter(
                 EAAN8=factura[0].SDSHAN,
@@ -319,23 +340,22 @@ class DireccionDestino(object):
 
             if len(factura) > 0:
 
-                
                 datos['customernumber'] = factura[0].SDSHAN
 
                 if len(dir_complementoDestino) > 0:
-                    datos['corporatename'] = "%s %s" % (direccionDest[0].ABALPH, dir_complementoDestino[0].ALADD1) 
+                    datos['corporatename'] = "%s %s" % (
+                        direccionDest[0].ABALPH,
+                        dir_complementoDestino[0].ALADD1
+                    )
                     datos["address1"] = dir_complementoDestino[0].ALADD2
                     datos["address2"] = dir_complementoDestino[0].ALADD3
                     datos['city'] = dir_complementoDestino[0].ALCTY1
-
-                    
                     datos['neighborhood'] = dir_complementoDestino[0].ALADD4
-
                     datos['zipcode'] = dir_complementoDestino[0].ALADDZ
-                    datos['Country']=dir_complementoDestino[0].ALCTR
+                    datos['Country'] = dir_complementoDestino[0].ALCTR
 
                     if len(UDCestadoDest) > 0:
-                        datos['state'] = "%s %s" % (UDCestadoDest[0].DRDL01, UDCestadoDest[0].DRDL02)
+                        datos['state'] = "%s %s" % (UDCestadoDest[0].DRDL01)
 
                     if len(direccionDest_Tel) > 0:
                         datos['phonenumber'] = "%s %s" % (
@@ -345,14 +365,17 @@ class DireccionDestino(object):
 
                     if len(direccionDest_Resp) > 0:
                         datos['contactname'] = direccionDest_Resp[0].WWALPH
-                    
+
                     if len(direccionDest_Cel) > 0:
                         datos['cellphone'] = "%s %s" % (
-                        direccionDest_Cel[0].WPAR1,
-                        direccionDest_Cel[0].WPPH1)
-
+                            direccionDest_Cel[0].WPAR1,
+                            direccionDest_Cel[0].WPPH1
+                        )
 
             return True, datos
 
-        except Exception:
-            return False, {}
+        except Exception as error:
+            value = {
+                'mensaje': str(error)
+            }
+            return False, value

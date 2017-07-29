@@ -30,7 +30,6 @@ class CreateLabelScreen(Screen):
         # fact = Factura.get(factura_numero, factura_tipo)
         # fact = Factura.get(543, 'RI')
 
-
         if factura_numero != "" and factura_tipo != "":
 
             self.clear_DireccionOrigen()
