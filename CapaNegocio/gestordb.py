@@ -242,31 +242,31 @@ class DireccionOrigen(object):
 
                 if len(dir_complemento) > 0:
                     datos['corporatename'] = "%s %s" % (
-                        direccion[0].ABALPH,
-                        dir_complemento[0].ALADD1
+                        direccion[0].ABALPH.strip(),
+                        dir_complemento[0].ALADD1.strip()
                     )
-                    datos["address1"] = dir_complemento[0].ALADD2
-                    datos["address2"] = dir_complemento[0].ALADD3
-                    datos['city'] = dir_complemento[0].ALCTY1
+                    datos["address1"] = dir_complemento[0].ALADD2.strip()
+                    datos["address2"] = dir_complemento[0].ALADD3.strip()
+                    datos['city'] = dir_complemento[0].ALCTY1.strip()
                     # datos['customernumber'] = dir_complemento[0] <-- Usuario Estafeta
-                    datos['neighborhood'] = dir_complemento[0].ALADD4
-                    datos['zipcode'] = dir_complemento[0].ALADDZ
+                    datos['neighborhood'] = dir_complemento[0].ALADD4.strip()
+                    datos['zipcode'] = dir_complemento[0].ALADDZ.strip()
 
                     if len(UDCestado) > 0:
-                        datos['state'] = "%s" % (UDCestado[0].DRDL01)
+                        datos['state'] = "%s" % (UDCestado[0].DRDL01.strip())
 
                     if len(direccion_Tel) > 0:
                         datos['phonenumber'] = "%s %s" % (
                             direccion_Tel[0].WPAR1,
-                            direccion_Tel[0].WPPH1
+                            direccion_Tel[0].WPPH1.strip()
                         )
                     if len(direccion_Resp) > 0:
-                        datos['contactname'] = direccion_Resp[0].WWALPH
+                        datos['contactname'] = direccion_Resp[0].WWALPH.strip()
 
                     if len(direccion_Cel) > 0:
                         datos['cellphone'] = "%s %s" % (
                             direccion_Cel[0].WPAR1,
-                            direccion_Cel[0].WPPH1
+                            direccion_Cel[0].WPPH1.strip()
                         )
 
             return True, datos
@@ -352,29 +352,29 @@ class DireccionDestino(object):
                         direccionDest[0].ABALPH.strip(),
                         dir_complementoDestino[0].ALADD1.strip()
                     )
-                    datos["address1"] = dir_complementoDestino[0].ALADD2
-                    datos["address2"] = dir_complementoDestino[0].ALADD3
-                    datos['city'] = dir_complementoDestino[0].ALCTY1
-                    datos['neighborhood'] = dir_complementoDestino[0].ALADD4
-                    datos['zipcode'] = dir_complementoDestino[0].ALADDZ
-                    datos['Country'] = dir_complementoDestino[0].ALCTR
+                    datos["address1"] = dir_complementoDestino[0].ALADD2.strip()
+                    datos["address2"] = dir_complementoDestino[0].ALADD3.strip()
+                    datos['city'] = dir_complementoDestino[0].ALCTY1.strip()
+                    datos['neighborhood'] = dir_complementoDestino[0].ALADD4.strip()
+                    datos['zipcode'] = dir_complementoDestino[0].ALADDZ.strip()
+                    datos['Country'] = dir_complementoDestino[0].ALCTR.strip()
 
                     if len(UDCestadoDest) > 0:
-                        datos['state'] = "%s" % (UDCestadoDest[0].DRDL01)
+                        datos['state'] = "%s" % (UDCestadoDest[0].DRDL01).strip()
 
                     if len(direccionDest_Tel) > 0:
                         datos['phonenumber'] = "%s %s" % (
                             direccionDest_Tel[0].WPAR1,
-                            direccionDest_Tel[0].WPPH1
+                            direccionDest_Tel[0].WPPH1.strip()
                         )
 
                     if len(direccionDest_Resp) > 0:
-                        datos['contactname'] = direccionDest_Resp[0].WWALPH
+                        datos['contactname'] = direccionDest_Resp[0].WWALPH.strip()
 
                     if len(direccionDest_Cel) > 0:
                         datos['cellphone'] = "%s %s" % (
                             direccionDest_Cel[0].WPAR1,
-                            direccionDest_Cel[0].WPPH1
+                            direccionDest_Cel[0].WPPH1.strip()
                         )
 
             return True, datos

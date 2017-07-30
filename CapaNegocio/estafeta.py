@@ -172,13 +172,16 @@ class EstafetaWebService:
                         <zipCode xsi:type="ns2:string">%s</zipCode>
                     </destinationInfo>"""
 
+        contacto = "%s" % _contactname
+        empresa = "%s" % corporatename
+
         self.modulo_direccion_destino = modulo % (
             _direccion1,
             _direccion2,
             _cellphone,
             _city,
-            _contactname,
-            corporatename,
+            contacto,
+            empresa,
             customernumber,
             _neighborhood,
             _phonenumber,
@@ -205,13 +208,16 @@ class EstafetaWebService:
                         <zipCode xsi:type="ns2:string">%s</zipCode>
                     </DRAlternativeInfo>"""
 
+        contacto = "%s" % _contactname
+        empresa = "%s" % corporatename
+
         self.modulo_direccion_alternativa = modulo % (
             _direccion1,
             _direccion2,
             _cellphone,
             _city,
-            _contactname,
-            corporatename,
+            contacto,
+            empresa,
             customernumber,
             _neighborhood,
             _phonenumber,
