@@ -102,8 +102,6 @@
     size_hint_y:None
     height:'50dp'
     orientation: 'horizontal'
-    # on_add_ideawidget:root.new_idea()
-    # on_quit_pressed:root.pre_quit_exec()
 
     Button:
         text: 'Generar Etiquetas'
@@ -299,13 +297,6 @@
                 background_down:'data/images/src/but_edit_down.png'
                 on_release : root.click_BotonEditar()
 
-
-
-    # Space:
-    #     size_hint_y: None
-    #     height: '16dp'
-
-    # UsuarioBody:
 
 <UserAddPopup>:
     title: 'Nuevo Usuario'
@@ -667,6 +658,108 @@
                     input_type: 'number'
                     input_filter: 'float'
                     size_hint_x: .45
+
+<TipoServicioPopup>:
+    title: 'Tipos de Servicio'
+    size_hint: (.5, .5)
+    GridLayout:
+        cols: 1
+        ScrollView:
+            id: tiposservicios_list
+            size_hint_x: 1
+            StackLayout:
+                id: container
+                size_hint_y: None
+                height: self.minimum_height
+                size_hint_x: 1
+                orientation: 'lr-tb'
+                spacing:'15dp'
+                # CuentaWidget:
+
+        AnchorLayout:
+            padding: 30, 0, 30, 5
+            size_hint_y: None
+            height: '60dp'
+            Button:
+                size_hint_y: None
+                height: '60dp'
+                size_hint_x: 1
+                text: 'Seleccionar'
+                on_release: root.click_SelectButton()
+
+<TipoServicioWidget@BoxLayout>:
+    id: tiposervicio_widget
+    padding: '10dp'
+    size_hint_y: None
+    height: '50dp'
+    orientation: 'horizontal'
+    canvas:
+        Color:
+            rgba: hex('#D5E1FF')
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
+
+    CheckBox:
+        id: chk_tipo
+        size_hint_x: .1
+        group: "tipo_servicio"
+    Label:
+        id: lbl_tipo
+        size_hint_x: .9
+        color: hex('#121313')
+
+<ContenidoPopup>:
+    title: 'Opciones de Contenido'
+    size_hint: (.5, .5)
+    GridLayout:
+        cols: 1
+        ScrollView:
+            id: contenido_list
+            size_hint_x: 1
+            StackLayout:
+                id: container
+                size_hint_y: None
+                height: self.minimum_height
+                size_hint_x: 1
+                orientation: 'lr-tb'
+                spacing:'15dp'
+                # CuentaWidget:
+
+        AnchorLayout:
+            padding: 30, 0, 30, 5
+            size_hint_y: None
+            height: '60dp'
+            Button:
+                size_hint_y: None
+                height: '60dp'
+                size_hint_x: 1
+                text: 'Seleccionar'
+                on_release: root.click_SelectButton()
+
+<ContenidoWidget@BoxLayout>:
+    id: contenido_widget
+    padding: '10dp'
+    size_hint_y: None
+    height: '50dp'
+    orientation: 'horizontal'
+    canvas:
+        Color:
+            rgba: hex('#D5E1FF')
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
+
+    CheckBox:
+        id: chk_tipo
+        size_hint_x: .1
+        group: "opciones_contenido"
+    Label:
+        id: lbl_tipo
+        size_hint_x: .9
+        color: hex('#121313')
 
 <PaqueteWidget@StackLayout>:
     orientation: 'lr-tb'
@@ -1670,20 +1763,6 @@
             id: lbl_etiqueta_view
             multiline: True
             size_hint_x: 1
-
-
-
-
-    # StackLayout:
-    #     orientation: 'lr-tb'
-    #     padding: '16dp'
-    #     size_hint_y:None
-    #     height: self.minimum_height
-
-        # BoxLayout:
-        #     orientation: 'horizontal'
-    # Label:
-    #     id:lbl_etiqueta_view
 
 
 ########################### IDEAS ###########################

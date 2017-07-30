@@ -121,7 +121,7 @@ class EstafetaWebService:
 
     def set_DireccionOrigen(self, _direccion1, _direccion2,
                             _cellphone, _city, _contactname,
-                            corporatename, customernumber, _neighborhood,
+                            _corporatename, _customernumber, _neighborhood,
                             _phonenumber, _state, _zipCode):
 
         modulo = """<originInfo xsi:type="ns4:OriginInfo">
@@ -145,8 +145,8 @@ class EstafetaWebService:
           _cellphone,
           _city,
           _contactname,
-          corporatename,
-          customernumber,
+          _corporatename,
+          _customernumber,
           _neighborhood,
           _phonenumber,
           _state,
@@ -154,7 +154,7 @@ class EstafetaWebService:
 
     def set_DireccionDestino(self, _direccion1, _direccion2,
                              _cellphone, _city, _contactname,
-                             corporatename, customernumber, _neighborhood,
+                             _corporatename, _customernumber, _neighborhood,
                              _phonenumber, _state, _zipCode):
 
         modulo = """<destinationInfo xsi:type="ns4:DestinationInfo">
@@ -172,17 +172,14 @@ class EstafetaWebService:
                         <zipCode xsi:type="ns2:string">%s</zipCode>
                     </destinationInfo>"""
 
-        contacto = "%s" % _contactname
-        empresa = "%s" % corporatename
-
         self.modulo_direccion_destino = modulo % (
             _direccion1,
             _direccion2,
             _cellphone,
             _city,
-            contacto,
-            empresa,
-            customernumber,
+            _contactname,
+            _corporatename,
+            _customernumber,
             _neighborhood,
             _phonenumber,
             _state,
@@ -190,7 +187,7 @@ class EstafetaWebService:
 
     def set_DireccionAlternativa(self, _direccion1, _direccion2,
                                  _cellphone, _city, _contactname,
-                                 corporatename, customernumber, _neighborhood,
+                                 _corporatename, _customernumber, _neighborhood,
                                  _phonenumber, _state, _zipCode):
 
         modulo = """<DRAlternativeInfo xsi:type="ns4:DRAlternativeInfo">
@@ -208,17 +205,14 @@ class EstafetaWebService:
                         <zipCode xsi:type="ns2:string">%s</zipCode>
                     </DRAlternativeInfo>"""
 
-        contacto = "%s" % _contactname
-        empresa = "%s" % corporatename
-
         self.modulo_direccion_alternativa = modulo % (
             _direccion1,
             _direccion2,
             _cellphone,
             _city,
-            contacto,
-            empresa,
-            customernumber,
+            _contactname,
+            _corporatename,
+            _customernumber,
             _neighborhood,
             _phonenumber,
             _state,
