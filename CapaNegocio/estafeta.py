@@ -2,6 +2,7 @@ import requests
 import ssl
 import os
 import binascii
+from wand.image import Image
 
 from lxml import etree
 from libtools.filesystem import Archivo
@@ -246,17 +247,28 @@ class EstafetaWebService:
                     _factura_tipo,
                     _factura_numero
                 )
+                namefile_img = "%s_%s.png" % (
+                    _factura_tipo,
+                    _factura_numero
+                )
 
                 carpeta = Carpeta(abspath)
                 archivo = Archivo(carpeta, namefile)
+
                 archivo.write(label_binary_data)
+
+                # Converting first page into JPG
+                with Image(filename="/Users/carlos/Files/Trabajo/Proyectos/EstafetaConnect/src/etiquetas/ZE_102466.pdf[0]") as img:
+                    img.alpha_channel = True
+                    img.format = 'png'
+                    img.save(filename="etiquetas/ZE_102466.png")
                 #
                 # out_file = open('etiqueta.pdf', 'wb')
                 # out_file.write(label_binary_data)
                 # out_file.close()
 
             return response.content
-            # return body
+            # return label_binary_data
 
         except Exception, error:
             # import ipdb; ipdb.set_trace()

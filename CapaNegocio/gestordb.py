@@ -63,7 +63,7 @@ class ModeloUsuario(object):
     def add(self, _username, _first_name, _last_name, _password):
 
         try:
-
+            connection.close()
             usuario = User()
             usuario.username = _username
             usuario.first_name = _first_name
@@ -81,7 +81,7 @@ class ModeloUsuario(object):
     def edit(self, _username, _first_name, _last_name, _password, _active):
 
         try:
-
+            connection.close()
             usuario = User.objects.get(username=_username)
             usuario.first_name = _first_name
             usuario.last_name = _last_name
@@ -113,6 +113,7 @@ class ModeloEstafetaUser(object):
     def add(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal, _customer_number):
 
         try:
+            connection.close()
             estafeta = EstafetaUser()
 
             estafeta.clave = _clave
@@ -134,7 +135,7 @@ class ModeloEstafetaUser(object):
     def edit(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal, _customer_number):
 
         try:
-
+            connection.close()
             estafeta = EstafetaUser.objects.get(clave=_clave)
             estafeta.login = _login
             estafeta.url = _url
@@ -157,6 +158,8 @@ class Factura(object):
     def get(self, _numero, _tipo):
 
         try:
+
+            connection.close()
             factura = F4211.objects.using('jde').filter(
                 SDDOC=_numero,
                 SDDCT=_tipo
@@ -196,6 +199,7 @@ class DireccionOrigen(object):
         datos['state'] = ""
 
         try:
+            connection.close()
             factura = F4211.objects.using('jde').filter(
                 SDDOC=_numero,
                 SDDCT=_tipo
@@ -298,6 +302,7 @@ class DireccionDestino(object):
         datos['Country'] = ""
 
         try:
+            connection.close()
             factura = F4211.objects.using('jde').filter(
                 SDDOC=_numero,
                 SDDCT=_tipo
