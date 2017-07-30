@@ -233,7 +233,7 @@ class EstafetaWebService:
 
         try:
             print body
-            response = requests.post(self.url, data=body, headers=self.get_CreateLabel_Header(), verify=False)
+            response = requests.post(self.url, data=body.encode('utf-8'), headers=self.get_CreateLabel_Header(), verify=False)
 
             return response.content
             # return body
