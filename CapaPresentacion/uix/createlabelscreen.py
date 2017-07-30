@@ -120,12 +120,12 @@ class CreateLabelScreen(Screen):
         # data.ids['txt_office_num'].text = "130"
         data.ids['txt_contentdescription'].text = ""
         data.ids['txt_aditionalinfo'].text = _data['aditionalinfo']
-        data.ids['txt_costcenter'].text = ""
+        data.ids['txt_costcenter'].text = "0"
         data.ids['txt_content'].text = ""
         data.ids['txt_kilos'].text = ""
         data.ids['txt_servicetypeiddocret'].text = ""
         data.ids['txt_destino_countryid'].text = _data['destino_countryid']
-        data.ids['txt_reference'].text = ""
+        data.ids['txt_reference'].text = "."
 
     def clear_Servicio(self):
         data = self.ids['label_container'].ids['servicio_widget']
@@ -134,12 +134,12 @@ class CreateLabelScreen(Screen):
         data.ids['txt_office_num'].text = ""
         data.ids['txt_contentdescription'].text = ""
         data.ids['txt_aditionalinfo'].text = ""
-        data.ids['txt_costcenter'].text = ""
+        data.ids['txt_costcenter'].text = "0"
         data.ids['txt_content'].text = ""
         data.ids['txt_kilos'].text = ""
         data.ids['txt_servicetypeiddocret'].text = ""
         data.ids['txt_destino_countryid'].text = ""
-        data.ids['txt_reference'].text = ""
+        data.ids['txt_reference'].text = "."
 
     def clear_Paquete(self):
         data = self.ids['label_container'].ids['paquete_widget']
@@ -149,6 +149,15 @@ class CreateLabelScreen(Screen):
         data.ids['txt_largo'].text = ""
         data.ids['txt_alto'].text = ""
         data.ids['txt_ancho'].text = ""
+
+
+class ServicioWidget(StackLayout):
+
+    def open_TipoServicioPopup(self):
+        pass
+
+    def open_TipoContenidoPopup(self):
+        pass
 
 
 class PaqueteWidget(StackLayout):

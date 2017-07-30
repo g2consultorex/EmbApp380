@@ -514,8 +514,15 @@
                     size_hint_x: .25
                 CampoGenericoMedium:
                     id: txt_servicetypeid
-                    size_hint_x: .75
+                    size_hint_x: .40
                     text: "70"
+                Button:
+                    size_hint:None, None
+                    size:'40dp', '40dp'
+                    border:10,10,10,10
+                    background_normal:'data/images/src/but_new.png'
+                    background_down:'data/images/src/but_new_down.png'
+                    on_release: root.open_TipoServicioPopup()
 
             StackLayout:
                 size_hint_y: None
@@ -557,11 +564,20 @@
             StackLayout:
                 size_hint_y: None
                 height: '40dp'
+                LabelGeneric:
+                    text: 'Contenido:'
+                    size_hint_x: .26
                 CampoGenericoMedium:
                     id: txt_content
-                    hint_text: 'Contenido'
-                    size_hint_x: 1
+                    size_hint_x: .40
                     text: "JOYAS"
+                Button:
+                    size_hint:None, None
+                    size:'40dp', '40dp'
+                    border:10,10,10,10
+                    background_normal:'data/images/src/but_new.png'
+                    background_down:'data/images/src/but_new_down.png'
+                    on_release: root.open_TipoContenidoPopup()
 
             StackLayout:
                 size_hint_y: None
@@ -576,10 +592,12 @@
             StackLayout:
                 size_hint_y: None
                 height: '40dp'
+                LabelGeneric:
+                    text: 'Informacion adicional'
+                    size_hint_x: .36
                 CampoGenericoMedium:
                     id: txt_aditionalinfo
-                    hint_text: 'Informacion adicional'
-                    size_hint_x: 1
+                    size_hint_x: .64
                     text: "OPERACION"
 
             StackLayout:
