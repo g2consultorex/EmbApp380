@@ -117,7 +117,7 @@ class CreateLabelScreen(Screen):
         data = self.ids['label_container'].ids['servicio_widget']
         data.ids['txt_servicetypeid'].text = "70"
         data.ids['txt_number_labels'].text = "1"
-        # data.ids['txt_office_num'].text = "130"
+        data.ids['txt_office_num'].text = "130"
         data.ids['txt_contentdescription'].text = ""
         data.ids['txt_aditionalinfo'].text = _data['aditionalinfo']
         data.ids['txt_costcenter'].text = ""
@@ -131,7 +131,7 @@ class CreateLabelScreen(Screen):
         data = self.ids['label_container'].ids['servicio_widget']
         data.ids['txt_servicetypeid'].text = "70"
         data.ids['txt_number_labels'].text = "1"
-        data.ids['txt_office_num'].text = ""
+        data.ids['txt_office_num'].text = "130"
         data.ids['txt_contentdescription'].text = ""
         data.ids['txt_aditionalinfo'].text = ""
         data.ids['txt_costcenter'].text = ""
