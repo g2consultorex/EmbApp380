@@ -16,6 +16,8 @@ class CreateLabelScreen(Screen):
 
     def __init__(self, **kwargs):
         super(CreateLabelScreen, self).__init__(**kwargs)
+        self.factura_numero = ""
+        self.factura_tipo = ""
 
     def failure(self, error):
         self._show_toast(error)
@@ -25,8 +27,8 @@ class CreateLabelScreen(Screen):
 
     def buscar_Factura(self):
 
-        factura_numero = str(self.ids['txt_factura_numero'].text)
-        factura_tipo = self.ids['txt_factura_tipo'].text
+        self.factura_numero = str(self.ids['txt_factura_numero'].text)
+        self.factura_tipo = self.ids['txt_factura_tipo'].text
 
         self.clear_DireccionOrigen()
         self.clear_DireccionDestino()
@@ -35,22 +37,22 @@ class CreateLabelScreen(Screen):
 
         # fact = Factura.get(543, 'RI')
 
-        if factura_numero != "" and factura_tipo != "":
+        if self.factura_numero != "" and self.factura_tipo != "":
 
             servicio = {}
             servicio['aditionalinfo'] = "%s %s" % (
-                factura_numero,
-                factura_tipo
+                self.factura_numero,
+                self.factura_tipo
             )
 
-            bandera, dir_origen = DireccionOrigen.get(factura_numero, factura_tipo)
+            bandera, dir_origen = DireccionOrigen.get(self.factura_numero, self.factura_tipo)
 
             if bandera:
                 self.fill_DireccionOrigen(dir_origen)
             else:
                 self.failure(dir_origen['mensaje'])
 
-            bandera, dir_destino = DireccionDestino.get(factura_numero, factura_tipo)
+            bandera, dir_destino = DireccionDestino.get(self.factura_numero, self.factura_tipo)
 
             if bandera:
                 self.fill_DireccionDestino(dir_destino)

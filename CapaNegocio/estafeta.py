@@ -1,5 +1,11 @@
 import requests
 import ssl
+import os
+import binascii
+
+from lxml import etree
+from libtools.filesystem import Archivo
+from libtools.filesystem import Carpeta
 
 
 class EstafetaWebService:
@@ -218,7 +224,7 @@ class EstafetaWebService:
             _state,
             _zipCode)
 
-    def create_Label(self):
+    def create_Label(self, _factura_numero, _factura_tipo):
 
         # ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -226,8 +232,28 @@ class EstafetaWebService:
         body = base % (self.modulo_servicio, self.modulo_credenciales)
 
         try:
-            print body
+            # print body
             response = requests.post(self.url, data=body.encode('utf-8'), headers=self.get_CreateLabel_Header(), verify=False)
+
+            if response.status_code == 200:
+                root = etree.fromstring(response.content)
+                etiqueta = root[0][1].find('labelPDF')
+                label_contenido = etiqueta.text
+                label_binary_data = binascii.a2b_base64(label_contenido)
+
+                abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
+                namefile = "%s_%s.pdf" % (
+                    _factura_tipo,
+                    _factura_numero
+                )
+
+                carpeta = Carpeta(abspath)
+                archivo = Archivo(carpeta, namefile)
+                archivo.write(label_binary_data)
+                #
+                # out_file = open('etiqueta.pdf', 'wb')
+                # out_file.write(label_binary_data)
+                # out_file.close()
 
             return response.content
             # return body

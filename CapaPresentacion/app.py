@@ -4,6 +4,8 @@ Config.set('graphics', 'window_state', 'maximized')
 # Config.set('graphics', 'resizable', True)
 Config.set('graphics', 'width', '1080')
 Config.set('graphics', 'height', '720')
+Config.write()
+
 # Config.set('kivy', 'exit_on_escape', '0')
 from kivy.app import App
 
@@ -277,7 +279,10 @@ class SegretoApp(App):
         )
         ws.set_Credenciales(login, tipo_papel, password, quadrant, suscriber_id)
 
-        label = ws.create_Label()
+        label = ws.create_Label(
+            self.createlabelscreen.factura_numero,
+            self.createlabelscreen.factura_tipo
+        )
 
         self.labelviewscreen.set_Label(label)
 
