@@ -225,6 +225,18 @@ class EstafetaWebService:
             _state,
             _zipCode)
 
+    def create_Image(self, _file_pdf):
+
+        try:
+            archivo = "%s%s" % (_file_pdf.get_Abspath(), "[0]")
+            with Image(filename=archivo) as img:
+                img.alpha_channel = True
+                img.format = 'png'
+                file_image = _file_pdf.get_Abspath().replace("pdf", "png")
+                img.save(filename=file_image)
+        except Exception:
+            pass
+
     def create_Label(self, _factura_numero, _factura_tipo):
 
         # ssl._create_default_https_context = ssl._create_unverified_context
@@ -247,25 +259,11 @@ class EstafetaWebService:
                     _factura_tipo,
                     _factura_numero
                 )
-                namefile_img = "%s_%s.png" % (
-                    _factura_tipo,
-                    _factura_numero
-                )
-
                 carpeta = Carpeta(abspath)
                 archivo = Archivo(carpeta, namefile)
-
                 archivo.write(label_binary_data)
 
-                # Converting first page into JPG
-                with Image(filename="/Users/carlos/Files/Trabajo/Proyectos/EstafetaConnect/src/etiquetas/ZE_102466.pdf[0]") as img:
-                    img.alpha_channel = True
-                    img.format = 'png'
-                    img.save(filename="etiquetas/ZE_102466.png")
-                #
-                # out_file = open('etiqueta.pdf', 'wb')
-                # out_file.write(label_binary_data)
-                # out_file.close()
+                self.create_Image(archivo)
 
             return response.content
             # return label_binary_data

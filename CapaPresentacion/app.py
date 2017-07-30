@@ -279,9 +279,11 @@ class SegretoApp(App):
         )
         ws.set_Credenciales(login, tipo_papel, password, quadrant, suscriber_id)
 
+        self.labelviewscreen.fac_numero = self.createlabelscreen.factura_numero
+        self.labelviewscreen.fac_tipo = self.createlabelscreen.factura_tipo
         label = ws.create_Label(
-            self.createlabelscreen.factura_numero,
-            self.createlabelscreen.factura_tipo
+            self.labelviewscreen.fac_numero,
+            self.labelviewscreen.fac_tipo
         )
 
         self.labelviewscreen.set_Label(label)
