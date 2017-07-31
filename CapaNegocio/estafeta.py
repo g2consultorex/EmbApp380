@@ -245,10 +245,10 @@ class EstafetaWebService:
         body = base % (self.modulo_servicio, self.modulo_credenciales)
 
 
-        carpeta = Carpeta(os.path.abspath(os.path.join(os.getcwd())))
-        fl = Archivo(carpeta, "resquest.xml")
-        fl.write(body.encode('utf-8'))
-        fl.create()
+        # carpeta = Carpeta(os.path.abspath(os.path.join(os.getcwd())))
+        # fl = Archivo(carpeta, "resquest.xml")
+        # fl.write(body.encode('utf-8'))
+
 
         try:
             # print body
