@@ -244,6 +244,12 @@ class EstafetaWebService:
         base = self.get_Base_CreateLabel()
         body = base % (self.modulo_servicio, self.modulo_credenciales)
 
+
+        carpeta = Carpeta(os.path.abspath(os.path.join(os.getcwd())))
+        fl = Archivo(carpeta, "resquest.xml")
+        fl.write(body.encode('utf-8'))
+        fl.create()
+
         try:
             # print body
             response = requests.post(self.url, data=body.encode('utf-8'), headers=self.get_CreateLabel_Header(), verify=False)

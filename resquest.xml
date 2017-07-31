@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+                    <SOAP-ENV:Envelope xmlns:ns3="http://schemas.xmlsoap.org/soap/encoding/"
+                        xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+                        xmlns:ns0="http://estafetalabel.webservices.estafeta.com"
+                        xmlns:ns1="http://schemas.xmlsoap.org/soap/envelope/"
+                        xmlns:ns2="http://www.w3.org/2001/XMLSchema"
+                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                        xmlns:ns4="http://dto.estafetalabel.webservices.estafeta.com"
+                        xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+                    SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+                    <SOAP-ENV:Header/>
+                       <ns1:Body>
+                            <ns0:createLabel>
+                                <in0 xsi:type="ns4:EstafetaLabelRequest">
+                                <customerNumber xsi:type="ns2:string">0000000</customerNumber>
+                    <labelDescriptionList xsi:type="ns4:LabelDescriptionList">
+                        <effectiveDate xsi:type="ns2:string" xsi:nil="true"/>
+                        <originInfo xsi:type="ns4:OriginInfo">
+                       <address1 xsi:type="ns2:string">CALLE 3 NUM 1418</address1>
+                       <address2 xsi:type="ns2:string">.</address2>
+                       <cellPhone xsi:type="ns2:string"></cellPhone>
+                       <city xsi:type="ns2:string">GUADALAJARA</city>
+                       <contactName xsi:type="ns2:string">INDUSTRIA DISEÑADORA DE AUTOPARTES SA DE</contactName>
+                       <corporateName xsi:type="ns2:string">INDUSTRIA DISEÑADORA DE AUTOPARTES SA DE CV</corporateName>
+                       <customerNumber xsi:type="ns2:string">0000000</customerNumber>
+                       <neighborhood xsi:type="ns2:string">ZONA INDUSTRIAL</neighborhood>
+                       <phoneNumber xsi:type="ns2:string">33     39420204</phoneNumber>
+                       <state xsi:type="ns2:string">JALISCO</state>
+                       <valid xsi:type="ns2:boolean">true</valid>
+                       <zipCode xsi:type="ns2:string">44940</zipCode>
+                   </originInfo>
+                        <destinationInfo xsi:type="ns4:DestinationInfo">
+                        <address1 xsi:type="ns2:string">AV. ABASOLO ORIENTE # 1295</address1>
+                        <address2 xsi:type="ns2:string">.</address2>
+                        <cellPhone xsi:type="ns2:string">33     39420204</cellPhone>
+                        <city xsi:type="ns2:string">TORREON</city>
+                        <contactName xsi:type="ns2:string">RIVERA QUIÑONES KAREN</contactName>
+                        <corporateName xsi:type="ns2:string">RIVERA QUIÑONES KAREN .</corporateName>
+                        <customerNumber xsi:type="ns2:string">0103023</customerNumber>
+                        <neighborhood xsi:type="ns2:string">COL. CENTRO</neighborhood>
+                        <phoneNumber xsi:type="ns2:string">871    7134 386</phoneNumber>
+                        <state xsi:type="ns2:string">COAHUILA</state>
+                        <valid xsi:type="ns2:boolean">true</valid>
+                        <zipCode xsi:type="ns2:string">27000</zipCode>
+                    </destinationInfo>
+                        <DRAlternativeInfo xsi:type="ns4:DRAlternativeInfo">
+                        <address1 xsi:type="ns2:string">AV. ABASOLO ORIENTE # 1295</address1>
+                        <address2 xsi:type="ns2:string">.</address2>
+                        <cellPhone xsi:type="ns2:string">33     39420204</cellPhone>
+                        <city xsi:type="ns2:string">TORREON</city>
+                        <contactName xsi:type="ns2:string">RIVERA QUIÑONES KAREN</contactName>
+                        <corporateName xsi:type="ns2:string">RIVERA QUIÑONES KAREN .</corporateName>
+                        <customerNumber xsi:type="ns2:string">0103023</customerNumber>
+                        <neighborhood xsi:type="ns2:string">COL. CENTRO</neighborhood>
+                        <phoneNumber xsi:type="ns2:string">871    7134 386</phoneNumber>
+                        <state xsi:type="ns2:string">COAHUILA</state>
+                        <valid xsi:type="ns2:boolean">true</valid>
+                        <zipCode xsi:type="ns2:string">27000</zipCode>
+                    </DRAlternativeInfo>
+                        <numberOfLabels xsi:type="ns2:int">1</numberOfLabels>
+                        <officeNum xsi:type="ns2:string">130</officeNum>
+
+                        <aditionalInfo xsi:type="ns2:string">102466 ZE</aditionalInfo>
+                        <content xsi:type="ns2:string">REFACCIONES</content>
+                        <contentDescription xsi:type="ns2:string"></contentDescription>
+                        <costCenter xsi:type="ns2:string">0</costCenter>
+                        <deliveryToEstafetaOffice xsi:type="ns2:boolean">False</deliveryToEstafetaOffice>
+                        <destinationCountryId xsi:type="ns2:string">MX</destinationCountryId>
+                        <originZipCodeForRouting xsi:type="ns2:string">44940</originZipCodeForRouting>
+                        <parcelTypeId xsi:type="ns2:int">1</parcelTypeId>
+                        <reference xsi:type="ns2:string">.</reference>
+                        <returnDocument xsi:type="ns2:boolean">False</returnDocument>
+                        <serviceTypeId xsi:type="ns2:string">70</serviceTypeId>
+                        <serviceTypeIdDocRet xsi:type="ns2:string" xsi:nil="true"/>
+                        <valid xsi:type="ns2:boolean">true</valid>
+                        <weight xsi:type="ns2:float">3.5</weight>
+
+                    </labelDescriptionList>
+                    <labelDescriptionListCount xsi:type="ns2:int">1</labelDescriptionListCount>
+                                <login xsi:type="ns2:string">prueba1</login>
+                    <paperType xsi:type="ns2:int">2</paperType>
+                    <password xsi:type="ns2:string">lAbeL_K_11</password>
+                    <quadrant xsi:type="ns2:int">0</quadrant>
+                    <suscriberId xsi:type="ns2:string">28</suscriberId>
+                    <valid xsi:type="ns2:boolean">true</valid>
+                                </in0>
+                            </ns0:createLabel>
+                       </ns1:Body>
+                    </SOAP-ENV:Envelope>
