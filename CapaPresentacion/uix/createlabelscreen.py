@@ -191,7 +191,7 @@ class TipoServicioPopup(Popup):
 
         self.ids['container'].clear_widgets()
 
-        widget10 = TipoServicioWidget("10", "Día siguiente consumo facturación mensual")
+        widget10 = TipoServicioWidget("60", "Día siguiente consumo facturación mensual")
         widget70 = TipoServicioWidget("70", "Terrestre consumo facturación mensual")
 
         self.ids['container'].add_widget(widget10)

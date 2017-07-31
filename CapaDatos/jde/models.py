@@ -264,3 +264,25 @@ class F01151(models.Model):
 		db_table = u'"CRPDTA"."F01151"'
 	def __unicode__(self):
 		return str(self.EAAN8)
+
+class F4006(models.Model):
+	OADOCO=models.IntegerField(primary_key=True)
+	OADCTO	= models.CharField(max_length=2)
+	OAKCOO	= models.CharField(max_length=5)
+	OAANTY	= models.CharField(max_length=1)   #Shipto = 2
+	OAMLNM	= models.CharField(max_length=40)  #Companyname
+	OAADD1	= models.CharField(max_length=40)  
+	OAADD2	= models.CharField(max_length=40)  #Direccion
+	OAADD3	= models.CharField(max_length=40)  #Direccion
+	OAADD4	= models.CharField(max_length=40)  #Colonia
+	OAADDZ	= models.CharField(max_length=12)  #CP
+	OACTY1	= models.CharField(max_length=25)  #Ciudad
+	OACOUN	= models.CharField(max_length=25)  #RFC
+	OAADDS	= models.CharField(max_length=3)   #Estado (codigo)
+	OACTR	= models.CharField(max_length=3)   #Pais
+
+	class Meta:
+		managed = False
+		db_table = u'"CRPDTA"."F4006"'
+	def __unicode__(self):
+		return str(self.OADOCO)

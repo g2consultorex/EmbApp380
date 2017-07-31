@@ -1,4 +1,4 @@
-# OS generated files 
+# OS generated files
 # ---------------------------------------
 .DS_Store
 .Trashes
@@ -8,7 +8,7 @@ Thumbs.db
 # ---------------------------------------
 *.pyc
 
-# Python Files
+# Django Files
 # ---------------------------------------
 db.*
 CapaDatos/GestorDB/settings.py
@@ -16,6 +16,8 @@ CapaDatos/GestorDB/settings.py
 # DIRECTORIES
 # ---------------------------------------
 .vscode/*
+etiquetas/*
+
 GestorDB/configuration/migrations/*
 GestorDB/jde/migrations/*
 GestorDB/security/migrations/*
