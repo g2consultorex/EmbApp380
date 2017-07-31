@@ -1,6 +1,9 @@
 import tempfile
 import win32api
 import win32print
+import os
+from libtools.filesystem import Archivo
+from libtools.filesystem import Carpeta
 
 
 class Printer(object):
@@ -10,12 +13,13 @@ class Printer(object):
 
         abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
         folder = Carpeta(abspath)
-        file_name = "%s_%s.pdf"
+        file_name = "%s_%s.pdf" % (_factura_tipo, _factura_numero)
         archivo = Archivo(folder, file_name)
 
         try:
             # print win32print.GetDefaultPrinter()
             archivo.exist("buscando_pdf")
+            filename = (archivo.get_Abspath())
             win32api.ShellExecute(
                 0,
                 "print",

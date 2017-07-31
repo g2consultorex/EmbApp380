@@ -22,8 +22,9 @@ class LabelViewScreen(Screen):
 
         abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
         folder = Carpeta(abspath)
-        file_name = "%s_%s.png" % (self.fac_numero, self.fac_tipo)
+        file_name = "%s_%s.png" % (self.fac_tipo, self.fac_numero)
         archivo = Archivo(folder, file_name)
+        self.ids['label_container'].ids['labelview_widget'].ids['img_etiqueta'].source = ""
 
         try:
             archivo.exist("buscando_imagen")
