@@ -318,7 +318,16 @@ class DireccionDestino(object):
 
             if len(factura) > 0:
 
-                if factura[0].SDSHAN <= 199991:
+                CustomerNumber = str(factura[0].SDSHAN)
+                if len(CustomerNumber) < 7:
+                    cantidad = 7 - len(CustomerNumber)
+                    sufijo = "0" * cantidad
+                    datos['customernumber'] = "%s%s" % (sufijo, CustomerNumber)
+                else:
+                    datos['customernumber'] = str(factura[0].SDSHAN)
+
+                #import ipdb; ipdb.set_trace()
+                if factura[0].SDSHAN < 199991:
 
                     direccionDest = F0101.objects.using('jde').filter(
                         ABAN8=factura[0].SDSHAN
@@ -366,7 +375,7 @@ class DireccionDestino(object):
                         # datos['customernumber'] = dir_complementoDestino[0] <-- Usuario Estafeta
                         datos['neighborhood'] = dir_complementoDestino[0].ALADD4.strip()
                         datos['zipcode'] = dir_complementoDestino[0].ALADDZ.strip()
-
+                        datos['Country'] = dir_complementoDestino[0].ALCTR.strip()
                         if len(UDCestadoDest) > 0:
                             datos['state'] = "%s" % (UDCestadoDest[0].DRDL01.strip())
 
@@ -403,14 +412,15 @@ class DireccionDestino(object):
                             direccionDest[0].OAMLNM.strip(),
                             direccionDest[0].OAADD1.strip()
                         )
+
                         datos['corporatename'] = corporatename[0:29]
-                        datos['contactname'] = direccionDest[0].OAMLN.strip()
+                        datos['contactname'] = direccionDest[0].OAMLNM.strip()[0:29]
                         datos["address1"] = direccionDest[0].OAADD2.strip()
                         datos["address2"] = direccionDest[0].OAADD3.strip()
                         datos['city'] = direccionDest[0].OACTY1.strip()
                         datos['neighborhood'] = direccionDest[0].OAADD4.strip()
                         datos['zipcode'] = direccionDest[0].OAADDZ.strip()
-
+                        datos['Country'] = direccionDest[0].OACTR.strip()
                     if len(UDCestadoDest) > 0:
                         datos['state'] = "%s" % (UDCestadoDest[0].DRDL01.strip())
 

@@ -275,7 +275,7 @@ class EstafetaWebService:
                     bandera = False
 
             else:
-                resultado = 'response.content'
+                resultado = response.content
                 bandera = False
 
             return bandera, resultado
