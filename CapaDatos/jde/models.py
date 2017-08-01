@@ -142,27 +142,28 @@ class F41001(models.Model):
 
 
 class F4211(models.Model):
- SDKCOO=models.CharField(max_length=5)
- SDDOCO=models.IntegerField(primary_key=True)
- SDDCTO=models.CharField(max_length=2)
- SDLNID=models.IntegerField()
- SDMCU=models.CharField(max_length=12)
- SDAN8=models.IntegerField()
- SDSHAN=models.IntegerField()
- SDPA8=models.IntegerField()
- SDTRDJ=models.IntegerField()
- SDCNDJ=models.IntegerField()
- SDDGL=models.IntegerField()
- SDITM=models.IntegerField()
- SDLITM=models.CharField(max_length=25)
- SDDSC1=models.CharField(max_length=30)
- SDDSC2=models.CharField(max_length=30)
- SDNXTR=models.CharField(max_length=3)
- SDLTTR=models.CharField(max_length=3)
- SDASN=models.CharField(max_length=8)
- SDKCO=models.CharField(max_length=5)
- SDDOC=models.IntegerField()
- SDDCT=models.CharField(max_length=2)
+ SDKCOO = models.CharField(max_length=5)
+ SDDOCO = models.IntegerField(primary_key=True)
+ SDDCTO = models.CharField(max_length=2)
+ SDLNID = models.IntegerField()
+ SDMCU = models.CharField(max_length=12)
+ SDAN8 = models.IntegerField()
+ SDSHAN = models.IntegerField()
+ SDPA8 = models.IntegerField()
+ SDTRDJ = models.IntegerField()
+ SDCNDJ = models.IntegerField()
+ SDDGL = models.IntegerField()
+ SDITM = models.IntegerField()
+ SDLITM = models.CharField(max_length=25)
+ SDDSC1 = models.CharField(max_length=30)
+ SDDSC2 = models.CharField(max_length=30)
+ SDNXTR = models.CharField(max_length=3)
+ SDLTTR = models.CharField(max_length=3)
+ SDASN = models.CharField(max_length=8)
+ SDKCO = models.CharField(max_length=5)
+ SDDOC = models.IntegerField()
+ SDDCT = models.CharField(max_length=2)
+ SDVR03 = models.CharField(max_length=25)
 
  class Meta:
   	managed = False
@@ -173,27 +174,28 @@ class F4211(models.Model):
  	return cadena
 
 class F42119(models.Model):
- SDKCOO=models.CharField(max_length=5)
- SDDOCO=models.IntegerField(primary_key=True)
- SDDCTO=models.CharField(max_length=2)
- SDLNID=models.IntegerField()
- SDMCU=models.CharField(max_length=12)
- SDAN8=models.IntegerField()
- SDSHAN=models.IntegerField()
- SDPA8=models.IntegerField()
- SDTRDJ=models.IntegerField()
- SDCNDJ=models.IntegerField()
- SDDGL=models.IntegerField()
- SDITM=models.IntegerField()
- SDLITM=models.CharField(max_length=25)
- SDDSC1=models.CharField(max_length=30)
- SDDSC2=models.CharField(max_length=30)
- SDNXTR=models.CharField(max_length=3)
- SDLTTR=models.CharField(max_length=3)
- SDASN=models.CharField(max_length=8)
- SDKCO=models.CharField(max_length=5)
- SDDOC=models.IntegerField()
- SDDCT=models.CharField(max_length=2)
+ SDKCOO = models.CharField(max_length=5)
+ SDDOCO = models.IntegerField(primary_key=True)
+ SDDCTO = models.CharField(max_length=2)
+ SDLNID = models.IntegerField()
+ SDMCU = models.CharField(max_length=12)
+ SDAN8 = models.IntegerField()
+ SDSHAN = models.IntegerField()
+ SDPA8 = models.IntegerField()
+ SDTRDJ = models.IntegerField()
+ SDCNDJ = models.IntegerField()
+ SDDGL = models.IntegerField()
+ SDITM = models.IntegerField()
+ SDLITM = models.CharField(max_length=25)
+ SDDSC1 = models.CharField(max_length=30)
+ SDDSC2 = models.CharField(max_length=30)
+ SDNXTR = models.CharField(max_length=3)
+ SDLTTR = models.CharField(max_length=3)
+ SDASN = models.CharField(max_length=8)
+ SDKCO = models.CharField(max_length=5)
+ SDDOC = models.IntegerField()
+ SDDCT = models.CharField(max_length=2)
+ SDVR03 = models.CharField(max_length=25)
 
  class Meta:
   	managed = False
@@ -232,10 +234,10 @@ class F0005(models.Model):
  		return self.DRSY
 
 class F0115(models.Model):
-	WPAN8=models.IntegerField(primary_key=True)
-	WPAR1=models.CharField(max_length=6)
-	WPPH1=models.CharField(max_length=20)
-	WPPHTP=models.CharField(max_length=4)
+	WPAN8 = models.IntegerField(primary_key=True)
+	WPAR1 = models.CharField(max_length=6)
+	WPPH1 = models.CharField(max_length=20)
+	WPPHTP = models.CharField(max_length=4)
 	class Meta:
  		managed = False
  		db_table = u'"CRPDTA"."F0115"'
@@ -243,9 +245,9 @@ class F0115(models.Model):
  		return str(self.WPAN8)
 
 class F0111(models.Model):
-	WWAN8=models.IntegerField(primary_key=True)
-	WWMLNM=models.CharField(max_length=40)
-	WWALPH=models.CharField(max_length=40)
+	WWAN8 = models.IntegerField(primary_key=True)
+	WWMLNM = models.CharField(max_length=40)
+	WWALPH = models.CharField(max_length=40)
 	class Meta:
  		managed = False
  		db_table = u'"CRPDTA"."F0111"'
@@ -253,11 +255,11 @@ class F0111(models.Model):
  		return str(self.WWAN8)
 
 class F01151(models.Model):
-	EAAN8=models.IntegerField(primary_key=True)
-	EAEMAL=models.CharField(max_length=256)     # ojo NVARCHAR(256)
-	EAETP=models.CharField(max_length=4)
-	EAEHIER=models.IntegerField()
-	EAECLASS=models.CharField(max_length=3)
+	EAAN8 = models.IntegerField(primary_key=True)
+	EAEMAL = models.CharField(max_length=256)     # ojo NVARCHAR(256)
+	EAETP = models.CharField(max_length=4)
+	EAEHIER = models.IntegerField()
+	EAECLASS = models.CharField(max_length=3)
 
 	class Meta:
 		managed = False
@@ -286,3 +288,19 @@ class F4006(models.Model):
 		db_table = u'"CRPDTA"."F4006"'
 	def __unicode__(self):
 		return str(self.OADOCO)
+
+class F5842566(models.Model):
+	TNDCT = models.CharField(max_length=2)
+	TNDOC = models.IntegerField(primary_key=True)
+	TNVR03 = models.CharField(max_length=25)
+	TNUSER = models.CharField(max_length=10)
+	TNJOBN = models.CharField(max_length=10)
+	TNUPMJ = models.IntegerField()
+	TNUPMT = models.IntegerField()
+
+	class Meta:
+		managed = False
+		db_table = u'"CRPDTA"."F5842566"'
+	def __unicode__(self):
+		return str(self.TNDOC)
+
