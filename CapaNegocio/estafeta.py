@@ -240,38 +240,45 @@ class EstafetaWebService:
     def create_Label(self, _factura_numero, _factura_tipo):
 
         # ssl._create_default_https_context = ssl._create_unverified_context
-
         base = self.get_Base_CreateLabel()
         body = base % (self.modulo_servicio, self.modulo_credenciales)
-
-
-        # carpeta = Carpeta(os.path.abspath(os.path.join(os.getcwd())))
-        # fl = Archivo(carpeta, "resquest.xml")
-        # fl.write(body.encode('utf-8'))
-
 
         try:
             # print body
             response = requests.post(self.url, data=body.encode('utf-8'), headers=self.get_CreateLabel_Header(), verify=False)
 
+            carpeta = Carpeta(os.path.abspath(os.path.join(os.getcwd())))
+            fl = Archivo(carpeta, "response.xml")
+            fl.write(response.content.encode('utf-8'))
+
             if response.status_code == 200:
                 root = etree.fromstring(response.content)
-                etiqueta = root[0][1].find('labelPDF')
-                label_contenido = etiqueta.text
-                label_binary_data = binascii.a2b_base64(label_contenido)
 
-                abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
-                namefile = "%s_%s.pdf" % (
-                    _factura_tipo,
-                    _factura_numero
-                )
-                carpeta = Carpeta(abspath)
-                archivo = Archivo(carpeta, namefile)
-                archivo.write(label_binary_data)
+                nodo = root[0].xpath("//multiRef[@id = '%s']" % "id1")
+                if nodo[0].find('resultDescription').text == "OK":
+                    nodo = root[0].xpath("//multiRef[@id = '%s']" % "id0")
+                    resultado = nodo[0].find('labelPDF').text
+                    label_binary_data = binascii.a2b_base64(resultado)
+                    abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
+                    namefile = "%s_%s.pdf" % (
+                        _factura_tipo,
+                        _factura_numero
+                    )
+                    carpeta = Carpeta(abspath)
+                    archivo = Archivo(carpeta, namefile)
+                    archivo.write(label_binary_data)
 
-                self.create_Image(archivo)
+                    self.create_Image(archivo)
+                    bandera = True
+                else:
+                    resultado = nodo[0].find('resultDescription').text
+                    bandera = False
 
-            return response.content
+            else:
+                resultado = 'response.content'
+                bandera = False
+
+            return bandera, resultado
             # return label_binary_data
 
         except Exception, error:
