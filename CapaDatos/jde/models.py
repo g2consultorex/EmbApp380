@@ -266,7 +266,7 @@ class F01151(models.Model):
 		return str(self.EAAN8)
 
 class F4006(models.Model):
-	OADOCO=models.IntegerField(primary_key=True)
+	OADOCO = models.IntegerField(primary_key=True)
 	OADCTO	= models.CharField(max_length=2)
 	OAKCOO	= models.CharField(max_length=5)
 	OAANTY	= models.CharField(max_length=1)   #Shipto = 2
