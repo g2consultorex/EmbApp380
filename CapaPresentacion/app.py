@@ -1,4 +1,4 @@
-import os.path
+# import os.path
 from kivy.config import Config
 Config.set('graphics', 'window_state', 'maximized')
 # Config.set('graphics', 'resizable', True)
@@ -22,9 +22,9 @@ from CapaPresentacion.uix.ideascreen import IdeaScreen
 from CapaNegocio.gestordb import ModeloUsuario
 from CapaNegocio.estafeta import EstafetaWebService
 
-from CapaPresentacion.idea import IdeaCollection
+# from CapaPresentacion.idea import IdeaCollection
 
-import configparser
+# import configparser
 import threading
 import jsonpickle
 import simplecrypt
@@ -159,11 +159,11 @@ class SegretoApp(App):
         # Informacion del Paquete
         pack_fields = self.createlabelscreen.ids['label_container'].ids['paquete_widget'].ids
         peso = pack_fields['txt_peso'].text
-        kilos = pack_fields['txt_kilos'].text
+        # kilos = pack_fields['txt_kilos'].text
         parcelTypeId = pack_fields['txt_parcelTypeId'].text
-        weight = pack_fields['txt_largo'].text
-        alto = pack_fields['txt_alto'].text
-        ancho = pack_fields['txt_ancho'].text
+        # largo = pack_fields['txt_largo'].text
+        # alto = pack_fields['txt_alto'].text
+        # ancho = pack_fields['txt_ancho'].text
 
         # Direccion Origen
         origin_fields = service_fields = self.createlabelscreen.ids['label_container'].ids['origen_widget'].ids
@@ -281,11 +281,11 @@ class SegretoApp(App):
 
         self.labelviewscreen.fac_numero = self.createlabelscreen.factura_numero
         self.labelviewscreen.fac_tipo = self.createlabelscreen.factura_tipo
-        label = ws.create_Label(
+        flag, results = ws.create_Label(
             self.labelviewscreen.fac_numero,
             self.labelviewscreen.fac_tipo
         )
 
-        self.labelviewscreen.set_Label(label)
+        self.labelviewscreen.set_Label(flag, results)
 
         self.screenmanager.current = 'screen-labelview'

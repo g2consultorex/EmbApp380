@@ -18,19 +18,30 @@ class LabelViewScreen(Screen):
     def imprimir(self):
         Printer.send(self.fac_numero, self.fac_tipo)
 
-    def set_Label(self, _text):
+    def set_ImageEmpty(self):
+        deafult_abspath = os.path.abspath(os.path.join(os.getcwd(), "data", "images", "no_img.png"))
+        self.ids['label_container'].ids['labelview_widget'].ids['img_etiqueta'].source = deafult_abspath
 
+    def get_ImageFile(self):
         abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
         folder = Carpeta(abspath)
         file_name = "%s_%s.png" % (self.fac_tipo, self.fac_numero)
         archivo = Archivo(folder, file_name)
+        archivo.exist("buscando_imagen")
+        return archivo
+
+    def set_Label(self, _flag, _content):
+
         self.ids['label_container'].ids['labelview_widget'].ids['img_etiqueta'].source = ""
 
-        try:
-            archivo.exist("buscando_imagen")
-            self.ids['label_container'].ids['labelview_widget'].ids['img_etiqueta'].source = archivo.get_Abspath()
-        except Exception:
-            deafult_abspath = os.path.abspath(os.path.join(os.getcwd(), "data", "images", "no_img.png"))
-            self.ids['label_container'].ids['labelview_widget'].ids['img_etiqueta'].source = deafult_abspath
-
-        self.ids['label_container'].ids['labelview_widget'].ids['lbl_etiqueta_view'].text = _text
+        if _flag:
+            try:
+                archivo_img = self.get_ImageFile()
+                self.ids['label_container'].ids['labelview_widget'].ids['img_etiqueta'].source = archivo_img.get_Abspath()
+                self.ids['label_container'].ids['labelview_widget'].ids['lbl_etiqueta_view'].text = _content
+            except Exception as error:
+                self.set_ImageEmpty()
+                self.ids['label_container'].ids['labelview_widget'].ids['lbl_etiqueta_view'].text = str(error)
+        else:
+            self.set_ImageEmpty()
+            self.ids['label_container'].ids['labelview_widget'].ids['lbl_etiqueta_view'].text = _content

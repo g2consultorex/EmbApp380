@@ -23,6 +23,13 @@
     multiline: False
     write_tab: False
 
+<CampoGenericoMediumR@TextInput>:
+    padding: '10dp', '10dp'
+    halign: 'justify'
+    multiline: False
+    write_tab: False
+    background_color: hex('#f6dfc4')
+
 <CampoGenericoMedium@TextInput>:
     padding: '10dp', '10dp'
     halign: 'justify'
@@ -495,16 +502,15 @@
             spacing: 40, 16
 
             # Fila 1
-
             StackLayout:
                 size_hint_y: None
                 height: '40dp'
                 LabelGeneric:
                     text: 'Tipo Servicio:'
-                    size_hint_x: .25
-                CampoGenericoMedium:
+                    size_hint_x: .20
+                CampoGenericoMediumR:
                     id: txt_servicetypeid
-                    size_hint_x: .40
+                    size_hint_x: .60
                     text: "70"
                 Button:
                     size_hint:None, None
@@ -519,10 +525,10 @@
                 height: '40dp'
                 LabelGeneric:
                     text: 'Cantidad Guias:'
-                    size_hint_x: .26
-                CampoGenericoMedium:
+                    size_hint_x: .20
+                CampoGenericoMediumR:
                     id: txt_number_labels
-                    size_hint_x: .74
+                    size_hint_x: .80
                     input_type: 'number'
                     input_filter: 'int'
                     text: "1"
@@ -533,10 +539,10 @@
                 height: '40dp'
                 LabelGeneric:
                     text: 'Entregar en Estafeta:'
-                    size_hint_x: .45
+                    size_hint_x: .20
                 CheckBox:
                     id: chk_deliverytoestafetaoffice
-                    size_hint_x: .45
+                    size_hint_x: .60
                     active: False
 
             StackLayout:
@@ -544,10 +550,10 @@
                 height: '40dp'
                 LabelGeneric:
                     text: 'Oficina Numero:'
-                    size_hint_x: .30
-                CampoGenericoMedium:
+                    size_hint_x: .25
+                CampoGenericoMediumR:
                     id: txt_office_num
-                    size_hint_x: .70
+                    size_hint_x: .75
                     text: "130"
 
             # Fila 3
@@ -556,10 +562,10 @@
                 height: '40dp'
                 LabelGeneric:
                     text: 'Contenido:'
-                    size_hint_x: .26
-                CampoGenericoMedium:
+                    size_hint_x: .20
+                CampoGenericoMediumR:
                     id: txt_content
-                    size_hint_x: .40
+                    size_hint_x: .60
                     text: "JOYAS"
                 Button:
                     size_hint:None, None
@@ -583,20 +589,23 @@
                 size_hint_y: None
                 height: '40dp'
                 LabelGeneric:
-                    text: 'Informacion adicional'
-                    size_hint_x: .36
+                    text: 'Informacion adicional:'
+                    size_hint_x: .25
                 CampoGenericoMedium:
                     id: txt_aditionalinfo
-                    size_hint_x: .64
+                    size_hint_x: .65
                     text: "OPERACION"
 
             StackLayout:
                 size_hint_y: None
                 height: '40dp'
-                CampoGenericoMedium:
+                LabelGeneric:
+                    text: 'Centro de Costo:'
+                    size_hint_x: .20
+                CampoGenericoMediumR:
                     id: txt_costcenter
-                    hint_text: 'Centros de Costos'
-                    size_hint_x: 1
+                    hint_text: 'Centro de Costos'
+                    size_hint_x: .80
                     text: "12345"
 
             # File 5
@@ -605,10 +614,10 @@
                 height: '40dp'
                 LabelGeneric:
                     text: 'Retornar Documento:'
-                    size_hint_x: .45
+                    size_hint_x: .20
                 CheckBox:
                     id: chk_returndocument
-                    size_hint_x: .45
+                    size_hint_x: .70
                     active: False
 
             StackLayout:
@@ -616,10 +625,10 @@
                 height: '40dp'
                 LabelGeneric:
                     text: 'Tipo Documento Retorno:'
-                    size_hint_x: .45
+                    size_hint_x: .25
                 CampoGenericoMedium:
                     id: txt_servicetypeiddocret
-                    size_hint_x: .45
+                    size_hint_x: .75
                     text: ""
 
             # File 6
@@ -628,10 +637,10 @@
                 height: '40dp'
                 LabelGeneric:
                     text: 'Pais Destino:'
-                    size_hint_x: .19
+                    size_hint_x: .20
                 CampoGenericoMedium:
                     id: txt_destino_countryid
-                    size_hint_x: .42
+                    size_hint_x: .70
                     text: "MX"
 
             StackLayout:
@@ -640,7 +649,7 @@
                 LabelGeneric:
                     text: 'Referencia:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_reference
                     text: "FRENTE AL SONBORNS"
                     size_hint_x: .82
@@ -651,12 +660,12 @@
                 height: '40dp'
                 LabelGeneric:
                     text: 'Valor declarado/Valor factura:'
-                    size_hint_x: .45
+                    size_hint_x: .30
                 CampoGenericoMedium:
                     id: txt_kilos
                     input_type: 'number'
                     input_filter: 'float'
-                    size_hint_x: .45
+                    size_hint_x: .60
 
 <TipoServicioPopup>:
     title: 'Tipos de Servicio'
@@ -795,7 +804,7 @@
                 LabelGeneric:
                     text: 'Peso:'
                     size_hint_x: .10
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_peso
                     input_type: 'number'
                     input_filter: 'float'
@@ -821,7 +830,7 @@
                 LabelGeneric:
                     text: 'Tipo de Empaque:'
                     size_hint_x: .29
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_parcelTypeId
                     input_type: 'number'
                     input_filter: 'int'
@@ -946,7 +955,7 @@
                 LabelGeneric:
                     text: 'Direccion 1:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_origen_address1
                     size_hint_x: .82
                     text: "CALLE 5"
@@ -980,7 +989,7 @@
                 LabelGeneric:
                     text: 'Ciudad:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_origen_city
                     size_hint_x: .82
                     text: "TLALPAN"
@@ -992,7 +1001,7 @@
                 LabelGeneric:
                     text: 'Contacto:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_origen_contactname
                     size_hint_x: .82
                     text: "JANET OIDOR"
@@ -1003,7 +1012,7 @@
                 LabelGeneric:
                     text: 'Empresa:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_origen_corporatename
                     size_hint_x: .82
                     text: "ALTAS SA DE CV"
@@ -1015,7 +1024,7 @@
                 LabelGeneric:
                     text: 'Colonia:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_origen_neighborhood
                     size_hint_x: .82
                     text: "CENTRO"
@@ -1038,7 +1047,7 @@
                 LabelGeneric:
                     text: 'Zip Codigo:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_origen_zipcode
                     size_hint_x: .82
                     text: "02300"
@@ -1049,7 +1058,7 @@
                 LabelGeneric:
                     text: 'Estado:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_origen_state
                     size_hint_x: .82
                     text: "DF"
@@ -1089,7 +1098,7 @@
                 LabelGeneric:
                     text: 'Direccion 1:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_destino_address1
                     size_hint_x: .82
                     text: "MAIZALES"
@@ -1123,7 +1132,7 @@
                 LabelGeneric:
                     text: 'Ciudad:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_destino_city
                     size_hint_x: .82
                     text: "COYOACAN"
@@ -1135,7 +1144,7 @@
                 LabelGeneric:
                     text: 'Contacto:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_destino_contactname
                     size_hint_x: .82
                     text: "JAVIER SANCHEZ"
@@ -1146,7 +1155,7 @@
                 LabelGeneric:
                     text: 'Empresa:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_destino_corporatename
                     size_hint_x: .82
                     text: "CHICOLOAPAN SA DE CV"
@@ -1158,7 +1167,7 @@
                 LabelGeneric:
                     text: 'Cliente:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_destino_customernumber
                     size_hint_x: .82
                     text: "0000000"
@@ -1169,7 +1178,7 @@
                 LabelGeneric:
                     text: 'Colonia:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_destino_neighborhood
                     size_hint_x: .82
                     text: "CENTRO"
@@ -1192,7 +1201,7 @@
                 LabelGeneric:
                     text: 'Estado:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_destino_state
                     size_hint_x: .82
                     text: "ESTADO  DE MEXICO"
@@ -1204,7 +1213,7 @@
                 LabelGeneric:
                     text: 'Zip Codigo:'
                     size_hint_x: .18
-                CampoGenericoMedium:
+                CampoGenericoMediumR:
                     id: txt_destino_zipcode
                     size_hint_x: .82
                     text: "02130"
@@ -1288,7 +1297,7 @@
                 CampoGenericoMedium:
                     id: txt_suscriber_id
                     disabled: True
-                    size_hint_x: .45
+                    size_hint_x: .60
 
             # Fila 2
             StackLayout:
@@ -1311,7 +1320,7 @@
                 CampoGenericoMedium:
                     id: txt_quadrant
                     disabled: True
-                    size_hint_x: .45
+                    size_hint_x: .60
 
             # Fila 3
             StackLayout:
