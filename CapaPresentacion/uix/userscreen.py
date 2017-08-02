@@ -33,12 +33,13 @@ class UserScreen(Screen):
     def show_Registros(self):
         try:
             self._show_loader(True)
+            cadena_buscar = self.ids['txt_buscar'].text
             contenedor = self.ids['user_container'].ids['container']
             contenedor.clear_widgets()
-            registros = ModeloUsuario.get()
+            registros = ModeloUsuario.get(cadena_buscar)
 
             for registro in registros:
-                widget = UsuarioItem(registro)
+                widget = UsuarioItem(registro, self)
                 contenedor.add_widget(widget)
 
             self._show_loader(False)
@@ -46,44 +47,49 @@ class UserScreen(Screen):
         except Exception as e:
             self.failure(str(e))
 
+    def click_BotonNuevo(self):
+        UserAddPopup(self).open()
+
     def click_BotonBuscar(self):
         self.show_Registros()
-
-    def click_BotonNuevo(self):
-        UserAddPopup().open()
 
 
 class UsuarioItem(StackLayout):
 
     registro = ObjectProperty(None)
+    screen = ObjectProperty(None)
 
-    def __init__(self, _registro, **kwargs):
+    def __init__(self, _registro, _screen, **kwargs):
         super(UsuarioItem, self).__init__(**kwargs)
-
         self.ids['lbl_cuenta'].text = _registro.username
-
         if _registro.get_full_name() == '':
-            self.ids['lbl_descripcion'].text = "Sin descripcion"
+            self.ids['lbl_descripcion'].text = "Sin Nombre"
         else:
             self.ids['lbl_descripcion'].text = _registro.get_full_name()
-
         self.ids['lbl_date'].text = _registro.date_joined.strftime('%m/%d/%Y')
-
         self.registro = _registro
+        self.screen = _screen
 
     def click_BotonEditar(self):
-        UserEditPopup(self.registro).open()
+        UserEditPopup(self.registro, self.screen).open()
 
 
 class UserAddPopup(Popup):
+
+    screen = ObjectProperty(None)
+
+    def __init__(self, _screen, **kwargs):
+        super(UserAddPopup, self).__init__(**kwargs)
+        self.screen = _screen
 
     def click_BotonCrear(self):
         clave = self.ids['txt_cuenta'].text
         nombre = self.ids['txt_nombre'].text
         descripcion = self.ids['txt_apellidos'].text
         contrasena = self.ids['txt_password'].text
-        estafeta_cuenta_clave = self.ids['txt_estafeta_cuenta'].text
+        estafeta_cuenta_clave = self.ids['txt_estafeta_ambiente'].text
         ModeloUsuario.add(clave, nombre, descripcion, contrasena, estafeta_cuenta_clave)
+        self.screen.show_Registros()
         self.dismiss()
 
     def click_BotonEstafetaAmbientes(self):
@@ -92,12 +98,20 @@ class UserAddPopup(Popup):
 
 class UserEditPopup(Popup):
 
-    def __init__(self, _registro, **kwargs):
+    screen = ObjectProperty(None)
+
+    def __init__(self, _registro, _screen, **kwargs):
         super(UserEditPopup, self).__init__(**kwargs)
         self.ids['txt_cuenta'].text = _registro.username
         self.ids['txt_nombre'].text = _registro.first_name
         self.ids['txt_apellidos'].text = _registro.last_name
         self.ids['chk_activo'].active = _registro.is_active
+        if _registro.profile.estafeta:
+            self.ids['txt_estafeta_ambiente'].text = _registro.profile.estafeta.clave
+        else:
+            self.ids['txt_estafeta_ambiente'].text = ""
+
+        self.screen = _screen
 
     def click_BotonGuardar(self):
         clave = self.ids['txt_cuenta'].text
@@ -105,9 +119,9 @@ class UserEditPopup(Popup):
         descripcion = self.ids['txt_apellidos'].text
         contrasena = self.ids['txt_password'].text
         activo = self.ids['chk_activo'].active
-        estafeta_cuenta_clave = self.ids['txt_estafeta_cuenta'].text
+        estafeta_cuenta_clave = self.ids['txt_estafeta_ambiente'].text
         ModeloUsuario.edit(clave, nombre, descripcion, contrasena, activo, estafeta_cuenta_clave)
-
+        self.screen.show_Registros()
         self.dismiss()
 
     def click_BotonEstafetaAmbientes(self):
@@ -125,13 +139,13 @@ class EstafetaAmbientesPopup(Popup):
     def load_Records(self):
         contenedor = self.ids['container']
         contenedor.clear_widgets()
-        registros = ModeloEstafetaAmbiente.get()
+        registros = ModeloEstafetaAmbiente.get_Actives()
 
         for registro in registros:
             widget = EstafetaAmbienteOption(registro)
             contenedor.add_widget(widget)
 
-    def click_SelectButton(self):
+    def click_BotonSeleccionar(self):
         value = ""
 
         for hijo in self.ids['container'].children:
@@ -139,7 +153,7 @@ class EstafetaAmbientesPopup(Popup):
                 value = hijo.registro.clave
 
         if value:
-            self.screen.ids['txt_estafeta_cuenta'].text = value
+            self.screen.ids['txt_estafeta_ambiente'].text = value
             self.dismiss()
 
 

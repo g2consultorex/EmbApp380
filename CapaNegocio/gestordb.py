@@ -24,6 +24,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 
 from configuration.models import EstafetaAmbiente
+from security.models import Profile
 from jde.models import F0101
 from jde.models import F4211
 from jde.models import F42119
@@ -53,18 +54,22 @@ class ModeloUsuario(object):
             print str(e)
 
     @classmethod
-    def get(self, _user=None):
+    def get(self, _text):
 
         try:
             connection.close()
-            usuario = User.objects.all().order_by('date_joined')
-            return usuario
+            registro = User.objects.filter(
+                Q(username__icontains=_text) |
+                Q(first_name__icontains=_text) |
+                Q(last_name__icontains=_text)
+            ).order_by('date_joined')
+            return registro
 
         except Exception:
             pass
 
     @classmethod
-    def add(self, _username, _first_name, _last_name, _password, _estafeta_cuenta_clave):
+    def add(self, _username, _first_name, _last_name, _password, _estafeta_ambiente_clave):
 
         try:
             connection.close()
@@ -78,11 +83,16 @@ class ModeloUsuario(object):
                 usuario.set_password("12345")
             usuario.save()
 
+            estafeta_ambiente = ModeloEstafetaAmbiente.get(_estafeta_ambiente_clave)
+            if len(estafeta_ambiente):
+                usuario.profile.estafeta = estafeta_ambiente[0]
+                usuario.profile.save()
+
         except Exception as e:
             print str(e)
 
     @classmethod
-    def edit(self, _username, _first_name, _last_name, _password, _active, _estafeta_cuenta_clave):
+    def edit(self, _username, _first_name, _last_name, _password, _active, _estafeta_ambiente_clave):
 
         try:
             connection.close()
@@ -95,6 +105,11 @@ class ModeloUsuario(object):
                 usuario.set_password(_password)
 
             usuario.save()
+
+            estafeta_ambiente = ModeloEstafetaAmbiente.get(_estafeta_ambiente_clave)
+            if len(estafeta_ambiente):
+                usuario.profile.estafeta = estafeta_ambiente[0]
+                usuario.profile.save()
 
         except Exception as e:
             print str(e)
@@ -199,7 +214,7 @@ class Factura(object):
             }
             return False, value
 
-   
+
     # @classmethod
     # def InsertaGuia(self, _guia, _numero, _tipo):
 

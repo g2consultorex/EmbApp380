@@ -31,7 +31,6 @@ class EstafetaScreen(Screen):
     def show_Registros(self):
         try:
             self._show_loader(True)
-
             cadena_buscar = self.ids['txt_buscar'].text
             contenedor = self.ids['estafeta_container'].ids['container']
             contenedor.clear_widgets()
