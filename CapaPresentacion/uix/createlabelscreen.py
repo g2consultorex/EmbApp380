@@ -18,14 +18,23 @@ class CreateLabelScreen(Screen):
         super(CreateLabelScreen, self).__init__(**kwargs)
         self.factura_numero = ""
         self.factura_tipo = ""
+        self._show_loader(False)
+
+    def _show_loader(self, show):
+        if show:
+            self.ids['loader'].opacity = 1.0
+        else:
+            self.ids['loader'].opacity = 0.0
 
     def failure(self, error):
         self._show_toast(error)
+        self._show_loader(False)
 
     def _show_toast(self, text):
         self.ids['toast'].show(text)
 
     def buscar_Factura(self):
+        self._show_loader(True)
 
         self.factura_numero = str(self.ids['txt_factura_numero'].text)
         self.factura_tipo = self.ids['txt_factura_tipo'].text
@@ -59,7 +68,10 @@ class CreateLabelScreen(Screen):
 
                 servicio['destino_countryid'] = dir_destino['Country']
                 self.fill_Servicio(servicio)
+            else:
+                self.failure(dir_destino['mensaje'])
 
+            self._show_loader(False)
         else:
             self.failure("Falto especificar Factura")
 

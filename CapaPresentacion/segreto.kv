@@ -449,8 +449,19 @@
                 id: label_container
         Toast:
             id:toast
-            width: min(root.width - dp(32), dp(300))
+            # width: min(root.width - dp(32), dp(300))
+            width: 700
             x:root.center_x - self.width // 2
+
+        AsyncImage:
+            id:loader
+            center_x:root.center_x
+            # top:grid.y + dp(-50)
+            top: 500
+            size_hint:None, None
+            size:'100dp','100dp'
+            source:'data/images/ripple.gif'
+            anim_delay:0.05
 
 <CreateLabelContainer@ScrollView>:
     StackLayout:
@@ -1414,7 +1425,7 @@
         Button:
             size_hint_x: .3
             text: 'Crear Etiqueta'
-            on_release: app.crear_Etiqueta()
+            on_press: app.crear_Etiqueta()
 
 
 ########################### ESTAFETA SCREEN ###########################
@@ -1739,6 +1750,21 @@
             # LIST
             LabelViewContainer:
                 id: label_container
+        Toast:
+            id:toast
+            # width: min(root.width - dp(32), dp(300))
+            width: 700
+            x:root.center_x - self.width // 2
+
+        AsyncImage:
+            id:loader
+            center_x:root.center_x
+            # top:grid.y + dp(-50)
+            top: 500
+            size_hint:None, None
+            size:'100dp','100dp'
+            source:'data/images/ripple.gif'
+            anim_delay:0.05
 
 <LabelViewContainer@ScrollView>:
     StackLayout:
@@ -1781,8 +1807,8 @@
             multiline: True
             size_hint_x: 1
 
-########################### IDEAS ###########################
 
+########################### IDEAS ###########################
 
 <IdeaScreen>:
     FONDO:
