@@ -10,6 +10,7 @@ from CapaNegocio.gestordb import ModeloEstafetaAmbiente
 # from CapaNegocio.gestordb import Factura
 from CapaNegocio.gestordb import DireccionOrigen
 from CapaNegocio.gestordb import DireccionDestino
+from CapaNegocio.gestordb import ModeloUsuario
 
 
 class CreateLabelScreen(Screen):
@@ -26,12 +27,34 @@ class CreateLabelScreen(Screen):
         else:
             self.ids['loader'].opacity = 0.0
 
+    def _show_toast(self, text):
+        self.ids['toast'].show(text)
+
     def failure(self, error):
         self._show_toast(error)
         self._show_loader(False)
 
-    def _show_toast(self, text):
-        self.ids['toast'].show(text)
+    def load_EstafetaAmbiente(self, _user_account):
+        usuario = ModeloUsuario.get(_user_account)
+
+        if len(usuario) > 0:
+            if usuario[0].profile.estafeta:
+
+                ambiente = usuario[0].profile.estafeta
+                data = self.ids['label_container'].ids['estafeta_ambiente_widget']
+                data.ids['txt_cuenta'].text = ambiente.clave
+                data.ids['txt_url'].text = ambiente.url
+                data.ids['txt_login'].text = ambiente.login
+                data.ids['txt_suscriber_id'].text = ambiente.suscriber_id
+                data.ids['txt_password'].text = ambiente.password
+                data.ids['txt_quadrant'].text = str(ambiente.quadrant)
+                data.ids['txt_tipo_papel'].text = str(ambiente.paper_type)
+                data.ids['txt_customernumber'].text = ambiente.customer_number
+
+            else:
+                self.failure("El usuario no tiene configurado un Ambiente")
+        else:
+            self.failure("No existe un usuario")
 
     def buscar_Factura(self):
         self._show_loader(True)
@@ -333,22 +356,22 @@ class TipoPaqueteWidget(BoxLayout):
         self.ids["lbl_tipo"].text = _descripcion
 
 
-class CredencialesWidget(StackLayout):
+class EstafetaAmbienteWidget(StackLayout):
 
-    # def open_CredencialesPopup(self):
-        # CredencialesPopup(self).open()
+    def click_BotonEstafetaAmbientes(self):
+        EstafetaAmbientesPopup(self).open()
 
-    def fill_Campos(self, cuenta):
+    def fill_Campos(self, ambiente):
 
         self.clear_Campos()
-        self.ids['txt_cuenta'].text = cuenta.clave
-        self.ids['txt_url'].text = cuenta.url
-        self.ids['txt_login'].text = cuenta.login
-        self.ids['txt_suscriber_id'].text = cuenta.suscriber_id
-        self.ids['txt_password'].text = cuenta.password
-        self.ids['txt_quadrant'].text = str(cuenta.quadrant)
-        self.ids['txt_tipo_papel'].text = str(cuenta.paper_type)
-        self.ids['txt_customernumber'].text = cuenta.customer_number
+        self.ids['txt_cuenta'].text = ambiente.clave
+        self.ids['txt_url'].text = ambiente.url
+        self.ids['txt_login'].text = ambiente.login
+        self.ids['txt_suscriber_id'].text = ambiente.suscriber_id
+        self.ids['txt_password'].text = ambiente.password
+        self.ids['txt_quadrant'].text = str(ambiente.quadrant)
+        self.ids['txt_tipo_papel'].text = str(ambiente.paper_type)
+        self.ids['txt_customernumber'].text = ambiente.customer_number
 
     def clear_Campos(self):
         self.ids['txt_cuenta'].text = ''
@@ -361,47 +384,39 @@ class CredencialesWidget(StackLayout):
         self.ids['txt_customernumber'].text = ''
 
 
-# class CredencialesPopup(Popup):
-#
-#     padre = ObjectProperty(None)
-#
-#     def __init__(self, padre, **kwargs):
-#
-#         super(CredencialesPopup, self).__init__(**kwargs)
-#
-#         self.padre = padre
-#
-#         self.show_All_Cuentas()
-#
-#     def show_All_Cuentas(self):
-#
-#         self.ids['container'].clear_widgets()
-#
-#         cuentas = ModeloEstafetaAmbiente.get()
-#
-#         for cuenta in cuentas:
-#             widget = CuentaWidget(cuenta)
-#             self.ids['container'].add_widget(widget)
-#
-#     def click_SelectButton(self):
-#
-#         cuenta = None
-#
-#         for hijo in self.ids['container'].children:
-#
-#             if hijo.ids['chk_cuenta'].active is True:
-#                 cuenta = hijo.cuenta
-#
-#         if cuenta:
-#             self.padre.fill_Campos(cuenta)
-#             self.dismiss()
-#
-#
-# class CuentaWidget(BoxLayout):
-#
-#     cuenta = ObjectProperty(None)
-#
-#     def __init__(self, _cuenta, **kwargs):
-#         super(CuentaWidget, self).__init__(**kwargs)
-#         self.ids["lbl_cuenta"].text = _cuenta.clave
-#         self.cuenta = _cuenta
+class EstafetaAmbientesPopup(Popup):
+    padre = ObjectProperty(None)
+
+    def __init__(self, _padre, **kwargs):
+        super(EstafetaAmbientesPopup, self).__init__(**kwargs)
+        self.padre = _padre
+        self.load_Records()
+
+    def load_Records(self):
+        contenedor = self.ids['container']
+        contenedor.clear_widgets()
+        registros = ModeloEstafetaAmbiente.get_Actives()
+
+        for registro in registros:
+            widget = EstafetaAmbienteOption(registro)
+            contenedor.add_widget(widget)
+
+    def click_BotonSeleccionar(self):
+        value = ""
+
+        for hijo in self.ids['container'].children:
+            if hijo.ids['chk_cuenta_estafeta'].active is True:
+                value = hijo.registro
+
+        if value:
+            self.padre.fill_Campos(value)
+            self.dismiss()
+
+
+class EstafetaAmbienteOption(BoxLayout):
+    registro = ObjectProperty(None)
+
+    def __init__(self, _registro, **kwargs):
+        super(EstafetaAmbienteOption, self).__init__(**kwargs)
+        self.ids["lbl_cuenta_estafeta"].text = _registro.clave
+        self.registro = _registro

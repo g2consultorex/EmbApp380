@@ -263,8 +263,8 @@
             id: origen_widget
         DestinoWidget:
             id: destino_widget
-        CredencialesWidget:
-            id: credenciales_widget
+        EstafetaAmbienteWidget:
+            id: estafeta_ambiente_widget
         ControlWidget:
 
 <ServicioWidget@StackLayout>:
@@ -1012,7 +1012,7 @@
                     size_hint_x: .82
                     text: "02130"
 
-<CredencialesWidget@StackLayout>:
+<EstafetaAmbienteWidget@StackLayout>:
     # id: credenciales_widget
     orientation: 'lr-tb'
     padding: '10dp'
@@ -1052,7 +1052,7 @@
                 border:10,10,10,10
                 background_normal:'data/images/src/but_new.png'
                 background_down:'data/images/src/but_new_down.png'
-                on_release: root.click_EstafetaAmbientes()
+                on_release: root.click_BotonEstafetaAmbientes()
 
         StackLayout:
             size_hint_y: None

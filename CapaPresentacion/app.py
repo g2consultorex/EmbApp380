@@ -83,7 +83,9 @@ class SegretoApp(App):
         self.password = self.loginscreen.ids['grid'].password
 
         if ModeloUsuario.login(self.username, self.password):
+            self.createlabelscreen.load_EstafetaAmbiente(self.username)
             self.screenmanager.current = 'screen-createlabel'
+
         else:
             self.loginscreen.login_failure('Usuario o Contrasena no valida')
             self.username = ''

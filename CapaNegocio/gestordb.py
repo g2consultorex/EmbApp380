@@ -24,7 +24,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 
 from configuration.models import EstafetaAmbiente
-from security.models import Profile
+# from security.models import Profile
 from jde.models import F0101
 from jde.models import F4211
 from jde.models import F42119
