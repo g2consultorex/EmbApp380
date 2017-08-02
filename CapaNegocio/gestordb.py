@@ -3,6 +3,8 @@
 # Python's Libraries
 import os
 import sys
+import time
+import datetime
 
 # project_abspath = "C:\Users\Carlos\Proyectos\EstafetaConnect\src\GestorDB"
 project_abspath = os.path.abspath(os.path.join(os.getcwd(), 'CapaDatos'))
@@ -180,7 +182,7 @@ class Factura(object):
             }
             return False, value
 
-
+   
     # @classmethod
     # def InsertaGuia(self, _guia, _numero, _tipo):
 
@@ -192,8 +194,8 @@ class Factura(object):
     #         factura.TNVR03 = _guia
     #         factura.TNUSER = 'JDE'
     #         factura.TNJOBN = 'IGPLENT1'
-    #         factura.TNUPMJ =  'Fecha Juliana'
-    #         factura.TNUPMT =  'tiempo sin puntos'
+    #         factura.TNUPMJ = (1000 * (int(time.strftime("%Y")) - 1900) + int(time.strftime("%j")))
+    #         factura.TNUPMT = int(time.strftime("%I%M%S"))
     #         factura.save()
 
 
