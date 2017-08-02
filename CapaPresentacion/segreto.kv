@@ -123,7 +123,7 @@
     Button:
         text: 'Estafeta Cuentas'
         size_hint_x: .20
-        on_release: app.goto_EstafetaCuentas()
+        on_release: app.goto_EstafetaAmbientes()
 
 ########################### LOGIN ###########################
 
@@ -192,223 +192,6 @@
         background_normal:'data/images/src/but_turq.png'
         background_down:'data/images/src/but_turq_down.png'
         on_release:root.dispatch('on_login')
-
-
-########################### USUARIOS ###########################
-
-<UserScreen>:
-    FONDO:
-        BoxLayout:
-            orientation:'vertical'
-
-            # MENU
-            Menu:
-
-            # SEARCH
-            BoxLayout:
-                size_hint_y: None
-                height: '50dp'
-                orientation: 'horizontal'
-
-                Button:
-                    size_hint:None, None
-                    size:'48dp', '48dp'
-                    border:10,10,10,10
-                    background_normal:'data/images/src/but_new.png'
-                    background_down:'data/images/src/but_new_down.png'
-                    on_release: root.open_AddPopup()
-
-                CampoGenerico:
-                    hint_text: 'Texto a buscar'
-                    size_hint_x: .8
-
-                Button:
-                    text: 'Buscar'
-                    size_hint_x: .2
-                    on_release: root.show_All_Users()
-
-            # LIST
-            UsuariosContainer:
-                id: user_container
-
-<UsuariosContainer@ScrollView>:
-    StackLayout:
-        id: container
-        size_hint_y: None
-        size_hint_x: 1
-        height: self.minimum_height
-        orientation: 'lr-tb'
-        padding:'15dp', '15dp','15dp','15dp'
-        spacing:'15dp'
-        # UsuarioWidget:
-        # UsuarioWidget:
-
-<UsuarioWidget@StackLayout>:
-    id: user_widget
-    orientation: 'lr-tb'
-    padding: '16dp'
-    size_hint_y:None
-    height: self.minimum_height
-    canvas:
-        Color:
-            rgba: 0.925, 0.941, 0.937, 1.0
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: 10, 10, 10, 10
-
-    BoxLayout:
-        orientation: 'horizontal'
-        size_hint_y: None
-        height: '36dp'
-        Label:
-            id: lbl_cuenta
-            color: 0.404, 0.522, 0.549, 1.0
-            size_hint_x: .3
-            font_size: '25sp'
-            font_name: 'Lato-Heavy.ttf'
-
-        Label:
-            id: lbl_descripcion
-            color: 0.404, 0.522, 0.549, 1.0
-            size_hint_x: .4
-            font_size: '18sp'
-            font_name: 'Lato-Heavy.ttf'
-
-        Label:
-            id: lbl_date
-            color: 0.404, 0.522, 0.549, 1.0
-            size_hint_x: .2
-            font_size: '15sp'
-            font_name: 'Lato-Semibold.ttf'
-
-        BoxLayout:
-            orientation:'horizontal'
-            spacing:'16dp'
-            size_hint_x: .1
-            Space:
-            # SegButton:
-            #     id:but_del
-            #     size_hint:None, None
-            #     size:'36dp', '36dp'
-            #     border:8,8,8,8
-            #     background_normal:'data/images/src/but_del.png'
-            #     background_down:'data/images/src/but_del_down.png'
-                # on_release:root.dispatch('on_del_pressed')
-            SegButton:
-                id:but_edit
-                size_hint:None, None
-                size:'36dp', '36dp'
-                border:8,8,8,8
-                background_normal:'data/images/src/but_edit.png'
-                background_down:'data/images/src/but_edit_down.png'
-                on_release : root.click_BotonEditar()
-
-<UserAddPopup>:
-    title: 'Nuevo Usuario'
-    size_hint: (.5, .5)
-    GridLayout:
-        cols: 1
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                text: "Cuenta"
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_cuenta
-                focus: True
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Nombre'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_nombre
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Apellidos'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_apellidos
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Contraseña'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_password
-                password: True
-                size_hint_x: .8
-
-        Space:
-        BoxLayout:
-            padding: 30, 0, 30, 5
-            Button:
-                size_hint_x: 1
-                text: 'Crear'
-                on_release: root.click_CreateButton()
-
-<UserEditPopup>:
-    title: 'Editar Usuario'
-    size_hint: (.5, .6)
-    GridLayout:
-        cols: 1
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                text: "Cuenta"
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_cuenta
-                disabled: True
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Nombre'
-                size_hint_x: .2
-            CampoGenerico:
-                focus: True
-                id: txt_nombre
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Apellidos'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_apellidos
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Activo'
-                size_hint_x: .2
-            CheckBox:
-                id: chk_activo
-                text: ''
-                active: False
-
-        BoxLayout:
-            Label:
-                text: 'Contraseña'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_password
-                password: True
-                size_hint_x: .8
-
-        Space:
-        BoxLayout:
-            padding: 30, 0, 30, 5
-            Button:
-                size_hint_x: 1
-                text: 'Guardar'
-                on_release: root.click_SaveButton()
 
 
 ########################### CREATE LABEL ###########################
@@ -1269,7 +1052,7 @@
                 border:10,10,10,10
                 background_normal:'data/images/src/but_new.png'
                 background_down:'data/images/src/but_new_down.png'
-                on_release: root.open_CredencialesPopup()
+                on_release: root.click_EstafetaAmbientes()
 
         StackLayout:
             size_hint_y: None
@@ -1356,61 +1139,6 @@
                     disabled: True
                     size_hint_x: .60
 
-<CredencialesPopup>:
-    title: 'Cuentas Disponibles'
-    size_hint: (.5, .5)
-    GridLayout:
-        cols: 1
-        ScrollView:
-            id: credenciales_list
-            size_hint_x: 1
-            StackLayout:
-                id: container
-                size_hint_y: None
-                height: self.minimum_height
-                size_hint_x: 1
-                orientation: 'lr-tb'
-                # padding:'10dp', '10dp','10dp','10dp'
-                spacing:'15dp'
-                # CuentaWidget:
-                # CuentaWidget:
-                # CuentaWidget:
-
-        AnchorLayout:
-            padding: 30, 0, 30, 5
-            size_hint_y: None
-            height: '60dp'
-            Button:
-                size_hint_y: None
-                height: '60dp'
-                size_hint_x: 1
-                text: 'Seleccionar'
-                on_release: root.click_SelectButton()
-
-<CuentaWidget@BoxLayout>:
-    id: credenciales_widget
-    padding: '10dp'
-    size_hint_y: None
-    height: '50dp'
-    orientation: 'horizontal'
-    canvas:
-        Color:
-            rgba: hex('#D5E1FF')
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: 10, 10, 10, 10
-
-    CheckBox:
-        id: chk_cuenta
-        size_hint_x: .1
-        group: "cuenta"
-    Label:
-        id: lbl_cuenta
-        size_hint_x: .9
-        text: "Hola"
-        color: hex('#121313')
-
 <ControlWidget@StackLayout>:
     id: user_widget
     orientation: 'lr-tb'
@@ -1426,300 +1154,6 @@
             size_hint_x: .3
             text: 'Crear Etiqueta'
             on_press: app.crear_Etiqueta()
-
-
-########################### ESTAFETA SCREEN ###########################
-
-<EstafetaScreen>:
-    FONDO:
-        BoxLayout:
-            orientation:'vertical'
-
-            # MENU
-            Menu:
-
-            # SEARCH
-            BoxLayout:
-                size_hint_y: None
-                height: '50dp'
-                orientation: 'horizontal'
-
-                Button:
-                    size_hint:None, None
-                    size:'48dp', '48dp'
-                    border:10,10,10,10
-                    background_normal:'data/images/src/but_new.png'
-                    background_down:'data/images/src/but_new_down.png'
-                    on_release: root.open_AddPopup()
-
-                CampoGenerico:
-                    hint_text: 'Texto a buscar'
-                    size_hint_x: .8
-
-                Button:
-                    text: 'Buscar'
-                    size_hint_x: .2
-                    on_release: root.show_All_Records()
-
-            # LIST
-            UsuariosContainer:
-                id: estafeta_container
-
-<EstafetaContainer@ScrollView>:
-    StackLayout:
-        id: container
-        size_hint_y: None
-        size_hint_x: 1
-        height: self.minimum_height
-        orientation: 'lr-tb'
-        padding:'15dp', '15dp','15dp','15dp'
-        spacing:'15dp'
-        # UsuarioWidget:
-        # UsuarioWidget:
-
-<EstafetaWidget@StackLayout>:
-    id: user_widget
-    orientation: 'lr-tb'
-    padding: '16dp'
-    size_hint_y:None
-    height: self.minimum_height
-    canvas:
-        Color:
-            rgba: 0.925, 0.941, 0.937, 1.0
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: 10, 10, 10, 10
-
-    BoxLayout:
-        orientation: 'horizontal'
-        size_hint_y: None
-        height: '36dp'
-        Label:
-            id: lbl_clave
-            color: 0.404, 0.522, 0.549, 1.0
-            size_hint_x: .3
-            font_size: '25sp'
-            font_name: 'Lato-Heavy.ttf'
-
-        Label:
-            id: lbl_login
-            color: 0.404, 0.522, 0.549, 1.0
-            size_hint_x: .4
-            font_size: '18sp'
-            font_name: 'Lato-Heavy.ttf'
-
-        Label:
-            id: lbl_date
-            color: 0.404, 0.522, 0.549, 1.0
-            size_hint_x: .2
-            font_size: '15sp'
-            font_name: 'Lato-Semibold.ttf'
-
-        BoxLayout:
-            orientation:'horizontal'
-            spacing:'16dp'
-            size_hint_x: .1
-            Space:
-            SegButton:
-                id:but_edit
-                size_hint:None, None
-                size:'36dp', '36dp'
-                border:8,8,8,8
-                background_normal:'data/images/src/but_edit.png'
-                background_down:'data/images/src/but_edit_down.png'
-                on_release : root.click_BotonEditar()
-
-<EstafetaAddPopup>:
-    title: 'Nuevo Usuario de Estafeta'
-    size_hint: (.5, .8)
-    GridLayout:
-        cols: 1
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                text: "Clave"
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_clave
-                focus: True
-                size_hint_x: .8
-
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                text: "URL"
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_url
-                focus: True
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Login'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_login
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Password'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_password
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Quadrant'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_quadrant
-                input_type: 'number'
-                input_filter: 'float'
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Suscriber ID'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_suscriber_id
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Tipo Papel'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_paper_type
-                input_type: 'number'
-                input_filter: 'float'
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'No. Cliente'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_customernumber
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Principal'
-                size_hint_x: .2
-            CheckBox:
-                id: chk_es_principal
-                text: ''
-                active: False
-
-        Space:
-        BoxLayout:
-            padding: 30, 0, 30, 5
-            Button:
-                size_hint_x: 1
-                text: 'Crear'
-                on_release: root.click_CreateButton()
-
-<EstafetaEditPopup>:
-    title: 'Editar Usuario de Estafeta'
-    size_hint: (.5, .8)
-    GridLayout:
-        cols: 1
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                text: "Clave"
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_clave
-                focus: True
-                disabled: True
-                size_hint_x: .8
-
-        BoxLayout:
-            orientation: 'horizontal'
-            Label:
-                text: "URL"
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_url
-                focus: True
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Login'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_login
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Password'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_password
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Quadrant'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_quadrant
-                input_type: 'number'
-                input_filter: 'float'
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Suscriber ID'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_suscriber_id
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Tipo Papel'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_paper_type
-                input_type: 'number'
-                input_filter: 'float'
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'No. Cliente'
-                size_hint_x: .2
-            CampoGenerico:
-                id: txt_customernumber
-                size_hint_x: .8
-
-        BoxLayout:
-            Label:
-                text: 'Principal'
-                size_hint_x: .2
-            CheckBox:
-                id: chk_es_principal
-                text: ''
-                active: False
-
-
-        Space:
-        BoxLayout:
-            padding: 30, 0, 30, 5
-            Button:
-                size_hint_x: 1
-                text: 'Guardar'
-                on_release: root.click_SaveButton()
-
 
 ########################### ETIQUETA VIEW ###########################
 
@@ -1806,6 +1240,607 @@
             id: lbl_etiqueta_view
             multiline: True
             size_hint_x: 1
+
+########################### ESTAFETA SCREEN ###########################
+
+<EstafetaScreen>:
+    FONDO:
+        BoxLayout:
+            orientation:'vertical'
+            Menu:
+            BoxLayout:
+                size_hint_y: None
+                height: '50dp'
+                orientation: 'horizontal'
+
+                Button:
+                    size_hint:None, None
+                    size:'48dp', '48dp'
+                    border:10,10,10,10
+                    background_normal:'data/images/src/but_new.png'
+                    background_down:'data/images/src/but_new_down.png'
+                    on_release: root.click_BotonNuevo()
+
+                CampoGenerico:
+                    id: txt_buscar
+                    hint_text: 'Texto a buscar'
+                    size_hint_x: .8
+
+                Button:
+                    text: 'Buscar'
+                    size_hint_x: .2
+                    on_release: root.click_BotonBuscar()
+
+            # LIST
+            UsuariosContainer:
+                id: estafeta_container
+        Toast:
+            id:toast
+            width: 700
+            x:root.center_x - self.width // 2
+        AsyncImage:
+            id:loader
+            center_x:root.center_x
+            top: 500
+            size_hint:None, None
+            size:'100dp','100dp'
+            source:'data/images/ripple.gif'
+            anim_delay:0.05
+
+<EstafetaContainer@ScrollView>:
+    StackLayout:
+        id: container
+        size_hint_y: None
+        size_hint_x: 1
+        height: self.minimum_height
+        orientation: 'lr-tb'
+        padding:'15dp', '15dp','15dp','15dp'
+        spacing:'15dp'
+        # UsuarioWidget:
+
+<EstafetaItem@StackLayout>:
+    id: user_widget
+    orientation: 'lr-tb'
+    padding: '16dp'
+    size_hint_y:None
+    height: self.minimum_height
+    canvas:
+        Color:
+            rgba: 0.925, 0.941, 0.937, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: '36dp'
+        Label:
+            id: lbl_clave
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .3
+            font_size: '25sp'
+            font_name: 'Lato-Heavy.ttf'
+
+        Label:
+            id: lbl_login
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .4
+            font_size: '18sp'
+            font_name: 'Lato-Heavy.ttf'
+
+        Label:
+            id: lbl_date
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .2
+            font_size: '15sp'
+            font_name: 'Lato-Semibold.ttf'
+
+        BoxLayout:
+            orientation:'horizontal'
+            spacing:'16dp'
+            size_hint_x: .1
+            Space:
+            SegButton:
+                size_hint:None, None
+                size:'36dp', '36dp'
+                border:8,8,8,8
+                background_normal:'data/images/src/but_edit.png'
+                background_down:'data/images/src/but_edit_down.png'
+                on_release : root.click_BotonEditar()
+
+<EstafetaAddPopup>:
+    title: 'Nuevo Ambiente de Estafeta'
+    size_hint: (.5, .8)
+    GridLayout:
+        cols: 1
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "Clave"
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_clave
+                focus: True
+                size_hint_x: .8
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "URL"
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_url
+                focus: True
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Login'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_login
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Password'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_password
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Quadrant'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_quadrant
+                input_type: 'number'
+                input_filter: 'float'
+                size_hint_x: .8
+                text: "1"
+
+        BoxLayout:
+            Label:
+                text: 'Suscriber ID'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_suscriber_id
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Tipo Papel'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_paper_type
+                input_type: 'number'
+                input_filter: 'float'
+                size_hint_x: .8
+                text: "1"
+
+        BoxLayout:
+            Label:
+                text: 'No. Cliente'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_customernumber
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Activo'
+                size_hint_x: .2
+            CheckBox:
+                id: chk_is_active
+                text: ''
+                active: False
+
+        Space:
+        BoxLayout:
+            padding: 30, 0, 30, 5
+            Button:
+                size_hint_x: 1
+                text: 'Crear'
+                on_release: root.click_BotonCrear()
+
+<EstafetaEditPopup>:
+    title: 'Editar Ambiente de Estafeta'
+    size_hint: (.5, .8)
+    GridLayout:
+        cols: 1
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "Clave"
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_clave
+                focus: True
+                disabled: True
+                size_hint_x: .8
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "URL"
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_url
+                focus: True
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Login'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_login
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Password'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_password
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Quadrant'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_quadrant
+                input_type: 'number'
+                input_filter: 'float'
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Suscriber ID'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_suscriber_id
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Tipo Papel'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_paper_type
+                input_type: 'number'
+                input_filter: 'float'
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'No. Cliente'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_customernumber
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Activo'
+                size_hint_x: .2
+            CheckBox:
+                id: chk_is_active
+                text: ''
+                active: False
+
+        Space:
+        BoxLayout:
+            padding: 30, 0, 30, 5
+            Button:
+                size_hint_x: 1
+                text: 'Guardar'
+                on_release: root.click_BotonGuardar()
+
+<EstafetaAmbientesPopup>:
+    title: 'Cuentas Estafetas'
+    size_hint: (.5, .5)
+    GridLayout:
+        cols: 1
+        ScrollView:
+            size_hint_x: 1
+            StackLayout:
+                id: container
+                size_hint_y: None
+                height: self.minimum_height
+                size_hint_x: 1
+                orientation: 'lr-tb'
+                spacing:'15dp'
+                # CuentaWidget:
+
+        AnchorLayout:
+            padding: 30, 0, 30, 5
+            size_hint_y: None
+            height: '60dp'
+            Button:
+                size_hint_y: None
+                height: '60dp'
+                size_hint_x: 1
+                text: 'Seleccionar'
+                on_release: root.click_BotonSeleccionar()
+
+<EstafetaAmbienteOption@BoxLayout>:
+    id: credenciales_widget
+    padding: '10dp'
+    size_hint_y: None
+    height: '50dp'
+    orientation: 'horizontal'
+    canvas:
+        Color:
+            rgba: hex('#D5E1FF')
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
+
+    CheckBox:
+        id: chk_cuenta_estafeta
+        size_hint_x: .1
+        group: "cuenta"
+    Label:
+        id: lbl_cuenta_estafeta
+        size_hint_x: .9
+        text: "Hola"
+        color: hex('#121313')
+
+
+########################### USUARIOS ###########################
+
+<UserScreen>:
+    FONDO:
+        BoxLayout:
+            orientation:'vertical'
+
+            # MENU
+            Menu:
+
+            # SEARCH
+            BoxLayout:
+                size_hint_y: None
+                height: '50dp'
+                orientation: 'horizontal'
+
+                Button:
+                    size_hint:None, None
+                    size:'48dp', '48dp'
+                    border:10,10,10,10
+                    background_normal:'data/images/src/but_new.png'
+                    background_down:'data/images/src/but_new_down.png'
+                    on_release: root.click_BotonNuevo()
+
+                CampoGenerico:
+                    hint_text: 'Texto a buscar'
+                    size_hint_x: .8
+
+                Button:
+                    text: 'Buscar'
+                    size_hint_x: .2
+                    on_release: root.click_BotonBuscar()
+
+            # LIST
+            UsuariosContainer:
+                id: user_container
+        Toast:
+            id:toast
+            width: 700
+            x:root.center_x - self.width // 2
+
+        AsyncImage:
+            id:loader
+            center_x:root.center_x
+            top: 500
+            size_hint:None, None
+            size:'100dp','100dp'
+            source:'data/images/ripple.gif'
+            anim_delay:0.05
+
+<UsuariosContainer@ScrollView>:
+    StackLayout:
+        id: container
+        size_hint_y: None
+        size_hint_x: 1
+        height: self.minimum_height
+        orientation: 'lr-tb'
+        padding:'15dp', '15dp','15dp','15dp'
+        spacing:'15dp'
+        # Usuario:
+
+<UsuarioItem@StackLayout>:
+    id: user_widget
+    orientation: 'lr-tb'
+    padding: '16dp'
+    size_hint_y:None
+    height: self.minimum_height
+    canvas:
+        Color:
+            rgba: 0.925, 0.941, 0.937, 1.0
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: '36dp'
+        Label:
+            id: lbl_cuenta
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .3
+            font_size: '25sp'
+            font_name: 'Lato-Heavy.ttf'
+
+        Label:
+            id: lbl_descripcion
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .4
+            font_size: '18sp'
+            font_name: 'Lato-Heavy.ttf'
+
+        Label:
+            id: lbl_date
+            color: 0.404, 0.522, 0.549, 1.0
+            size_hint_x: .2
+            font_size: '15sp'
+            font_name: 'Lato-Semibold.ttf'
+
+        BoxLayout:
+            orientation:'horizontal'
+            spacing:'16dp'
+            size_hint_x: .1
+            Space:
+            SegButton:
+                id:but_edit
+                size_hint:None, None
+                size:'36dp', '36dp'
+                border:8,8,8,8
+                background_normal:'data/images/src/but_edit.png'
+                background_down:'data/images/src/but_edit_down.png'
+                on_release : root.click_BotonEditar()
+
+<UserAddPopup>:
+    title: 'Nuevo Usuario'
+    size_hint: (.5, .6)
+    GridLayout:
+        cols: 1
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "Cuenta"
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_cuenta
+                focus: True
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Nombre'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_nombre
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Apellidos'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_apellidos
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Contraseña'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_password
+                password: True
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Estafeta'
+                size_hint_x: .195
+            CampoGenerico:
+                id: txt_estafeta_ambiente
+                size_hint_x: .7
+            Button:
+                size_hint:None, None
+                size:'60dp', '60dp'
+                border:10,10,10,10
+                background_normal:'data/images/src/but_new.png'
+                background_down:'data/images/src/but_new_down.png'
+                on_release: root.click_BotonEstafetaAmbientes()
+
+        Space:
+        BoxLayout:
+            padding: 30, 0, 30, 5
+            Button:
+                size_hint_x: 1
+                text: 'Crear'
+                on_release: root.click_BotonCrear()
+
+<UserEditPopup>:
+    title: 'Editar Usuario'
+    size_hint: (.5, .6)
+    GridLayout:
+        cols: 1
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "Cuenta"
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_cuenta
+                disabled: True
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Nombre'
+                size_hint_x: .2
+            CampoGenerico:
+                focus: True
+                id: txt_nombre
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Apellidos'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_apellidos
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Activo'
+                size_hint_x: .2
+            CheckBox:
+                id: chk_activo
+                text: ''
+                active: False
+
+        BoxLayout:
+            Label:
+                text: 'Contraseña'
+                size_hint_x: .2
+            CampoGenerico:
+                id: txt_password
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Estafeta'
+                size_hint_x: .195
+            CampoGenerico:
+                id: txt_estafeta_ambiente
+                size_hint_x: .7
+            Button:
+                size_hint:None, None
+                size:'60dp', '60dp'
+                border:10,10,10,10
+                background_normal:'data/images/src/but_new.png'
+                background_down:'data/images/src/but_new_down.png'
+                on_release: root.click_BotonEstafetaAmbientes()
+
+        Space:
+        BoxLayout:
+            padding: 30, 0, 30, 5
+            Button:
+                size_hint_x: 1
+                text: 'Guardar'
+                on_release: root.click_BotonGuardar()
 
 
 ########################### IDEAS ###########################

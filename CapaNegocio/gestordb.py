@@ -19,8 +19,9 @@ application = get_wsgi_application()
 # Site's Models
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.db.models import Q
 
-from configuration.models import EstafetaUser
+from configuration.models import EstafetaAmbiente
 from jde.models import F0101
 from jde.models import F4211
 from jde.models import F42119
@@ -61,7 +62,7 @@ class ModeloUsuario(object):
             pass
 
     @classmethod
-    def add(self, _username, _first_name, _last_name, _password):
+    def add(self, _username, _first_name, _last_name, _password, _estafeta_cuenta_clave):
 
         try:
             connection.close()
@@ -79,7 +80,7 @@ class ModeloUsuario(object):
             print str(e)
 
     @classmethod
-    def edit(self, _username, _first_name, _last_name, _password, _active):
+    def edit(self, _username, _first_name, _last_name, _password, _active, _estafeta_cuenta_clave):
 
         try:
             connection.close()
@@ -97,57 +98,74 @@ class ModeloUsuario(object):
             print str(e)
 
 
-class ModeloEstafetaUser(object):
+class ModeloEstafetaAmbiente(object):
 
     @classmethod
-    def get(self):
+    def get(self, _text):
 
         try:
             connection.close()
-            records = EstafetaUser.objects.all().order_by('created_date')
+
+            if _text:
+                records = EstafetaAmbiente.objects.filter(
+                    Q(clave__icontains=_text) |
+                    Q(url__icontains=_text) |
+                    Q(login__icontains=_text) |
+                    Q(customer_number__icontains=_text)
+                )
+            else:
+                records = EstafetaAmbiente.objects.all().order_by('created_date')
             return records
-
-        except Exception:
-            pass
-
-    @classmethod
-    def add(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal, _customer_number):
-
-        try:
-            connection.close()
-            estafeta = EstafetaUser()
-
-            estafeta.clave = _clave
-            estafeta.url = _url
-            estafeta.login = _login
-            estafeta.password = _password
-            estafeta.quadrant = _quadrant
-            estafeta.suscriber_id = _suscriber_id
-            estafeta.paper_type = _paper_type
-            estafeta.es_principal = _es_principal
-            estafeta.customer_number = _customer_number
-
-            estafeta.save()
 
         except Exception as e:
             print str(e)
 
     @classmethod
-    def edit(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _es_principal, _customer_number):
+    def get_Actives(self):
 
         try:
             connection.close()
-            estafeta = EstafetaUser.objects.get(clave=_clave)
-            estafeta.login = _login
-            estafeta.url = _url
-            estafeta.password = _password
-            estafeta.quadrant = _quadrant
-            estafeta.suscriber_id = _suscriber_id
-            estafeta.paper_type = _paper_type
-            estafeta.es_principal = _es_principal
-            estafeta.customer_number = _customer_number
+            records = EstafetaAmbiente.objects.filter(is_active=True).order_by('created_date')
+            return records
 
-            estafeta.save()
+        except Exception as e:
+            print str(e)
+
+    @classmethod
+    def add(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _is_active, _customer_number):
+
+        try:
+            connection.close()
+            registro = EstafetaAmbiente()
+            registro.clave = _clave
+            registro.url = _url
+            registro.login = _login
+            registro.password = _password
+            registro.quadrant = _quadrant
+            registro.suscriber_id = _suscriber_id
+            registro.paper_type = _paper_type
+            registro.is_active = _is_active
+            registro.customer_number = _customer_number
+            registro.save()
+
+        except Exception as e:
+            print str(e)
+
+    @classmethod
+    def edit(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _is_active, _customer_number):
+
+        try:
+            connection.close()
+            registro = EstafetaAmbiente.objects.get(clave=_clave)
+            registro.login = _login
+            registro.url = _url
+            registro.password = _password
+            registro.quadrant = _quadrant
+            registro.suscriber_id = _suscriber_id
+            registro.paper_type = _paper_type
+            registro.is_active = _is_active
+            registro.customer_number = _customer_number
+            registro.save()
 
         except Exception as e:
             print str(e)
@@ -159,7 +177,6 @@ class Factura(object):
     def get(self, _numero, _tipo):
 
         try:
-            #import ipdb; ipdb.set_trace()
             connection.close()
             factura = F4211.objects.using('jde').filter(
                 SDDOC=_numero,
@@ -248,7 +265,7 @@ class DireccionOrigen(object):
         datos['phonenumber'] = ""
         datos['zipcode'] = ""
         datos['state'] = ""
-        #import ipdb; ipdb.set_trace()
+
         try:
             connection.close()
             factura = F4211.objects.using('jde').filter(
@@ -376,7 +393,6 @@ class DireccionDestino(object):
                 else:
                     datos['customernumber'] = str(factura[0].SDSHAN)
 
-                #import ipdb; ipdb.set_trace()
                 if factura[0].SDSHAN < 199991:
 
                     direccionDest = F0101.objects.using('jde').filter(

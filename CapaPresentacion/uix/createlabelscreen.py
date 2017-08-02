@@ -6,7 +6,7 @@ from kivy.uix.stacklayout import StackLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 # from CapaPresentacion.uix.widget import Toast
-from CapaNegocio.gestordb import ModeloEstafetaUser
+from CapaNegocio.gestordb import ModeloEstafetaAmbiente
 # from CapaNegocio.gestordb import Factura
 from CapaNegocio.gestordb import DireccionOrigen
 from CapaNegocio.gestordb import DireccionDestino
@@ -335,8 +335,8 @@ class TipoPaqueteWidget(BoxLayout):
 
 class CredencialesWidget(StackLayout):
 
-    def open_CredencialesPopup(self):
-        CredencialesPopup(self).open()
+    # def open_CredencialesPopup(self):
+        # CredencialesPopup(self).open()
 
     def fill_Campos(self, cuenta):
 
@@ -361,47 +361,47 @@ class CredencialesWidget(StackLayout):
         self.ids['txt_customernumber'].text = ''
 
 
-class CredencialesPopup(Popup):
-
-    padre = ObjectProperty(None)
-
-    def __init__(self, padre, **kwargs):
-
-        super(CredencialesPopup, self).__init__(**kwargs)
-
-        self.padre = padre
-
-        self.show_All_Cuentas()
-
-    def show_All_Cuentas(self):
-
-        self.ids['container'].clear_widgets()
-
-        cuentas = ModeloEstafetaUser.get()
-
-        for cuenta in cuentas:
-            widget = CuentaWidget(cuenta)
-            self.ids['container'].add_widget(widget)
-
-    def click_SelectButton(self):
-
-        cuenta = None
-
-        for hijo in self.ids['container'].children:
-
-            if hijo.ids['chk_cuenta'].active is True:
-                cuenta = hijo.cuenta
-
-        if cuenta:
-            self.padre.fill_Campos(cuenta)
-            self.dismiss()
-
-
-class CuentaWidget(BoxLayout):
-
-    cuenta = ObjectProperty(None)
-
-    def __init__(self, _cuenta, **kwargs):
-        super(CuentaWidget, self).__init__(**kwargs)
-        self.ids["lbl_cuenta"].text = _cuenta.clave
-        self.cuenta = _cuenta
+# class CredencialesPopup(Popup):
+#
+#     padre = ObjectProperty(None)
+#
+#     def __init__(self, padre, **kwargs):
+#
+#         super(CredencialesPopup, self).__init__(**kwargs)
+#
+#         self.padre = padre
+#
+#         self.show_All_Cuentas()
+#
+#     def show_All_Cuentas(self):
+#
+#         self.ids['container'].clear_widgets()
+#
+#         cuentas = ModeloEstafetaAmbiente.get()
+#
+#         for cuenta in cuentas:
+#             widget = CuentaWidget(cuenta)
+#             self.ids['container'].add_widget(widget)
+#
+#     def click_SelectButton(self):
+#
+#         cuenta = None
+#
+#         for hijo in self.ids['container'].children:
+#
+#             if hijo.ids['chk_cuenta'].active is True:
+#                 cuenta = hijo.cuenta
+#
+#         if cuenta:
+#             self.padre.fill_Campos(cuenta)
+#             self.dismiss()
+#
+#
+# class CuentaWidget(BoxLayout):
+#
+#     cuenta = ObjectProperty(None)
+#
+#     def __init__(self, _cuenta, **kwargs):
+#         super(CuentaWidget, self).__init__(**kwargs)
+#         self.ids["lbl_cuenta"].text = _cuenta.clave
+#         self.cuenta = _cuenta

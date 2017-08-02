@@ -27,8 +27,7 @@ class Log(models.Model):
     updated_date = models.DateTimeField(auto_now=True, auto_now_add=False)
 
 
-class EstafetaUser(models.Model):
-
+class EstafetaAmbiente(models.Model):
     clave = models.CharField(max_length=144, unique=True)
     url = models.CharField(max_length=255)
     login = models.CharField(max_length=144)
@@ -37,7 +36,7 @@ class EstafetaUser(models.Model):
     suscriber_id = models.CharField(max_length=144)
     paper_type = models.IntegerField()
     customer_number = models.CharField(max_length=144, null=True)
-    es_principal = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
     created_date = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True, auto_now_add=False)

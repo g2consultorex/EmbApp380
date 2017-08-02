@@ -118,7 +118,7 @@ class SegretoApp(App):
     def goto_Etiquetas(self):
         self.screenmanager.current = "screen-createlabel"
 
-    def goto_EstafetaCuentas(self):
+    def goto_EstafetaAmbientes(self):
         self.screenmanager.current = "screen-estafeta"
 
     def decrypt_data(self, crypt_data, password):

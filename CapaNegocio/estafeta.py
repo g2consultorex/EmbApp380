@@ -1,5 +1,5 @@
 import requests
-import ssl
+# import ssl
 import os
 import binascii
 from wand.image import Image
