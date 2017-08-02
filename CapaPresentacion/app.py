@@ -156,136 +156,141 @@ class SegretoApp(App):
 
     def crear_Etiqueta(self):
 
-        # Informacion del Paquete
-        pack_fields = self.createlabelscreen.ids['label_container'].ids['paquete_widget'].ids
-        peso = pack_fields['txt_peso'].text
-        # kilos = pack_fields['txt_kilos'].text
-        parcelTypeId = pack_fields['txt_parcelTypeId'].text
-        # largo = pack_fields['txt_largo'].text
-        # alto = pack_fields['txt_alto'].text
-        # ancho = pack_fields['txt_ancho'].text
+        try:
+            self.createlabelscreen._show_loader(True)
 
-        # Direccion Origen
-        origin_fields = service_fields = self.createlabelscreen.ids['label_container'].ids['origen_widget'].ids
-        origen_address1 = origin_fields['txt_origen_address1'].text
-        origen_address2 = origin_fields['txt_origen_address2'].text
-        origen_cellphone = origin_fields['txt_origen_cellphone'].text
-        origen_city = origin_fields['txt_origen_city'].text
-        origen_contactname = origin_fields['txt_origen_contactname'].text
-        origen_corporatename = origin_fields['txt_origen_corporatename'].text
-        origen_neighborhood = origin_fields['txt_origen_neighborhood'].text
-        origen_phonenumber = origin_fields['txt_origen_phonenumber'].text
-        origen_state = origin_fields['txt_origen_state'].text
-        origen_zipcode = origin_fields['txt_origen_zipcode'].text
+            # Informacion del Paquete
+            pack_fields = self.createlabelscreen.ids['label_container'].ids['paquete_widget'].ids
+            peso = pack_fields['txt_peso'].text
+            # kilos = pack_fields['txt_kilos'].text
+            parcelTypeId = pack_fields['txt_parcelTypeId'].text
+            # largo = pack_fields['txt_largo'].text
+            # alto = pack_fields['txt_alto'].text
+            # ancho = pack_fields['txt_ancho'].text
 
-        # Direccion Destino
-        destino_fields = service_fields = self.createlabelscreen.ids['label_container'].ids['destino_widget'].ids
-        destino_address1 = destino_fields['txt_destino_address1'].text
-        destino_address2 = destino_fields['txt_destino_address2'].text
-        destino_cellphone = destino_fields['txt_destino_cellphone'].text
-        destino_city = destino_fields['txt_destino_city'].text
-        destino_contactname = destino_fields['txt_destino_contactname'].text
-        destino_corporatename = destino_fields['txt_destino_corporatename'].text
-        destino_neighborhood = destino_fields['txt_destino_neighborhood'].text
-        destino_customernumber = destino_fields['txt_destino_customernumber'].text
-        destino_phonenumber = destino_fields['txt_destino_phonenumber'].text
-        destino_state = destino_fields['txt_destino_state'].text
-        destino_zipcode = destino_fields['txt_destino_zipcode'].text
+            # Direccion Origen
+            origin_fields = service_fields = self.createlabelscreen.ids['label_container'].ids['origen_widget'].ids
+            origen_address1 = origin_fields['txt_origen_address1'].text
+            origen_address2 = origin_fields['txt_origen_address2'].text
+            origen_cellphone = origin_fields['txt_origen_cellphone'].text
+            origen_city = origin_fields['txt_origen_city'].text
+            origen_contactname = origin_fields['txt_origen_contactname'].text
+            origen_corporatename = origin_fields['txt_origen_corporatename'].text
+            origen_neighborhood = origin_fields['txt_origen_neighborhood'].text
+            origen_phonenumber = origin_fields['txt_origen_phonenumber'].text
+            origen_state = origin_fields['txt_origen_state'].text
+            origen_zipcode = origin_fields['txt_origen_zipcode'].text
 
-        # Datos de Servicio:
-        service_fields = self.createlabelscreen.ids['label_container'].ids['servicio_widget'].ids
-        servicetypeid = service_fields['txt_servicetypeid'].text
-        number_labels = str(service_fields['txt_number_labels'].text)
-        office_num = service_fields['txt_office_num'].text
-        contentdescription = service_fields['txt_contentdescription'].text
-        aditionalinfo = service_fields['txt_aditionalinfo'].text
-        costcenter = service_fields['txt_costcenter'].text
-        content = service_fields['txt_content'].text
-        destino_countryid = service_fields['txt_destino_countryid'].text
-        reference = service_fields['txt_reference'].text
-        deliverytoestafetaoffice = str(service_fields['chk_deliverytoestafetaoffice'].active)
-        returndocument = str(service_fields['chk_returndocument'].active)
+            # Direccion Destino
+            destino_fields = service_fields = self.createlabelscreen.ids['label_container'].ids['destino_widget'].ids
+            destino_address1 = destino_fields['txt_destino_address1'].text
+            destino_address2 = destino_fields['txt_destino_address2'].text
+            destino_cellphone = destino_fields['txt_destino_cellphone'].text
+            destino_city = destino_fields['txt_destino_city'].text
+            destino_contactname = destino_fields['txt_destino_contactname'].text
+            destino_corporatename = destino_fields['txt_destino_corporatename'].text
+            destino_neighborhood = destino_fields['txt_destino_neighborhood'].text
+            destino_customernumber = destino_fields['txt_destino_customernumber'].text
+            destino_phonenumber = destino_fields['txt_destino_phonenumber'].text
+            destino_state = destino_fields['txt_destino_state'].text
+            destino_zipcode = destino_fields['txt_destino_zipcode'].text
 
-        # Datos de Conexion:
-        credentials_fields = self.createlabelscreen.ids['label_container'].ids['credenciales_widget'].ids
-        login = credentials_fields['txt_login'].text
-        suscriber_id = credentials_fields['txt_suscriber_id'].text
-        password = credentials_fields['txt_password'].text
-        quadrant = credentials_fields['txt_quadrant'].text
-        tipo_papel = credentials_fields['txt_tipo_papel'].text
-        url = credentials_fields['txt_url'].text
-        customer_number = credentials_fields['txt_customernumber'].text
+            # Datos de Servicio:
+            service_fields = self.createlabelscreen.ids['label_container'].ids['servicio_widget'].ids
+            servicetypeid = service_fields['txt_servicetypeid'].text
+            number_labels = str(service_fields['txt_number_labels'].text)
+            office_num = service_fields['txt_office_num'].text
+            contentdescription = service_fields['txt_contentdescription'].text
+            aditionalinfo = service_fields['txt_aditionalinfo'].text
+            costcenter = service_fields['txt_costcenter'].text
+            content = service_fields['txt_content'].text
+            destino_countryid = service_fields['txt_destino_countryid'].text
+            reference = service_fields['txt_reference'].text
+            deliverytoestafetaoffice = str(service_fields['chk_deliverytoestafetaoffice'].active)
+            returndocument = str(service_fields['chk_returndocument'].active)
 
-        ws = EstafetaWebService(url)
+            # Datos de Conexion:
+            credentials_fields = self.createlabelscreen.ids['label_container'].ids['credenciales_widget'].ids
+            login = credentials_fields['txt_login'].text
+            suscriber_id = credentials_fields['txt_suscriber_id'].text
+            password = credentials_fields['txt_password'].text
+            quadrant = credentials_fields['txt_quadrant'].text
+            tipo_papel = credentials_fields['txt_tipo_papel'].text
+            url = credentials_fields['txt_url'].text
+            customer_number = credentials_fields['txt_customernumber'].text
 
-        ws.set_DireccionOrigen(
-            origen_address1,
-            origen_address2,
-            origen_cellphone,
-            origen_city,
-            origen_contactname,
-            origen_corporatename,
-            customer_number,
-            origen_neighborhood,
-            origen_phonenumber,
-            origen_state,
-            origen_zipcode
-        )
+            ws = EstafetaWebService(url)
 
-        ws.set_DireccionDestino(
-            destino_address1,
-            destino_address2,
-            destino_cellphone,
-            destino_city,
-            destino_contactname,
-            destino_corporatename,
-            destino_customernumber,
-            destino_neighborhood,
-            destino_phonenumber,
-            destino_state,
-            destino_zipcode
-        )
+            ws.set_DireccionOrigen(
+                origen_address1,
+                origen_address2,
+                origen_cellphone,
+                origen_city,
+                origen_contactname,
+                origen_corporatename,
+                customer_number,
+                origen_neighborhood,
+                origen_phonenumber,
+                origen_state,
+                origen_zipcode
+            )
 
-        ws.set_DireccionAlternativa(
-            destino_address1,
-            destino_address2,
-            destino_cellphone,
-            destino_city,
-            destino_contactname,
-            destino_corporatename,
-            destino_customernumber,
-            destino_neighborhood,
-            destino_phonenumber,
-            destino_state,
-            destino_zipcode
-        )
+            ws.set_DireccionDestino(
+                destino_address1,
+                destino_address2,
+                destino_cellphone,
+                destino_city,
+                destino_contactname,
+                destino_corporatename,
+                destino_customernumber,
+                destino_neighborhood,
+                destino_phonenumber,
+                destino_state,
+                destino_zipcode
+            )
 
-        ws.set_Servicio(
-            customer_number,
-            number_labels,
-            office_num,
-            aditionalinfo,
-            content,
-            contentdescription,
-            costcenter,
-            deliverytoestafetaoffice,
-            destino_countryid,
-            origen_zipcode,
-            parcelTypeId,
-            reference,
-            returndocument,
-            servicetypeid,
-            peso
-        )
-        ws.set_Credenciales(login, tipo_papel, password, quadrant, suscriber_id)
+            ws.set_DireccionAlternativa(
+                destino_address1,
+                destino_address2,
+                destino_cellphone,
+                destino_city,
+                destino_contactname,
+                destino_corporatename,
+                destino_customernumber,
+                destino_neighborhood,
+                destino_phonenumber,
+                destino_state,
+                destino_zipcode
+            )
 
-        self.labelviewscreen.fac_numero = self.createlabelscreen.factura_numero
-        self.labelviewscreen.fac_tipo = self.createlabelscreen.factura_tipo
-        flag, results = ws.create_Label(
-            self.labelviewscreen.fac_numero,
-            self.labelviewscreen.fac_tipo
-        )
+            ws.set_Servicio(
+                customer_number,
+                number_labels,
+                office_num,
+                aditionalinfo,
+                content,
+                contentdescription,
+                costcenter,
+                deliverytoestafetaoffice,
+                destino_countryid,
+                origen_zipcode,
+                parcelTypeId,
+                reference,
+                returndocument,
+                servicetypeid,
+                peso
+            )
+            ws.set_Credenciales(login, tipo_papel, password, quadrant, suscriber_id)
 
-        self.labelviewscreen.set_Label(flag, results)
+            self.labelviewscreen.fac_numero = self.createlabelscreen.factura_numero
+            self.labelviewscreen.fac_tipo = self.createlabelscreen.factura_tipo
+            flag, results = ws.create_Label(
+                self.labelviewscreen.fac_numero,
+                self.labelviewscreen.fac_tipo
+            )
 
-        self.screenmanager.current = 'screen-labelview'
+            self.labelviewscreen.set_Label(flag, results)
+            self.screenmanager.current = 'screen-labelview'
+            self.createlabelscreen._show_loader(False)
+        except Exception as e:
+            self.createlabelscreen.failure(str(e))

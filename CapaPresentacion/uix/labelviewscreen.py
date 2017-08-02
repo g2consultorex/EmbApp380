@@ -14,9 +14,28 @@ class LabelViewScreen(Screen):
 
     def __init__(self, **kwargs):
         super(LabelViewScreen, self).__init__(**kwargs)
+        self._show_loader(False)
+
+    def _show_loader(self, show):
+        if show:
+            self.ids['loader'].opacity = 1.0
+        else:
+            self.ids['loader'].opacity = 0.0
+
+    def failure(self, error):
+        self._show_toast(error)
+        self._show_loader(False)
+
+    def _show_toast(self, text):
+        self.ids['toast'].show(text)
 
     def imprimir(self):
-        Printer.send(self.fac_numero, self.fac_tipo)
+        try:
+            self._show_loader(True)
+            Printer.send(self.fac_numero, self.fac_tipo)
+            self._show_loader(False)
+        except Exception as e:
+            self.failure(str(e))
 
     def set_ImageEmpty(self):
         deafult_abspath = os.path.abspath(os.path.join(os.getcwd(), "data", "images", "no_img.png"))

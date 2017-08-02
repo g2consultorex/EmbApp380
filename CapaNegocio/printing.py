@@ -1,4 +1,4 @@
-import tempfile
+# import tempfile
 import win32api
 import win32print
 import os
@@ -16,21 +16,18 @@ class Printer(object):
         file_name = "%s_%s.pdf" % (_factura_tipo, _factura_numero)
         archivo = Archivo(folder, file_name)
 
-        try:
-            # print win32print.GetDefaultPrinter()
-            archivo.exist("buscando_pdf")
-            filename = (archivo.get_Abspath())
-            win32api.ShellExecute(
-                0,
-                "print",
-                filename,
-                #
-                # If this is None, the default printer will
-                # be used anyway.
-                #
-                '/d:"%s"' % win32print.GetDefaultPrinter(),
-                ".",
-                0
-            )
-        except Exception:
-            pass
+        # print win32print.GetDefaultPrinter()
+        archivo.exist("buscando_pdf")
+        filename = (archivo.get_Abspath())
+        win32api.ShellExecute(
+            0,
+            "print",
+            filename,
+            #
+            # If this is None, the default printer will
+            # be used anyway.
+            #
+            '/d:"%s"' % win32print.GetDefaultPrinter(),
+            ".",
+            0
+        )
