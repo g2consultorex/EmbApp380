@@ -315,6 +315,8 @@ class DireccionOrigen(object):
         datos['zipcode'] = ""
         datos['state'] = ""
 
+        import ipdb; ipdb.set_trace()
+
         try:
             connection.close()
             factura = F4211.objects.using('jde').filter(
