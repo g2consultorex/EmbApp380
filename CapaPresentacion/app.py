@@ -20,7 +20,7 @@ from CapaPresentacion.uix.labelviewscreen import LabelViewScreen
 from CapaPresentacion.uix.ideascreen import IdeaScreen
 
 from CapaNegocio.gestordb import ModeloUsuario
-from CapaNegocio.estafeta import EstafetaWebService
+from CapaNegocio.estafeta import CreateLabelWS
 
 # from CapaPresentacion.idea import IdeaCollection
 
@@ -212,7 +212,7 @@ class SegretoApp(App):
             returndocument = str(service_fields['chk_returndocument'].active)
 
             # Datos de Conexion:
-            credentials_fields = self.createlabelscreen.ids['label_container'].ids['credenciales_widget'].ids
+            credentials_fields = self.createlabelscreen.ids['label_container'].ids['estafeta_ambiente_widget'].ids
             login = credentials_fields['txt_login'].text
             suscriber_id = credentials_fields['txt_suscriber_id'].text
             password = credentials_fields['txt_password'].text
@@ -221,9 +221,9 @@ class SegretoApp(App):
             url = credentials_fields['txt_url'].text
             customer_number = credentials_fields['txt_customernumber'].text
 
-            ws = EstafetaWebService(url)
+            ws_create_label = CreateLabelWS(url)
 
-            ws.set_DireccionOrigen(
+            ws_create_label.set_DireccionOrigen(
                 origen_address1,
                 origen_address2,
                 origen_cellphone,
@@ -237,7 +237,7 @@ class SegretoApp(App):
                 origen_zipcode
             )
 
-            ws.set_DireccionDestino(
+            ws_create_label.set_DireccionDestino(
                 destino_address1,
                 destino_address2,
                 destino_cellphone,
@@ -251,7 +251,7 @@ class SegretoApp(App):
                 destino_zipcode
             )
 
-            ws.set_DireccionAlternativa(
+            ws_create_label.set_DireccionAlternativa(
                 destino_address1,
                 destino_address2,
                 destino_cellphone,
@@ -265,7 +265,7 @@ class SegretoApp(App):
                 destino_zipcode
             )
 
-            ws.set_Servicio(
+            ws_create_label.set_Servicio(
                 customer_number,
                 number_labels,
                 office_num,
@@ -282,11 +282,11 @@ class SegretoApp(App):
                 servicetypeid,
                 peso
             )
-            ws.set_Credenciales(login, tipo_papel, password, quadrant, suscriber_id)
+            ws_create_label.set_Credenciales(login, tipo_papel, password, quadrant, suscriber_id)
 
             self.labelviewscreen.fac_numero = self.createlabelscreen.factura_numero
             self.labelviewscreen.fac_tipo = self.createlabelscreen.factura_tipo
-            flag, results = ws.create_Label(
+            flag, results = ws_create_label.send(
                 self.labelviewscreen.fac_numero,
                 self.labelviewscreen.fac_tipo
             )
@@ -294,5 +294,6 @@ class SegretoApp(App):
             self.labelviewscreen.set_Label(flag, results)
             self.screenmanager.current = 'screen-labelview'
             self.createlabelscreen._show_loader(False)
+
         except Exception as e:
             self.createlabelscreen.failure(str(e))

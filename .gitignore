@@ -17,6 +17,7 @@ CapaDatos/GestorDB/settings.py
 # ---------------------------------------
 .vscode/*
 etiquetas/*
+logs/*
 
 GestorDB/configuration/migrations/*
 GestorDB/jde/migrations/*

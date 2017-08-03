@@ -58,6 +58,7 @@ class LabelViewScreen(Screen):
                 archivo_img = self.get_ImageFile()
                 self.ids['label_container'].ids['labelview_widget'].ids['img_etiqueta'].source = archivo_img.get_Abspath()
                 self.ids['label_container'].ids['labelview_widget'].ids['lbl_etiqueta_view'].text = _content
+
             except Exception as error:
                 self.set_ImageEmpty()
                 self.ids['label_container'].ids['labelview_widget'].ids['lbl_etiqueta_view'].text = str(error)

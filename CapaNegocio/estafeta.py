@@ -2,14 +2,16 @@ import requests
 # import ssl
 import os
 import binascii
+from datetime import datetime
 from wand.image import Image
 
 from lxml import etree
 from libtools.filesystem import Archivo
 from libtools.filesystem import Carpeta
+from libtools.filesystem import Error
 
 
-class EstafetaWebService:
+class CreateLabelWS:
 
     def __init__(self, _url):
 
@@ -20,7 +22,7 @@ class EstafetaWebService:
         self.modulo_credenciales = None
         self.modulo_servicio = None
 
-    def get_Base_CreateLabel(self):
+    def get_Base(self):
 
         modulo = """<?xml version="1.0" encoding="UTF-8"?>
                     <SOAP-ENV:Envelope xmlns:ns3="http://schemas.xmlsoap.org/soap/encoding/"
@@ -45,7 +47,7 @@ class EstafetaWebService:
 
         return modulo
 
-    def get_CreateLabel_Header(self):
+    def get_Header(self):
         cabecera = {
             'SOAPAction': '"https://label.estafeta.com/EstafetaLabel20/services/EstafetaLabelWS"',
             'Content-type': 'text/xml; charset="UTF-8"'
@@ -225,6 +227,73 @@ class EstafetaWebService:
             _state,
             _zipCode)
 
+    def create_Response_File(self, _response):
+        carpeta = Carpeta(os.path.abspath(os.path.join(os.getcwd())))
+        archivo_response = Archivo(carpeta, "response.xml")
+        archivo_response.write(_response)
+
+    def get_ResponseEstado(self, _root):
+        nodo = _root[0].xpath("//multiRef[@id = '%s']" % "id1")
+
+        return nodo[0].find('resultDescription').text
+
+    def get_ResponseEtiqueta(self, _root):
+        nodo = _root[0].xpath("//multiRef[@id = '%s']" % "id0")
+        resultado = nodo[0].find('labelPDF').text
+
+        return resultado
+
+    def create_ArchivoPdf(self, _contenido, _fac_tipo, _fac_numero):
+        abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
+        namefile = "%s_%s.pdf" % (
+            _fac_tipo,
+            _fac_numero
+        )
+        carpeta = Carpeta(abspath)
+        archivo = Archivo(carpeta, namefile)
+
+        label_binary_data = binascii.a2b_base64(_contenido)
+        archivo.write(label_binary_data)
+
+        self.create_Image(archivo)
+
+    def create_DirectorioLog(self):
+
+        try:
+            abspath = os.path.abspath(os.path.join(os.getcwd(), "logs"))
+
+            carpeta = Carpeta(abspath)
+
+            ahora = datetime.now()
+            new_directorios = [
+                '{:02d}'.format(ahora.year),
+                '{:02d}'.format(ahora.month),
+                '{:02d}'.format(ahora.day)
+            ]
+
+            carpeta.add_Folders(new_directorios)
+
+        except Exception as e:
+            if isinstance(e, Error):
+                if e.control == 'carpeta ya existe':
+                    new_abspath = os.path.join(carpeta.abspath, *new_directorios)
+
+            else:
+                raise ValueError(str(e))
+
+        return new_abspath
+
+    def create_ArchivoLog(self, _fac_tipo, _fac_numero):
+
+        abspath_dir = self.create_DirectorioLog()
+
+        namefile = "%s_%s.pdf" % (
+            _fac_tipo,
+            _fac_numero,
+        )
+
+        print abspath_dir
+
     def create_Image(self, _file_pdf):
 
         try:
@@ -237,41 +306,32 @@ class EstafetaWebService:
         except Exception:
             pass
 
-    def create_Label(self, _factura_numero, _factura_tipo):
+    def send(self, _factura_numero, _factura_tipo):
 
         # ssl._create_default_https_context = ssl._create_unverified_context
-        base = self.get_Base_CreateLabel()
+        base = self.get_Base()
         body = base % (self.modulo_servicio, self.modulo_credenciales)
 
         try:
-            # print body
-            response = requests.post(self.url, data=body.encode('utf-8'), headers=self.get_CreateLabel_Header(), verify=False)
 
-            carpeta = Carpeta(os.path.abspath(os.path.join(os.getcwd())))
-            fl = Archivo(carpeta, "response.xml")
-            fl.write(response.content.encode('utf-8'))
+            # Se genera la peticion
+            response = requests.post(self.url, data=body.encode('utf-8'), headers=self.get_Header(), verify=False)
+
+            self.create_Response_File(response.content.encode('utf-8'))
 
             if response.status_code == 200:
                 root = etree.fromstring(response.content)
+                response_estado = self.get_ResponseEstado(root)
 
-                nodo = root[0].xpath("//multiRef[@id = '%s']" % "id1")
-                if nodo[0].find('resultDescription').text == "OK":
-                    nodo = root[0].xpath("//multiRef[@id = '%s']" % "id0")
-                    resultado = nodo[0].find('labelPDF').text
-                    label_binary_data = binascii.a2b_base64(resultado)
-                    abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
-                    namefile = "%s_%s.pdf" % (
-                        _factura_tipo,
-                        _factura_numero
-                    )
-                    carpeta = Carpeta(abspath)
-                    archivo = Archivo(carpeta, namefile)
-                    archivo.write(label_binary_data)
-
-                    self.create_Image(archivo)
+                if response_estado == "OK":
+                    texto_etiqueta = self.get_ResponseEtiqueta(root)
+                    self.create_ArchivoPdf(texto_etiqueta, _factura_tipo, _factura_numero)
+                    self.create_ArchivoLog(_factura_tipo, _factura_numero)
+                    resultado = texto_etiqueta
                     bandera = True
+
                 else:
-                    resultado = nodo[0].find('resultDescription').text
+                    resultado = response_estado
                     bandera = False
 
             else:
@@ -279,8 +339,128 @@ class EstafetaWebService:
                 bandera = False
 
             return bandera, resultado
-            # return label_binary_data
 
         except Exception, error:
-            # import ipdb; ipdb.set_trace()
-            return str(error)
+            return False, str(error)
+
+
+class CotizacionWS:
+    def __init__(self, _url):
+
+        self.url = _url
+        self.modulo_origen = None
+        self.modulo_destino = None
+        self.modulo_tipo_envio = None
+        self.modulo_es_lista = None
+        self.modulo_es_frecuencia = None
+        self.modulo_credenciales = None
+
+    def get_Base(self):
+
+        modulo = """<?xml version="1.0" encoding="utf-8"?>
+                    <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+                        <soap:Body>
+                            <FrecuenciaCotizador xmlns="http://www.estafeta.com/">
+                            %s
+                            %s
+                            %s
+                            %s
+                            %s
+                            %s
+                            </FrecuenciaCotizador>
+                        </soap:Body>
+                    </soap:Envelope>"""
+
+        return modulo
+
+    def get_Header(self):
+        cabecera = {
+            'Content-type': 'text/xml; charset="UTF-8"'
+        }
+
+        return cabecera
+
+    def set_Credenciales(self, _id_usuario, _usuario, _contra):
+        modulo = """<idusuario>%s</idusuario>
+                    <usuario>%s</usuario>
+                    <contra>%s</contra>"""
+
+        self.modulo_credenciales = modulo % (
+            _id_usuario,
+            _usuario,
+            _contra
+        )
+
+    def set_EsFrecuencia(self, _value):
+        modulo = """<esFrecuencia>%s</esFrecuencia>"""
+
+        self.modulo_es_frecuencia = modulo % (_value)
+
+    def set_EsLista(self, _value):
+        modulo = """<esLista>%s</esLista>"""
+
+        self.modulo_es_lista = modulo % (_value)
+
+    def set_TipoEnvio(self, _is_paquete, _largo, _peso, _alto, _ancho):
+        modulo = """<tipoEnvio>
+                        <EsPaquete>%s</EsPaquete>
+                        <Largo>%s</Largo>
+                        <Peso>%s</Peso>
+                        <Alto>%s</Alto>
+                        <Ancho>%s</Ancho>
+                    </tipoEnvio>"""
+
+        self.modulo_tipo_envio = modulo % (
+            _is_paquete,
+            _largo,
+            _peso,
+            _alto,
+            _ancho
+        )
+
+    def set_Origen(self, _value):
+        modulo = """<datosOrigen>
+                        <string>%s</string>
+                    </datosOrigen>"""
+
+        self.modulo_origen = modulo % (_value)
+
+    def set_Destino(self, _value):
+        modulo = """<datosDestino>
+                        <string>%s</string>
+                    </datosDestino>"""
+
+        self.modulo_destino = modulo % (_value)
+
+    def send(self):
+
+        base = self.get_Base()
+        body = base % (
+            self.modulo_credenciales,
+            self.modulo_es_frecuencia,
+            self.modulo_es_lista,
+            self.modulo_tipo_envio,
+            self.modulo_origen,
+            self.modulo_destino
+        )
+
+        try:
+            response = requests.post(
+                self.url,
+                data=body.encode('utf-8'),
+                headers=self.get_Header(),
+                verify=False
+            )
+
+            if response.status_code == 200:
+                resultado = response.content
+                bandera = False
+
+            else:
+                resultado = response.content
+                bandera = False
+
+            return bandera, resultado
+
+        except Exception as e:
+            return False, str(e)
