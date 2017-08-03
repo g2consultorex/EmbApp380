@@ -13,6 +13,7 @@ from CapaNegocio.gestordb import DireccionDestino
 from CapaNegocio.gestordb import ModeloUsuario
 
 from CapaNegocio.estafeta import CreateLabelWS
+from CapaNegocio.estafeta import CotizacionWS
 
 
 class CreateLabelScreen(Screen):
@@ -37,7 +38,7 @@ class CreateLabelScreen(Screen):
         self._show_toast(error)
         self._show_loader(False)
 
-    def load_EstafetaAmbiente(self, _user_account):
+    def fill_DataAmbiente(self, _user_account):
         self.user_account = _user_account
         usuario = ModeloUsuario.get(self.user_account)
 
@@ -54,6 +55,11 @@ class CreateLabelScreen(Screen):
                 data.ids['txt_quadrant'].text = str(ambiente.quadrant)
                 data.ids['txt_tipo_papel'].text = str(ambiente.paper_type)
                 data.ids['txt_customernumber'].text = ambiente.customer_number
+
+                data.ids['txt_cot_url'].text = ambiente.cot_url
+                data.ids['txt_cot_id_usuario'].text = ambiente.cot_id_usuario
+                data.ids['txt_cot_usuario'].text = ambiente.cot_usuario
+                data.ids['txt_cot_contra'].text = ambiente.cot_contra
 
             else:
                 self.failure("El usuario no tiene configurado un Ambiente")
@@ -227,6 +233,11 @@ class CreateLabelScreen(Screen):
         data['url'] = fields.ids['txt_url'].text
         data['customer_number'] = fields.ids['txt_customernumber'].text
 
+        data['cot_url'] = fields.ids['txt_cot_url'].text
+        data['id_usuario'] = fields.ids['txt_cot_id_usuario'].text
+        data['usuario'] = fields.ids['txt_cot_usuario'].text
+        data['contra'] = fields.ids['txt_cot_contra'].text
+
         return data
 
     def buscar_Factura(self):
@@ -286,25 +297,45 @@ class CreateLabelScreen(Screen):
             data_servicio['customer_number'] = data_ambiente['customer_number']
             data_servicio['cp_origen'] = data_origen['origen_zipcode']
 
-            ws_create_label = CreateLabelWS(data_ambiente["url"])
-            ws_create_label.set_DireccionOrigen(data_origen)
-            ws_create_label.set_DireccionDestino(data_destino)
-            ws_create_label.set_DireccionAlternativa(data_destino)
-            ws_create_label.set_Servicio(data_servicio)
-            ws_create_label.set_Credenciales(data_ambiente)
-
-            flag, results, guide = ws_create_label.send(
-                self.factura_numero,
-                self.factura_tipo,
-                self.user_account
+            # Valida codigos
+            ws_cotizacion = CotizacionWS(data_ambiente["cot_url"])
+            ws_cotizacion.set_Credenciales(
+                data_ambiente['id_usuario'],
+                data_ambiente['usuario'],
+                data_ambiente['contra']
             )
+            ws_cotizacion.set_EsFrecuencia("false")
+            ws_cotizacion.set_EsLista("true")
+            ws_cotizacion.set_TipoEnvio("false", "0", "0", "0", "0")
+            ws_cotizacion.set_Origen(data_origen['origen_zipcode'])
+            ws_cotizacion.set_Destino(data_destino['destino_zipcode'])
 
-            self.manager.get_screen('screen-labelview').fac_numero = self.factura_numero
-            self.manager.get_screen('screen-labelview').fac_tipo = self.factura_tipo
-            self.manager.get_screen('screen-labelview').set_Label(flag, results)
+            flag, results = ws_cotizacion.send(self.factura_numero, self.factura_tipo)
 
-            self._show_loader(False)
-            self.manager.current = 'screen-labelview'
+            if flag:
+                # Crea Etiqueta
+                ws_create_label = CreateLabelWS(data_ambiente["url"])
+                ws_create_label.set_DireccionOrigen(data_origen)
+                ws_create_label.set_DireccionDestino(data_destino)
+                ws_create_label.set_DireccionAlternativa(data_destino)
+                ws_create_label.set_Servicio(data_servicio)
+                ws_create_label.set_Credenciales(data_ambiente)
+
+                flag, results, guide = ws_create_label.send(
+                    self.factura_numero,
+                    self.factura_tipo,
+                    self.user_account
+                )
+
+                self.manager.get_screen('screen-labelview').fac_numero = self.factura_numero
+                self.manager.get_screen('screen-labelview').fac_tipo = self.factura_tipo
+                self.manager.get_screen('screen-labelview').set_Label(flag, results)
+
+                self._show_loader(False)
+                self.manager.current = 'screen-labelview'
+
+            else:
+                self.failure(results)
 
         except Exception as e:
             self.failure(str(e))
@@ -493,6 +524,11 @@ class EstafetaAmbienteWidget(StackLayout):
         self.ids['txt_tipo_papel'].text = str(ambiente.paper_type)
         self.ids['txt_customernumber'].text = ambiente.customer_number
 
+        self.ids['txt_cot_url'].text = ambiente.cot_url
+        self.ids['txt_cot_id_usuario'].text = ambiente.cot_id_usuario
+        self.ids['txt_cot_usuario'].text = ambiente.cot_usuario
+        self.ids['txt_cot_contra'].text = ambiente.cot_contra
+
     def clear_Campos(self):
         self.ids['txt_cuenta'].text = ''
         self.ids['txt_url'].text = ''
@@ -502,6 +538,11 @@ class EstafetaAmbienteWidget(StackLayout):
         self.ids['txt_quadrant'].text = ''
         self.ids['txt_tipo_papel'].text = ''
         self.ids['txt_customernumber'].text = ''
+
+        self.ids['txt_cot_url'].text = ""
+        self.ids['txt_cot_id_usuario'].text = ""
+        self.ids['txt_cot_usuario'].text = ""
+        self.ids['txt_cot_contra'].text = ""
 
 
 class EstafetaAmbientesPopup(Popup):

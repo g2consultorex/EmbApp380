@@ -1024,7 +1024,7 @@
     orientation: 'lr-tb'
     padding: '10dp'
     size_hint_y:None
-    height: '360dp'
+    height: '460dp'
     canvas:
         Color:
             rgba: 0.925, 0.941, 0.937, 1.0
@@ -1143,6 +1143,51 @@
                     size_hint_x: .18
                 CampoGenericoMedium:
                     id: txt_tipo_papel
+                    disabled: True
+                    size_hint_x: .60
+
+            # Fila 4
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'ID Usuario Cot:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_cot_id_usuario
+                    disabled: True
+                    size_hint_x: .60
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'URL Cot:'
+                    size_hint_x: .16
+                CampoGenericoMedium:
+                    id: txt_cot_url
+                    size_hint_x: .84
+
+            # Fila 5
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Usuario Cot:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_cot_usuario
+                    disabled: True
+                    size_hint_x: .60
+
+            StackLayout:
+                size_hint_y: None
+                height: '40dp'
+                LabelGeneric:
+                    text: 'Contraseña Cot:'
+                    size_hint_x: .18
+                CampoGenericoMedium:
+                    id: txt_cot_contra
                     disabled: True
                     size_hint_x: .60
 

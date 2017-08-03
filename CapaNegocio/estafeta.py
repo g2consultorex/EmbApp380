@@ -211,9 +211,16 @@ class CreateLabelWS:
           _data['destino_state'],
           _data['destino_zipcode'])
 
-    def create_Response_File(self, _response):
-        carpeta = Carpeta(os.path.abspath(os.path.join(os.getcwd())))
-        archivo_response = Archivo(carpeta, "response.xml")
+    def create_Request_File(self, _fac_tipo, _fac_numero, _response):
+        carpeta = Carpeta(os.path.abspath(os.path.join(os.getcwd(), "wsfiles")))
+        file_name = "createlabel_request_%s_%s.xml" % (_fac_tipo, _fac_numero)
+        archivo_response = Archivo(carpeta, file_name)
+        archivo_response.write(_response)
+
+    def create_Response_File(self, _fac_tipo, _fac_numero, _response):
+        carpeta = Carpeta(os.path.abspath(os.path.join(os.getcwd(), "wsfiles")))
+        file_name = "createlabel_response_%s_%s.xml" % (_fac_tipo, _fac_numero)
+        archivo_response = Archivo(carpeta, file_name)
         archivo_response.write(_response)
 
     def get_ResponseEstado(self, _root):
@@ -312,10 +319,20 @@ class CreateLabelWS:
         body = base % (self.modulo_servicio, self.modulo_credenciales)
 
         try:
+            self.create_Request_File(
+                _factura_tipo,
+                _factura_numero,
+                body
+            )
+
             # Se genera la peticion
             response = requests.post(self.url, data=body.encode('utf-8'), headers=self.get_Header(), verify=False)
 
-            self.create_Response_File(response.content.encode('utf-8'))
+            self.create_Response_File(
+                _factura_tipo,
+                _factura_numero,
+                response.content.encode('utf-8')
+            )
 
             if response.status_code == 200:
                 root = etree.fromstring(response.content)
@@ -342,10 +359,11 @@ class CreateLabelWS:
             return bandera, resultado, guia
 
         except Exception, error:
-            return False, str(error)
+            return False, str(error), ""
 
 
 class CotizacionWS:
+
     def __init__(self, _url):
 
         self.url = _url
@@ -433,7 +451,29 @@ class CotizacionWS:
 
         self.modulo_destino = modulo % (_value)
 
-    def send(self):
+    def create_Request_File(self, _fac_tipo, _fac_numero, _response):
+        carpeta = Carpeta(os.path.abspath(os.path.join(os.getcwd(), "wsfiles")))
+        file_name = "cotizacion_request_%s_%s.xml" % (_fac_tipo, _fac_numero)
+        archivo_response = Archivo(carpeta, file_name)
+        archivo_response.write(_response)
+
+    def create_Response_File(self, _fac_tipo, _fac_numero, _response):
+        carpeta = Carpeta(os.path.abspath(os.path.join(os.getcwd(), "wsfiles")))
+        file_name = "cotizacion_response_%s_%s.xml" % (_fac_tipo, _fac_numero)
+        archivo_response = Archivo(carpeta, file_name)
+        archivo_response.write(_response)
+
+    def get_ResponseEstado(self, _root):
+        value = _root[0][0][0][0].find('{http://www.estafeta.com/}Error').text
+
+        return value
+
+    def get_ResponseError(self, _root):
+        value = _root[0][0][0][0].find('{http://www.estafeta.com/}MensajeError').text
+
+        return value
+
+    def send(self, _factura_numero, _factura_tipo):
 
         base = self.get_Base()
         body = base % (
@@ -446,6 +486,12 @@ class CotizacionWS:
         )
 
         try:
+            self.create_Request_File(
+                _factura_tipo,
+                _factura_numero,
+                body
+            )
+
             response = requests.post(
                 self.url,
                 data=body.encode('utf-8'),
@@ -453,10 +499,23 @@ class CotizacionWS:
                 verify=False
             )
 
-            if response.status_code == 200:
-                resultado = response.content
-                bandera = False
+            self.create_Response_File(
+                _factura_tipo,
+                _factura_numero,
+                response.content
+            )
 
+            if response.status_code == 200:
+                root = etree.fromstring(response.content)
+                response_estado = self.get_ResponseEstado(root)
+
+                if response_estado == "000":
+                    resultado = response_estado
+                    bandera = True
+
+                else:
+                    resultado = self.get_ResponseError(root)
+                    bandera = False
             else:
                 resultado = response.content
                 bandera = False

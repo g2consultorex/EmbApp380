@@ -83,7 +83,7 @@ class SegretoApp(App):
         self.password = self.loginscreen.ids['grid'].password
 
         if ModeloUsuario.login(self.username, self.password):
-            self.createlabelscreen.load_EstafetaAmbiente(self.username)
+            self.createlabelscreen.fill_DataAmbiente(self.username)
             self.screenmanager.current = 'screen-createlabel'
 
         else:
