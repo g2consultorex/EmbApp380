@@ -312,6 +312,7 @@ class CreateLabelScreen(Screen):
 
             flag, results = ws_cotizacion.send(self.factura_numero, self.factura_tipo)
 
+            import ipdb; ipdb.set_trace()
             if flag:
                 # Crea Etiqueta
                 ws_create_label = CreateLabelWS(data_ambiente["url"])
