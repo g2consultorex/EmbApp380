@@ -55,13 +55,7 @@ class CreateLabelWS:
 
         return cabecera
 
-    def set_Servicio(self, _cliente_no, _numero_etiquetas,
-                     _oficina_numero, _informacion_adicional,
-                     _contenido, _descripcion_contenido,
-                     _centro_costo, _entregar_en_estafeta,
-                     _pais_destino, _cp_origen, _tipo_empaque,
-                     _referencia, _documento_retorno,
-                     _tipo_servicio, _peso):
+    def set_Servicio(self, _data):
 
         modulo = """<customerNumber xsi:type="ns2:string">%s</customerNumber>
                     <labelDescriptionList xsi:type="ns4:LabelDescriptionList">
@@ -71,7 +65,6 @@ class CreateLabelWS:
                         %s
                         <numberOfLabels xsi:type="ns2:int">%s</numberOfLabels>
                         <officeNum xsi:type="ns2:string">%s</officeNum>
-
                         <aditionalInfo xsi:type="ns2:string">%s</aditionalInfo>
                         <content xsi:type="ns2:string">%s</content>
                         <contentDescription xsi:type="ns2:string">%s</contentDescription>
@@ -91,27 +84,27 @@ class CreateLabelWS:
                     <labelDescriptionListCount xsi:type="ns2:int">1</labelDescriptionListCount>"""
 
         self.modulo_servicio = modulo % (
-            _cliente_no,
+            _data['customer_number'],
             self.modulo_direccion_origen,
             self.modulo_direccion_destino,
             self.modulo_direccion_alternativa,
-            _numero_etiquetas,
-            _oficina_numero,
-            _informacion_adicional,
-            _contenido,
-            _descripcion_contenido,
-            _centro_costo,
-            _entregar_en_estafeta,
-            _pais_destino,
-            _cp_origen,
-            _tipo_empaque,
-            _referencia,
-            _documento_retorno,
-            _tipo_servicio,
-            _peso
+            _data['number_labels'],
+            _data['office_num'],
+            _data['aditionalinfo'],
+            _data['content'],
+            _data['contentdescription'],
+            _data['costcenter'],
+            _data['deliverytoestafetaoffice'],
+            _data['destino_countryid'],
+            _data['cp_origen'],
+            _data['parcelTypeId'],
+            _data['reference'],
+            _data['returndocument'],
+            _data['servicetypeid'],
+            _data['peso']
         )
 
-    def set_Credenciales(self, _login, _paper_type, _password, _quadrant, _suscribeid):
+    def set_Credenciales(self, _data):
 
         modulo = """<login xsi:type="ns2:string">%s</login>
                     <paperType xsi:type="ns2:int">%s</paperType>
@@ -121,17 +114,14 @@ class CreateLabelWS:
                     <valid xsi:type="ns2:boolean">true</valid>"""
 
         self.modulo_credenciales = modulo % (
-            _login,
-            _paper_type,
-            _password,
-            _quadrant,
-            _suscribeid
+            _data['login'],
+            _data['tipo_papel'],
+            _data['password'],
+            _data['quadrant'],
+            _data['suscriber_id']
         )
 
-    def set_DireccionOrigen(self, _direccion1, _direccion2,
-                            _cellphone, _city, _contactname,
-                            _corporatename, _customernumber, _neighborhood,
-                            _phonenumber, _state, _zipCode):
+    def set_DireccionOrigen(self, _data):
 
         modulo = """<originInfo xsi:type="ns4:OriginInfo">
                        <address1 xsi:type="ns2:string">%s</address1>
@@ -149,22 +139,19 @@ class CreateLabelWS:
                    </originInfo>"""
 
         self.modulo_direccion_origen = modulo % (
-          _direccion1,
-          _direccion2,
-          _cellphone,
-          _city,
-          _contactname,
-          _corporatename,
-          _customernumber,
-          _neighborhood,
-          _phonenumber,
-          _state,
-          _zipCode)
+          _data['origen_address1'],
+          _data['origen_address2'],
+          _data['origen_cellphone'],
+          _data['origen_city'],
+          _data['origen_contactname'],
+          _data['origen_corporatename'],
+          _data['customer_number'],
+          _data['origen_neighborhood'],
+          _data['origen_phonenumber'],
+          _data['origen_state'],
+          _data['origen_zipcode'])
 
-    def set_DireccionDestino(self, _direccion1, _direccion2,
-                             _cellphone, _city, _contactname,
-                             _corporatename, _customernumber, _neighborhood,
-                             _phonenumber, _state, _zipCode):
+    def set_DireccionDestino(self, _data):
 
         modulo = """<destinationInfo xsi:type="ns4:DestinationInfo">
                         <address1 xsi:type="ns2:string">%s</address1>
@@ -182,22 +169,19 @@ class CreateLabelWS:
                     </destinationInfo>"""
 
         self.modulo_direccion_destino = modulo % (
-            _direccion1,
-            _direccion2,
-            _cellphone,
-            _city,
-            _contactname,
-            _corporatename,
-            _customernumber,
-            _neighborhood,
-            _phonenumber,
-            _state,
-            _zipCode)
+          _data['destino_address1'],
+          _data['destino_address2'],
+          _data['destino_cellphone'],
+          _data['destino_city'],
+          _data['destino_contactname'],
+          _data['destino_corporatename'],
+          _data['destino_customernumber'],
+          _data['destino_neighborhood'],
+          _data['destino_phonenumber'],
+          _data['destino_state'],
+          _data['destino_zipcode'])
 
-    def set_DireccionAlternativa(self, _direccion1, _direccion2,
-                                 _cellphone, _city, _contactname,
-                                 _corporatename, _customernumber, _neighborhood,
-                                 _phonenumber, _state, _zipCode):
+    def set_DireccionAlternativa(self, _data):
 
         modulo = """<DRAlternativeInfo xsi:type="ns4:DRAlternativeInfo">
                         <address1 xsi:type="ns2:string">%s</address1>
@@ -215,17 +199,17 @@ class CreateLabelWS:
                     </DRAlternativeInfo>"""
 
         self.modulo_direccion_alternativa = modulo % (
-            _direccion1,
-            _direccion2,
-            _cellphone,
-            _city,
-            _contactname,
-            _corporatename,
-            _customernumber,
-            _neighborhood,
-            _phonenumber,
-            _state,
-            _zipCode)
+          _data['destino_address1'],
+          _data['destino_address2'],
+          _data['destino_cellphone'],
+          _data['destino_city'],
+          _data['destino_contactname'],
+          _data['destino_corporatename'],
+          _data['destino_customernumber'],
+          _data['destino_neighborhood'],
+          _data['destino_phonenumber'],
+          _data['destino_state'],
+          _data['destino_zipcode'])
 
     def create_Response_File(self, _response):
         carpeta = Carpeta(os.path.abspath(os.path.join(os.getcwd())))
@@ -248,11 +232,12 @@ class CreateLabelWS:
 
         return nodo[0].find('resultDescription').text
 
-    def create_ArchivoPdf(self, _contenido, _fac_tipo, _fac_numero):
+    def create_ArchivoPdf(self, _contenido, _fac_tipo, _fac_numero, _guia):
         abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
-        namefile = "%s_%s.pdf" % (
+        namefile = "%s_%s_%s.pdf" % (
             _fac_tipo,
-            _fac_numero
+            _fac_numero,
+            _guia
         )
         carpeta = Carpeta(abspath)
         archivo = Archivo(carpeta, namefile)
@@ -327,7 +312,6 @@ class CreateLabelWS:
         body = base % (self.modulo_servicio, self.modulo_credenciales)
 
         try:
-
             # Se genera la peticion
             response = requests.post(self.url, data=body.encode('utf-8'), headers=self.get_Header(), verify=False)
 
@@ -340,7 +324,7 @@ class CreateLabelWS:
                 if response_estado == "OK":
                     texto_etiqueta = self.get_ResponseEtiqueta(root)
                     guia = self.get_ResponseGuia(root)
-                    self.create_ArchivoPdf(texto_etiqueta, _factura_tipo, _factura_numero)
+                    self.create_ArchivoPdf(texto_etiqueta, _factura_tipo, _factura_numero, guia)
                     self.create_ArchivoLog(_factura_tipo, _factura_numero, guia, _username)
                     resultado = texto_etiqueta
                     bandera = True

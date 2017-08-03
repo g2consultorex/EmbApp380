@@ -272,6 +272,7 @@
         EstafetaAmbienteWidget:
             id: estafeta_ambiente_widget
         ControlWidget:
+            id: control_widget
 
 <ServicioWidget@StackLayout>:
     orientation: 'lr-tb'
@@ -1146,7 +1147,6 @@
                     size_hint_x: .60
 
 <ControlWidget@StackLayout>:
-    id: user_widget
     orientation: 'lr-tb'
     padding: '30dp', '0dp', '30dp', '0dp'
     size_hint_y:None
@@ -1159,7 +1159,7 @@
         Button:
             size_hint_x: .3
             text: 'Crear Etiqueta'
-            on_press: app.crear_Etiqueta()
+            on_press: root.click_BotonCrearEtiqueta()
 
 ########################### ETIQUETA VIEW ###########################
 

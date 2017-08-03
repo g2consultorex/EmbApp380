@@ -12,6 +12,8 @@ from CapaNegocio.gestordb import DireccionOrigen
 from CapaNegocio.gestordb import DireccionDestino
 from CapaNegocio.gestordb import ModeloUsuario
 
+from CapaNegocio.estafeta import CreateLabelWS
+
 
 class CreateLabelScreen(Screen):
 
@@ -19,6 +21,7 @@ class CreateLabelScreen(Screen):
         super(CreateLabelScreen, self).__init__(**kwargs)
         self.factura_numero = ""
         self.factura_tipo = ""
+        self.user_account = ""
         self._show_loader(False)
 
     def _show_loader(self, show):
@@ -35,7 +38,8 @@ class CreateLabelScreen(Screen):
         self._show_loader(False)
 
     def load_EstafetaAmbiente(self, _user_account):
-        usuario = ModeloUsuario.get(_user_account)
+        self.user_account = _user_account
+        usuario = ModeloUsuario.get(self.user_account)
 
         if len(usuario) > 0:
             if usuario[0].profile.estafeta:
@@ -56,49 +60,7 @@ class CreateLabelScreen(Screen):
         else:
             self.failure("No existe un usuario")
 
-    def buscar_Factura(self):
-        self._show_loader(True)
-
-        self.factura_numero = str(self.ids['txt_factura_numero'].text)
-        self.factura_tipo = self.ids['txt_factura_tipo'].text
-
-        self.clear_DireccionOrigen()
-        self.clear_DireccionDestino()
-        self.clear_Servicio()
-        self.clear_Paquete()
-
-        # fact = Factura.get(543, 'RI')
-
-        if self.factura_numero != "" and self.factura_tipo != "":
-
-            servicio = {}
-            servicio['aditionalinfo'] = "%s %s" % (
-                self.factura_numero,
-                self.factura_tipo
-            )
-
-            bandera, dir_origen = DireccionOrigen.get(self.factura_numero, self.factura_tipo)
-
-            if bandera:
-                self.fill_DireccionOrigen(dir_origen)
-            else:
-                self.failure(dir_origen['mensaje'])
-
-            bandera, dir_destino = DireccionDestino.get(self.factura_numero, self.factura_tipo)
-
-            if bandera:
-                self.fill_DireccionDestino(dir_destino)
-
-                servicio['destino_countryid'] = dir_destino['Country']
-                self.fill_Servicio(servicio)
-            else:
-                self.failure(dir_destino['mensaje'])
-
-            self._show_loader(False)
-        else:
-            self.failure("Falto especificar Factura")
-
-    def fill_DireccionOrigen(self, _data):
+    def fill_DataOrigen(self, _data):
         data = self.ids['label_container'].ids['origen_widget']
         data.ids['txt_origen_address1'].text = _data["address1"]
         data.ids['txt_origen_address2'].text = _data["address2"]
@@ -111,7 +73,7 @@ class CreateLabelScreen(Screen):
         data.ids['txt_origen_state'].text = _data['state']
         data.ids['txt_origen_zipcode'].text = _data['zipcode']
 
-    def clear_DireccionOrigen(self):
+    def clear_DataOrigen(self):
         data = self.ids['label_container'].ids['origen_widget']
         data.ids['txt_origen_address1'].text = ""
         data.ids['txt_origen_address2'].text = ""
@@ -124,7 +86,7 @@ class CreateLabelScreen(Screen):
         data.ids['txt_origen_state'].text = ""
         data.ids['txt_origen_zipcode'].text = ""
 
-    def fill_DireccionDestino(self, _data):
+    def fill_DataDestino(self, _data):
         data = self.ids['label_container'].ids['destino_widget']
         data.ids['txt_destino_address1'].text = _data["address1"]
         data.ids['txt_destino_address2'].text = _data["address2"]
@@ -138,7 +100,7 @@ class CreateLabelScreen(Screen):
         data.ids['txt_destino_state'].text = _data['state']
         data.ids['txt_destino_zipcode'].text = _data['zipcode']
 
-    def clear_DireccionDestino(self):
+    def clear_DataDestino(self):
         data = self.ids['label_container'].ids['destino_widget']
         data.ids['txt_destino_address1'].text = ""
         data.ids['txt_destino_address2'].text = ""
@@ -152,7 +114,7 @@ class CreateLabelScreen(Screen):
         data.ids['txt_destino_state'].text = ""
         data.ids['txt_destino_zipcode'].text = ""
 
-    def fill_Servicio(self, _data):
+    def fill_DataServicio(self, _data):
         data = self.ids['label_container'].ids['servicio_widget']
         data.ids['txt_servicetypeid'].text = "70"
         data.ids['txt_number_labels'].text = "1"
@@ -166,7 +128,7 @@ class CreateLabelScreen(Screen):
         data.ids['txt_destino_countryid'].text = _data['destino_countryid']
         data.ids['txt_reference'].text = "."
 
-    def clear_Servicio(self):
+    def clear_DataServicio(self):
         data = self.ids['label_container'].ids['servicio_widget']
         data.ids['txt_servicetypeid'].text = "70"
         data.ids['txt_number_labels'].text = "1"
@@ -179,8 +141,9 @@ class CreateLabelScreen(Screen):
         data.ids['txt_servicetypeiddocret'].text = ""
         data.ids['txt_destino_countryid'].text = ""
         data.ids['txt_reference'].text = "."
+        data.ids['chk_deliverytoestafetaoffice'].active = False
 
-    def clear_Paquete(self):
+    def clear_DataPaquete(self):
         data = self.ids['label_container'].ids['paquete_widget']
         data.ids['txt_peso'].text = ""
         data.ids['txt_kilos'].text = ""
@@ -188,6 +151,163 @@ class CreateLabelScreen(Screen):
         data.ids['txt_largo'].text = ""
         data.ids['txt_alto'].text = ""
         data.ids['txt_ancho'].text = ""
+
+    def get_DataPaquete(self):
+        data = {}
+        fields = self.ids['label_container'].ids['paquete_widget']
+        data['peso'] = fields.ids['txt_peso'].text
+        data['parcelTypeId'] = fields.ids['txt_parcelTypeId'].text
+
+        # data['kilos'] = pack_fields['txt_kilos'].text
+        # data['largo'] = pack_fields['txt_largo'].text
+        # data['alto'] = pack_fields['txt_alto'].text
+        # data['ancho'] = pack_fields['txt_ancho'].text
+        return data
+
+    def get_DataOrigen(self):
+        data = {}
+        fields = self.ids['label_container'].ids['origen_widget']
+        data['origen_address1'] = fields.ids['txt_origen_address1'].text
+        data['origen_address2'] = fields.ids['txt_origen_address2'].text
+        data['origen_cellphone'] = fields.ids['txt_origen_cellphone'].text
+        data['origen_city'] = fields.ids['txt_origen_city'].text
+        data['origen_contactname'] = fields.ids['txt_origen_contactname'].text
+        data['origen_corporatename'] = fields.ids['txt_origen_corporatename'].text
+        data['origen_neighborhood'] = fields.ids['txt_origen_neighborhood'].text
+        data['origen_phonenumber'] = fields.ids['txt_origen_phonenumber'].text
+        data['origen_state'] = fields.ids['txt_origen_state'].text
+        data['origen_zipcode'] = fields.ids['txt_origen_zipcode'].text
+
+        return data
+
+    def get_DataDestino(self):
+        data = {}
+        fields = self.ids['label_container'].ids['destino_widget']
+        data['destino_address1'] = fields.ids['txt_destino_address1'].text
+        data['destino_address2'] = fields.ids['txt_destino_address2'].text
+        data['destino_cellphone'] = fields.ids['txt_destino_cellphone'].text
+        data['destino_city'] = fields.ids['txt_destino_city'].text
+        data['destino_contactname'] = fields.ids['txt_destino_contactname'].text
+        data['destino_corporatename'] = fields.ids['txt_destino_corporatename'].text
+        data['destino_neighborhood'] = fields.ids['txt_destino_neighborhood'].text
+        data['destino_customernumber'] = fields.ids['txt_destino_customernumber'].text
+        data['destino_phonenumber'] = fields.ids['txt_destino_phonenumber'].text
+        data['destino_state'] = fields.ids['txt_destino_state'].text
+        data['destino_zipcode'] = fields.ids['txt_destino_zipcode'].text
+
+        return data
+
+    def get_DataServicio(self):
+        data = {}
+
+        fields = self.ids['label_container'].ids['servicio_widget']
+        data['servicetypeid'] = fields.ids['txt_servicetypeid'].text
+        data['number_labels'] = str(fields.ids['txt_number_labels'].text)
+        data['office_num'] = fields.ids['txt_office_num'].text
+        data['contentdescription'] = fields.ids['txt_contentdescription'].text
+        data['aditionalinfo'] = fields.ids['txt_aditionalinfo'].text
+        data['costcenter'] = fields.ids['txt_costcenter'].text
+        data['content'] = fields.ids['txt_content'].text
+        data['destino_countryid'] = fields.ids['txt_destino_countryid'].text
+        data['reference'] = fields.ids['txt_reference'].text
+        data['deliverytoestafetaoffice'] = str(fields.ids['chk_deliverytoestafetaoffice'].active)
+        data['returndocument'] = str(fields.ids['chk_returndocument'].active)
+
+        return data
+
+    def get_DataAmbiente(self):
+        data = {}
+
+        fields = self.ids['label_container'].ids['estafeta_ambiente_widget']
+        data['login'] = fields.ids['txt_login'].text
+        data['suscriber_id'] = fields.ids['txt_suscriber_id'].text
+        data['password'] = fields.ids['txt_password'].text
+        data['quadrant'] = fields.ids['txt_quadrant'].text
+        data['tipo_papel'] = fields.ids['txt_tipo_papel'].text
+        data['url'] = fields.ids['txt_url'].text
+        data['customer_number'] = fields.ids['txt_customernumber'].text
+
+        return data
+
+    def buscar_Factura(self):
+        self._show_loader(True)
+
+        self.factura_numero = str(self.ids['txt_factura_numero'].text)
+        self.factura_tipo = self.ids['txt_factura_tipo'].text
+
+        self.clear_DataOrigen()
+        self.clear_DataDestino()
+        self.clear_DataServicio()
+        self.clear_DataPaquete()
+
+        # fact = Factura.get(543, 'RI')
+        if self.factura_numero != "" and self.factura_tipo != "":
+
+            servicio = {}
+            servicio['aditionalinfo'] = "%s %s" % (
+                self.factura_numero,
+                self.factura_tipo
+            )
+
+            bandera, dir_origen = DireccionOrigen.get(self.factura_numero, self.factura_tipo)
+
+            if bandera:
+                self.fill_DataOrigen(dir_origen)
+            else:
+                self.failure(dir_origen['mensaje'])
+
+            bandera, dir_destino = DireccionDestino.get(self.factura_numero, self.factura_tipo)
+
+            if bandera:
+                self.fill_DataDestino(dir_destino)
+
+                servicio['destino_countryid'] = dir_destino['Country']
+                self.fill_DataServicio(servicio)
+            else:
+                self.failure(dir_destino['mensaje'])
+
+            self._show_loader(False)
+        else:
+            self.failure("Falto especificar Factura")
+
+    def crear_Etiqueta(self):
+        try:
+            self._show_loader(True)
+
+            data_paquete = self.get_DataPaquete()
+            data_ambiente = self.get_DataAmbiente()
+            data_origen = self.get_DataOrigen()
+            data_origen['customer_number'] = data_ambiente['customer_number']
+            data_destino = self.get_DataDestino()
+
+            data_servicio = self.get_DataServicio()
+            data_servicio['peso'] = data_paquete['peso']
+            data_servicio['parcelTypeId'] = data_paquete['parcelTypeId']
+            data_servicio['customer_number'] = data_ambiente['customer_number']
+            data_servicio['cp_origen'] = data_origen['origen_zipcode']
+
+            ws_create_label = CreateLabelWS(data_ambiente["url"])
+            ws_create_label.set_DireccionOrigen(data_origen)
+            ws_create_label.set_DireccionDestino(data_destino)
+            ws_create_label.set_DireccionAlternativa(data_destino)
+            ws_create_label.set_Servicio(data_servicio)
+            ws_create_label.set_Credenciales(data_ambiente)
+
+            flag, results, guide = ws_create_label.send(
+                self.factura_numero,
+                self.factura_tipo,
+                self.user_account
+            )
+
+            self.manager.get_screen('screen-labelview').fac_numero = self.factura_numero
+            self.manager.get_screen('screen-labelview').fac_tipo = self.factura_tipo
+            self.manager.get_screen('screen-labelview').set_Label(flag, results)
+
+            self._show_loader(False)
+            self.manager.current = 'screen-labelview'
+
+        except Exception as e:
+            self.failure(str(e))
 
 
 class ServicioWidget(StackLayout):
@@ -420,3 +540,10 @@ class EstafetaAmbienteOption(BoxLayout):
         super(EstafetaAmbienteOption, self).__init__(**kwargs)
         self.ids["lbl_cuenta_estafeta"].text = _registro.clave
         self.registro = _registro
+
+
+class ControlWidget(StackLayout):
+
+    def click_BotonCrearEtiqueta(self):
+        screen_manager = self.get_root_window().children
+        screen_manager[0].get_screen('screen-createlabel').crear_Etiqueta()
