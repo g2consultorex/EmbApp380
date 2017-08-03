@@ -32,7 +32,8 @@ from jde.models import F41001
 from jde.models import F0116
 from jde.models import F0005
 from jde.models import F0115
-# from jde.models import F01151
+from jde.models import F01151
+from jde.models import F5842566
 from jde.models import F0111
 from jde.models import F4006
 
@@ -248,55 +249,52 @@ class Factura(object):
             }
             return False, value
 
+    @classmethod
+    def InsertaGuia(self, _guia, _numero, _tipo):
 
-    # @classmethod
-    # def InsertaGuia(self, _guia, _numero, _tipo):
+        try:
+            connection.close()
+            factura = F5842566(using='jde')
+            factura.TNDOC = _numero
+            factura.TNDCT = _tipo
+            factura.TNVR03 = _guia
+            factura.TNUSER = 'JDE'
+            factura.TNJOBN = 'IGPLENT1'
+            factura.TNUPMJ = (1000 * (int(time.strftime("%Y")) - 1900) + int(time.strftime("%j")))
+            factura.TNUPMT = int(time.strftime("%I%M%S"))
+            factura.save()
 
-    #     try:
-    #         connection.close()
-    #         factura = F5842566(using='jde')
-    #         factura.TNDOC = _numero
-    #         factura.TNDCT = _tipo
-    #         factura.TNVR03 = _guia
-    #         factura.TNUSER = 'JDE'
-    #         factura.TNJOBN = 'IGPLENT1'
-    #         factura.TNUPMJ = (1000 * (int(time.strftime("%Y")) - 1900) + int(time.strftime("%j")))
-    #         factura.TNUPMT = int(time.strftime("%I%M%S"))
-    #         factura.save()
+        except Exception as error:
+            value = {
+                'mensaje': str(error)
+            }
+            return False, value
 
+    @classmethod
+    def ActualizaVtas(self, _numero, _tipo, _value):
 
-    #     except Exception as error:
-    #         value = {
-    #             'mensaje': str(error)
-    #         }
-    #         return False, value
+        try:
+            connection.close()
+            factura = F4211.objects.using('jde').filter(
+                SDDOC=_numero,
+                SDDCT=_tipo
+            )
 
+            if len(factura) == 0:
+                factura = F42119.objects.using('jde').filter(
+                    SDDOC=_numero,
+                    SDDCT=_tipo
+                )
 
-    # @classmethod
-    # def ActualizaVtas(self, _numero, _tipo, _value):
+            for f in factura:
+                f.SDVR03 = _value
+                f.save()
 
-    #     try:
-    #         connection.close()
-    #         factura = F4211.objects.using('jde').filter(
-    #             SDDOC=_numero,
-    #             SDDCT=_tipo
-    #         )
-
-    #         if len(factura) == 0:
-    #             factura = F42119.objects.using('jde').filter(
-    #                 SDDOC=_numero,
-    #                 SDDCT=_tipo
-    #             )
-
-    #         for f in factura:
-    #             f.SDVR03 = _value
-    #             f.save()
-
-    #     except Exception as error:
-    #         value = {
-    #             'mensaje': str(error)
-    #         }
-    #         return False, value
+        except Exception as error:
+            value = {
+                'mensaje': str(error)
+            }
+            return False, value
 
 
 class DireccionOrigen(object):
