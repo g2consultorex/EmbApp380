@@ -11,6 +11,7 @@ from CapaNegocio.gestordb import ModeloEstafetaAmbiente
 from CapaNegocio.gestordb import DireccionOrigen
 from CapaNegocio.gestordb import DireccionDestino
 from CapaNegocio.gestordb import ModeloUsuario
+from CapaNegocio.gestordb import Factura
 
 from CapaNegocio.estafeta import CreateLabelWS
 from CapaNegocio.estafeta import CotizacionWS
@@ -327,9 +328,12 @@ class CreateLabelScreen(Screen):
                     self.user_account
                 )
 
+                Factura.InsertaGuia(guide, self.factura_numero, self.factura_tipo)
+                Factura.ActualizaVtas(self.factura_numero, self.factura_tipo, guide)
+
                 self.manager.get_screen('screen-labelview').fac_numero = self.factura_numero
                 self.manager.get_screen('screen-labelview').fac_tipo = self.factura_tipo
-                self.manager.get_screen('screen-labelview').set_Label(flag, results)
+                self.manager.get_screen('screen-labelview').set_Label(flag, results, guide)
 
                 self._show_loader(False)
                 self.manager.current = 'screen-labelview'

@@ -249,52 +249,50 @@ class Factura(object):
             }
             return False, value
 
-    # @classmethod
-    # def InsertaGuia(self, _guia, _numero, _tipo):
+    @classmethod
+    def InsertaGuia(self, _guia, _numero, _tipo):
+        try:
+            connection.close()
+            factura = F5842566(using='jde')
+            factura.TNDOC = _numero
+            factura.TNDCT = _tipo
+            factura.TNVR03 = _guia
+            factura.TNUSER = 'JDE'
+            factura.TNJOBN = 'IGPLENT1'
+            factura.TNUPMJ = (1000 * (int(time.strftime("%Y")) - 1900) + int(time.strftime("%j")))
+            factura.TNUPMT = int(time.strftime("%I%M%S"))
+            factura.save()
 
-    #     try:
-    #         connection.close()
-    #         factura = F5842566(using='jde')
-    #         factura.TNDOC = _numero
-    #         factura.TNDCT = _tipo
-    #         factura.TNVR03 = _guia
-    #         factura.TNUSER = 'JDE'
-    #         factura.TNJOBN = 'IGPLENT1'
-    #         factura.TNUPMJ = (1000 * (int(time.strftime("%Y")) - 1900) + int(time.strftime("%j")))
-    #         factura.TNUPMT = int(time.strftime("%I%M%S"))
-    #         factura.save()
+        except Exception as error:
+            value = {
+                'mensaje': str(error)
+            }
+            return False, value
 
-    #     except Exception as error:
-    #         value = {
-    #             'mensaje': str(error)
-    #         }
-    #         return False, value
+    @classmethod
+    def ActualizaVtas(self, _numero, _tipo, _value):
+        try:
+            connection.close()
+            factura = F4211.objects.using('jde').filter(
+                SDDOC=_numero,
+                SDDCT=_tipo
+            )
 
-    # @classmethod
-    # def ActualizaVtas(self, _numero, _tipo, _value):
+            if len(factura) == 0:
+                factura = F42119.objects.using('jde').filter(
+                    SDDOC=_numero,
+                    SDDCT=_tipo
+                )
 
-    #     try:
-    #         connection.close()
-    #         factura = F4211.objects.using('jde').filter(
-    #             SDDOC=_numero,
-    #             SDDCT=_tipo
-    #         )
+            for f in factura:
+                f.SDVR03 = _value
+                f.save()
 
-    #         if len(factura) == 0:
-    #             factura = F42119.objects.using('jde').filter(
-    #                 SDDOC=_numero,
-    #                 SDDCT=_tipo
-    #             )
-
-    #         for f in factura:
-    #             f.SDVR03 = _value
-    #             f.save()
-
-    #     except Exception as error:
-    #         value = {
-    #             'mensaje': str(error)
-    #         }
-    #         return False, value
+        except Exception as error:
+            value = {
+                'mensaje': str(error)
+            }
+            return False, value
 
 
 class DireccionOrigen(object):
@@ -314,8 +312,6 @@ class DireccionOrigen(object):
         datos['phonenumber'] = ""
         datos['zipcode'] = ""
         datos['state'] = ""
-
-        import ipdb; ipdb.set_trace()
 
         try:
             connection.close()
