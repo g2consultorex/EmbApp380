@@ -23,6 +23,12 @@
     multiline: False
     write_tab: False
 
+<CampoGenerico2@TextInput>:
+    padding: '10dp', '10dp'
+    halign: 'justify'
+    multiline: False
+    write_tab: False
+
 <CampoGenericoMediumR@TextInput>:
     padding: '10dp', '10dp'
     halign: 'justify'
@@ -1352,7 +1358,7 @@
 
 <EstafetaAddPopup>:
     title: 'Nuevo Ambiente de Estafeta'
-    size_hint: (.5, .8)
+    size_hint: (.5, .9)
     GridLayout:
         cols: 1
         BoxLayout:
@@ -1360,7 +1366,7 @@
             Label:
                 text: "Clave"
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_clave
                 focus: True
                 size_hint_x: .8
@@ -1370,7 +1376,7 @@
             Label:
                 text: "URL"
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_url
                 focus: True
                 size_hint_x: .8
@@ -1379,7 +1385,7 @@
             Label:
                 text: 'Login'
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_login
                 size_hint_x: .8
 
@@ -1387,7 +1393,7 @@
             Label:
                 text: 'Password'
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_password
                 size_hint_x: .8
 
@@ -1395,7 +1401,7 @@
             Label:
                 text: 'Quadrant'
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_quadrant
                 input_type: 'number'
                 input_filter: 'float'
@@ -1406,7 +1412,7 @@
             Label:
                 text: 'Suscriber ID'
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_suscriber_id
                 size_hint_x: .8
 
@@ -1414,7 +1420,7 @@
             Label:
                 text: 'Tipo Papel'
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_paper_type
                 input_type: 'number'
                 input_filter: 'float'
@@ -1425,9 +1431,47 @@
             Label:
                 text: 'No. Cliente'
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_customernumber
                 size_hint_x: .8
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "Cot URL"
+                size_hint_x: .2
+            CampoGenerico2:
+                id: txt_cot_url
+                focus: True
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Cot ID Usuario'
+                size_hint_x: .2
+            CampoGenerico2:
+                id: txt_cot_id_usuario
+                input_type: 'number'
+                input_filter: 'int'
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Cot Usuario'
+                size_hint_x: .2
+            CampoGenerico2:
+                id: txt_cot_usuario
+                size_hint_x: .8
+                text: "1"
+
+        BoxLayout:
+            Label:
+                text: 'Cot Contraseña'
+                size_hint_x: .2
+            CampoGenerico2:
+                id: txt_cot_contra
+                size_hint_x: .8
+
 
         BoxLayout:
             Label:
@@ -1448,7 +1492,7 @@
 
 <EstafetaEditPopup>:
     title: 'Editar Ambiente de Estafeta'
-    size_hint: (.5, .8)
+    size_hint: (.5, .9)
     GridLayout:
         cols: 1
         BoxLayout:
@@ -1456,7 +1500,7 @@
             Label:
                 text: "Clave"
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_clave
                 focus: True
                 disabled: True
@@ -1467,7 +1511,7 @@
             Label:
                 text: "URL"
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_url
                 focus: True
                 size_hint_x: .8
@@ -1476,7 +1520,7 @@
             Label:
                 text: 'Login'
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_login
                 size_hint_x: .8
 
@@ -1484,7 +1528,7 @@
             Label:
                 text: 'Password'
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_password
                 size_hint_x: .8
 
@@ -1492,7 +1536,7 @@
             Label:
                 text: 'Quadrant'
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_quadrant
                 input_type: 'number'
                 input_filter: 'float'
@@ -1502,7 +1546,7 @@
             Label:
                 text: 'Suscriber ID'
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_suscriber_id
                 size_hint_x: .8
 
@@ -1510,7 +1554,7 @@
             Label:
                 text: 'Tipo Papel'
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_paper_type
                 input_type: 'number'
                 input_filter: 'float'
@@ -1520,8 +1564,45 @@
             Label:
                 text: 'No. Cliente'
                 size_hint_x: .2
-            CampoGenerico:
+            CampoGenerico2:
                 id: txt_customernumber
+                size_hint_x: .8
+
+        BoxLayout:
+            orientation: 'horizontal'
+            Label:
+                text: "Cot URL"
+                size_hint_x: .2
+            CampoGenerico2:
+                id: txt_cot_url
+                focus: True
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Cot ID Usuario'
+                size_hint_x: .2
+            CampoGenerico2:
+                id: txt_cot_id_usuario
+                input_type: 'number'
+                input_filter: 'int'
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Cot Usuario'
+                size_hint_x: .2
+            CampoGenerico2:
+                id: txt_cot_usuario
+                size_hint_x: .8
+                text: "1"
+
+        BoxLayout:
+            Label:
+                text: 'Cot Contraseña'
+                size_hint_x: .2
+            CampoGenerico2:
+                id: txt_cot_contra
                 size_hint_x: .8
 
         BoxLayout:

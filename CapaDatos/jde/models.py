@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -9,18 +10,20 @@ from django.db import models
 class F0101(models.Model):
 
     ABAN8 = models.IntegerField(primary_key=True)
-    ABALPH= models.CharField(max_length=40)
+    ABALPH = models.CharField(max_length=40)
 
     class Meta:
         managed = False
-        db_table = u'"CRPDTA"."F0101"'
+        if settings.DEBUG:
+            db_table = u'"CRPDTA"."F0101"'
+        else:
+            db_table = u'"PRODDTA"."F0101"'
 
     # def __str__(self):
     #     return self.clave
 
     def __unicode__(self):
         return str(self.ABAN8)
-
 
 
 class F41001(models.Model):
@@ -135,74 +138,84 @@ class F41001(models.Model):
 
 	class Meta:
 		managed = False
-		db_table = u'"CRPDTA"."F41001"'
+        if settings.DEBUG:
+            db_table = u'"CRPDTA"."F41001"'
+        else:
+            db_table = u'"PRODDTA"."F41001"'
 
 	def __unicode__(self):
 		return self.CIMCU
 
 
 class F4211(models.Model):
- SDKCOO = models.CharField(max_length=5)
- SDDOCO = models.IntegerField(primary_key=True)
- SDDCTO = models.CharField(max_length=2)
- SDLNID = models.IntegerField()
- SDMCU = models.CharField(max_length=12)
- SDAN8 = models.IntegerField()
- SDSHAN = models.IntegerField()
- SDPA8 = models.IntegerField()
- SDTRDJ = models.IntegerField()
- SDCNDJ = models.IntegerField()
- SDDGL = models.IntegerField()
- SDITM = models.IntegerField()
- SDLITM = models.CharField(max_length=25)
- SDDSC1 = models.CharField(max_length=30)
- SDDSC2 = models.CharField(max_length=30)
- SDNXTR = models.CharField(max_length=3)
- SDLTTR = models.CharField(max_length=3)
- SDASN = models.CharField(max_length=8)
- SDKCO = models.CharField(max_length=5)
- SDDOC = models.IntegerField()
- SDDCT = models.CharField(max_length=2)
- SDVR03 = models.CharField(max_length=25)
+    SDKCOO = models.CharField(max_length=5)
+    SDDOCO = models.IntegerField(primary_key=True)
+    SDDCTO = models.CharField(max_length=2)
+    SDLNID = models.IntegerField()
+    SDMCU = models.CharField(max_length=12)
+    SDAN8 = models.IntegerField()
+    SDSHAN = models.IntegerField()
+    SDPA8 = models.IntegerField()
+    SDTRDJ = models.IntegerField()
+    SDCNDJ = models.IntegerField()
+    SDDGL = models.IntegerField()
+    SDITM = models.IntegerField()
+    SDLITM = models.CharField(max_length=25)
+    SDDSC1 = models.CharField(max_length=30)
+    SDDSC2 = models.CharField(max_length=30)
+    SDNXTR = models.CharField(max_length=3)
+    SDLTTR = models.CharField(max_length=3)
+    SDASN = models.CharField(max_length=8)
+    SDKCO = models.CharField(max_length=5)
+    SDDOC = models.IntegerField()
+    SDDCT = models.CharField(max_length=2)
+    SDVR03 = models.CharField(max_length=25)
 
- class Meta:
-  	managed = False
-  	db_table = u'"CRPDTA"."F4211"'
+    class Meta:
+        managed = False
+        if settings.DEBUG:
+            db_table = u'"CRPDTA"."F4211"'
+        else:
+            db_table = u'"PRODDTA"."F4211"'
 
- def __unicode__(self):
- 	cadena = "%s %s" % (self.SDDOC, self.SDDCT)
- 	return cadena
+    def __unicode__(self):
+    	cadena = "%s %s" % (self.SDDOC, self.SDDCT)
+    	return cadena
+
 
 class F42119(models.Model):
- SDKCOO = models.CharField(max_length=5)
- SDDOCO = models.IntegerField(primary_key=True)
- SDDCTO = models.CharField(max_length=2)
- SDLNID = models.IntegerField()
- SDMCU = models.CharField(max_length=12)
- SDAN8 = models.IntegerField()
- SDSHAN = models.IntegerField()
- SDPA8 = models.IntegerField()
- SDTRDJ = models.IntegerField()
- SDCNDJ = models.IntegerField()
- SDDGL = models.IntegerField()
- SDITM = models.IntegerField()
- SDLITM = models.CharField(max_length=25)
- SDDSC1 = models.CharField(max_length=30)
- SDDSC2 = models.CharField(max_length=30)
- SDNXTR = models.CharField(max_length=3)
- SDLTTR = models.CharField(max_length=3)
- SDASN = models.CharField(max_length=8)
- SDKCO = models.CharField(max_length=5)
- SDDOC = models.IntegerField()
- SDDCT = models.CharField(max_length=2)
- SDVR03 = models.CharField(max_length=25)
+    SDKCOO = models.CharField(max_length=5)
+    SDDOCO = models.IntegerField(primary_key=True)
+    SDDCTO = models.CharField(max_length=2)
+    SDLNID = models.IntegerField()
+    SDMCU = models.CharField(max_length=12)
+    SDAN8 = models.IntegerField()
+    SDSHAN = models.IntegerField()
+    SDPA8 = models.IntegerField()
+    SDTRDJ = models.IntegerField()
+    SDCNDJ = models.IntegerField()
+    SDDGL = models.IntegerField()
+    SDITM = models.IntegerField()
+    SDLITM = models.CharField(max_length=25)
+    SDDSC1 = models.CharField(max_length=30)
+    SDDSC2 = models.CharField(max_length=30)
+    SDNXTR = models.CharField(max_length=3)
+    SDLTTR = models.CharField(max_length=3)
+    SDASN = models.CharField(max_length=8)
+    SDKCO = models.CharField(max_length=5)
+    SDDOC = models.IntegerField()
+    SDDCT = models.CharField(max_length=2)
+    SDVR03 = models.CharField(max_length=25)
 
- class Meta:
-  	managed = False
-  	db_table = u'"CRPDTA"."F42119"'
+    class Meta:
+        managed = False
+        if settings.DEBUG:
+            db_table = u'"CRPDTA"."F42119"'
+        else:
+            db_table = u'"PRODDTA"."F42119"'
 
- def __unicode__(self):
- 	return self.SDMCU
+    def __unicode__(self):
+        return self.SDMCU
 
 
 class F0116(models.Model):
@@ -217,7 +230,11 @@ class F0116(models.Model):
 	ALCTR=models.CharField(max_length=3)
 	class Meta:
  		managed = False
- 		db_table = u'"CRPDTA"."F0116"'
+        if settings.DEBUG:
+            db_table = u'"CRPDTA"."F0116"'
+        else:
+            db_table = u'"PRODDTA"."F0116"'
+
 	def __unicode__(self):
  		return str(self.ALAN8)
 
@@ -229,7 +246,11 @@ class F0005(models.Model):
 	DRDL02=models.CharField(max_length=30)
 	class Meta:
  		managed = False
- 		db_table = u'"CRPCTL"."F0005"'
+        if settings.DEBUG:
+            db_table = u'"CRPCTL"."F0005"'
+        else:
+            db_table = u'"PRODCTL"."F0005"'
+
 	def __unicode__(self):
  		return self.DRSY
 
@@ -240,7 +261,11 @@ class F0115(models.Model):
 	WPPHTP = models.CharField(max_length=4)
 	class Meta:
  		managed = False
- 		db_table = u'"CRPDTA"."F0115"'
+        if settings.DEBUG:
+            db_table = u'"CRPDTA"."F0115"'
+        else:
+            db_table = u'"PRODDTA"."F0115"'
+
 	def __unicode__(self):
  		return str(self.WPAN8)
 
@@ -250,7 +275,11 @@ class F0111(models.Model):
 	WWALPH = models.CharField(max_length=40)
 	class Meta:
  		managed = False
- 		db_table = u'"CRPDTA"."F0111"'
+        if settings.DEBUG:
+            db_table = u'"CRPDTA"."F0111"'
+        else:
+            db_table = u'"PRODDTA"."F0111"'
+
 	def __unicode__(self):
  		return str(self.WWAN8)
 
@@ -263,7 +292,11 @@ class F01151(models.Model):
 
 	class Meta:
 		managed = False
-		db_table = u'"CRPDTA"."F01151"'
+        if settings.DEBUG:
+            db_table = u'"CRPDTA"."F01151"'
+        else:
+            db_table = u'"PRODDTA"."F01151"'
+
 	def __unicode__(self):
 		return str(self.EAAN8)
 
@@ -273,7 +306,7 @@ class F4006(models.Model):
 	OAKCOO	= models.CharField(max_length=5)
 	OAANTY	= models.CharField(max_length=1)   #Shipto = 2
 	OAMLNM	= models.CharField(max_length=40)  #Companyname
-	OAADD1	= models.CharField(max_length=40)  
+	OAADD1	= models.CharField(max_length=40)
 	OAADD2	= models.CharField(max_length=40)  #Direccion
 	OAADD3	= models.CharField(max_length=40)  #Direccion
 	OAADD4	= models.CharField(max_length=40)  #Colonia
@@ -285,7 +318,11 @@ class F4006(models.Model):
 
 	class Meta:
 		managed = False
-		db_table = u'"CRPDTA"."F4006"'
+        if settings.DEBUG:
+            db_table = u'"CRPDTA"."F4006"'
+        else:
+            db_table = u'"PRODDTA"."F4006"'
+
 	def __unicode__(self):
 		return str(self.OADOCO)
 
@@ -300,7 +337,10 @@ class F5842566(models.Model):
 
 	class Meta:
 		managed = False
-		db_table = u'"CRPDTA"."F5842566"'
+        if settings.DEBUG:
+            db_table = u'"CRPDTA"."F5842566"'
+        else:
+            db_table = u'"PRODDTA"."F5842566"'
+
 	def __unicode__(self):
 		return str(self.TNDOC)
-

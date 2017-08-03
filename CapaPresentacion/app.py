@@ -286,9 +286,11 @@ class SegretoApp(App):
 
             self.labelviewscreen.fac_numero = self.createlabelscreen.factura_numero
             self.labelviewscreen.fac_tipo = self.createlabelscreen.factura_tipo
-            flag, results = ws_create_label.send(
+
+            flag, results, guide = ws_create_label.send(
                 self.labelviewscreen.fac_numero,
-                self.labelviewscreen.fac_tipo
+                self.labelviewscreen.fac_tipo,
+                self.username
             )
 
             self.labelviewscreen.set_Label(flag, results)

@@ -149,7 +149,20 @@ class ModeloEstafetaAmbiente(object):
             print str(e)
 
     @classmethod
-    def add(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _is_active, _customer_number):
+    def add(self,
+            _clave,
+            _url,
+            _login,
+            _password,
+            _quadrant,
+            _suscriber_id,
+            _paper_type,
+            _is_active,
+            _customer_number,
+            _cot_url,
+            _cot_id_usuario,
+            _cot_usuario,
+            _cot_contra):
 
         try:
             connection.close()
@@ -163,13 +176,30 @@ class ModeloEstafetaAmbiente(object):
             registro.paper_type = _paper_type
             registro.is_active = _is_active
             registro.customer_number = _customer_number
+            registro.cot_url = _cot_url
+            registro.cot_id_usuario = _cot_id_usuario
+            registro.cot_usuario = _cot_usuario
+            registro.cot_contra = _cot_contra
             registro.save()
 
         except Exception as e:
             print str(e)
 
     @classmethod
-    def edit(self, _clave, _url, _login, _password, _quadrant, _suscriber_id, _paper_type, _is_active, _customer_number):
+    def edit(self,
+             _clave,
+             _url,
+             _login,
+             _password,
+             _quadrant,
+             _suscriber_id,
+             _paper_type,
+             _is_active,
+             _customer_number,
+             _cot_url,
+             _cot_id_usuario,
+             _cot_usuario,
+             _cot_contra):
 
         try:
             connection.close()
@@ -182,6 +212,10 @@ class ModeloEstafetaAmbiente(object):
             registro.paper_type = _paper_type
             registro.is_active = _is_active
             registro.customer_number = _customer_number
+            registro.cot_url = _cot_url
+            registro.cot_id_usuario = _cot_id_usuario
+            registro.cot_usuario = _cot_usuario
+            registro.cot_contra = _cot_contra
             registro.save()
 
         except Exception as e:

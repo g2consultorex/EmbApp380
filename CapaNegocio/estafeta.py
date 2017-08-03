@@ -243,6 +243,11 @@ class CreateLabelWS:
 
         return resultado
 
+    def get_ResponseGuia(self, _root):
+        nodo = _root[0].xpath("//multiRef[@id = '%s']" % "id2")
+
+        return nodo[0].find('resultDescription').text
+
     def create_ArchivoPdf(self, _contenido, _fac_tipo, _fac_numero):
         abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
         namefile = "%s_%s.pdf" % (
@@ -258,6 +263,7 @@ class CreateLabelWS:
         self.create_Image(archivo)
 
     def create_DirectorioLog(self):
+        new_abspath = ""
 
         try:
             abspath = os.path.abspath(os.path.join(os.getcwd(), "logs"))
@@ -283,16 +289,24 @@ class CreateLabelWS:
 
         return new_abspath
 
-    def create_ArchivoLog(self, _fac_tipo, _fac_numero):
+    def create_ArchivoLog(self, _fac_tipo, _fac_numero, _guia, _username):
 
         abspath_dir = self.create_DirectorioLog()
 
-        namefile = "%s_%s.pdf" % (
+        namefile = "%s_%s_%s_%s.log" % (
             _fac_tipo,
             _fac_numero,
+            _guia,
+            _username
         )
 
-        print abspath_dir
+        folder = Carpeta(abspath_dir)
+        archivo = Archivo(folder, namefile)
+        ahora = datetime.now()
+        template = """Factura Tipo: %s \nFactura Numero: %s \nNo. Guia: %s \nUsuario: %s \nFecha: %s"""
+        texto = template % (_fac_tipo, _fac_numero, _guia, _username, str(ahora.strftime("%d/%m/%Y %H:%M:%S")))
+
+        archivo.write(texto)
 
     def create_Image(self, _file_pdf):
 
@@ -306,7 +320,7 @@ class CreateLabelWS:
         except Exception:
             pass
 
-    def send(self, _factura_numero, _factura_tipo):
+    def send(self, _factura_numero, _factura_tipo, _username):
 
         # ssl._create_default_https_context = ssl._create_unverified_context
         base = self.get_Base()
@@ -325,20 +339,23 @@ class CreateLabelWS:
 
                 if response_estado == "OK":
                     texto_etiqueta = self.get_ResponseEtiqueta(root)
+                    guia = self.get_ResponseGuia(root)
                     self.create_ArchivoPdf(texto_etiqueta, _factura_tipo, _factura_numero)
-                    self.create_ArchivoLog(_factura_tipo, _factura_numero)
+                    self.create_ArchivoLog(_factura_tipo, _factura_numero, guia, _username)
                     resultado = texto_etiqueta
                     bandera = True
 
                 else:
                     resultado = response_estado
+                    guia = "0"
                     bandera = False
 
             else:
                 resultado = response.content
+                guia = "0"
                 bandera = False
 
-            return bandera, resultado
+            return bandera, resultado, guia
 
         except Exception, error:
             return False, str(error)

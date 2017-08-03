@@ -6,6 +6,7 @@ from kivy.uix.stacklayout import StackLayout
 from kivy.properties import ObjectProperty
 
 from CapaNegocio.gestordb import ModeloEstafetaAmbiente
+from libtools.data import Validator
 
 
 class EstafetaScreen(Screen):
@@ -87,7 +88,27 @@ class EstafetaAddPopup(Popup):
         paper_type = self.ids['txt_paper_type'].text
         is_active = self.ids['chk_is_active'].active
         cliente_numero = self.ids['txt_customernumber'].text
-        ModeloEstafetaAmbiente.add(clave, url, login, password, quadrant, suscriber_id, paper_type, is_active, cliente_numero)
+
+        cot_url = self.ids['txt_cot_url'].text
+        cot_id_usuario = self.ids['txt_cot_id_usuario'].text
+        cot_usuario = self.ids['txt_cot_usuario'].text
+        cot_contra = self.ids['txt_cot_contra'].text
+
+        ModeloEstafetaAmbiente.add(
+            clave,
+            url,
+            login,
+            password,
+            quadrant,
+            suscriber_id,
+            paper_type,
+            is_active,
+            cliente_numero,
+            cot_url,
+            cot_id_usuario,
+            cot_usuario,
+            cot_contra
+        )
         self.screen.show_Registros()
         self.dismiss()
 
@@ -98,15 +119,21 @@ class EstafetaEditPopup(Popup):
 
     def __init__(self, _registro, _screen, **kwargs):
         super(EstafetaEditPopup, self).__init__(**kwargs)
-        self.ids['txt_clave'].text = _registro.clave
-        self.ids['txt_url'].text = _registro.url
-        self.ids['txt_login'].text = _registro.login
-        self.ids['txt_password'].text = _registro.password
-        self.ids['txt_quadrant'].text = str(_registro.quadrant)
-        self.ids['txt_suscriber_id'].text = _registro.suscriber_id
-        self.ids['txt_paper_type'].text = str(_registro.paper_type)
-        self.ids['chk_is_active'].active = _registro.is_active
-        self.ids['txt_customernumber'].text = str(_registro.customer_number)
+        self.ids['txt_clave'].text = Validator.checkToChar(_registro.clave)
+        self.ids['txt_url'].text = Validator.checkToChar(_registro.url)
+        self.ids['txt_login'].text = Validator.checkToChar(_registro.login)
+        self.ids['txt_password'].text = Validator.checkToChar(_registro.password)
+        self.ids['txt_quadrant'].text = Validator.checkToChar(_registro.quadrant)
+        self.ids['txt_suscriber_id'].text = Validator.checkToChar(_registro.suscriber_id)
+        self.ids['txt_paper_type'].text = Validator.checkToChar(_registro.paper_type)
+        self.ids['chk_is_active'].active = Validator.checkToChar(_registro.is_active)
+        self.ids['txt_customernumber'].text = Validator.checkToChar(_registro.customer_number)
+
+        self.ids['txt_cot_url'].text = Validator.checkToChar(_registro.cot_url)
+        self.ids['txt_cot_id_usuario'].text = Validator.checkToChar(_registro.cot_id_usuario)
+        self.ids['txt_cot_usuario'].text = Validator.checkToChar(_registro.cot_usuario)
+        self.ids['txt_cot_contra'].text = Validator.checkToChar(_registro.cot_contra)
+
         self.screen = _screen
 
     def click_BotonGuardar(self):
@@ -120,6 +147,25 @@ class EstafetaEditPopup(Popup):
         is_active = self.ids['chk_is_active'].active
         cliente_numero = self.ids['txt_customernumber'].text
 
-        ModeloEstafetaAmbiente.edit(clave, url, login, password, quadrant, suscriber_id, paper_type, is_active, cliente_numero)
+        cot_url = self.ids['txt_cot_url'].text
+        cot_id_usuario = self.ids['txt_cot_id_usuario'].text
+        cot_usuario = self.ids['txt_cot_usuario'].text
+        cot_contra = self.ids['txt_cot_contra'].text
+
+        ModeloEstafetaAmbiente.edit(
+            clave,
+            url,
+            login,
+            password,
+            quadrant,
+            suscriber_id,
+            paper_type,
+            is_active,
+            cliente_numero,
+            cot_url,
+            cot_id_usuario,
+            cot_usuario,
+            cot_contra
+        )
         self.screen.show_Registros()
         self.dismiss()
