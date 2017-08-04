@@ -333,6 +333,7 @@ class CreateLabelScreen(Screen):
 
                 self.manager.get_screen('screen-labelview').fac_numero = self.factura_numero
                 self.manager.get_screen('screen-labelview').fac_tipo = self.factura_tipo
+                self.manager.get_screen('screen-labelview').guia = guide
                 self.manager.get_screen('screen-labelview').set_Label(flag, results, guide)
 
                 self._show_loader(False)

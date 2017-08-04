@@ -11,6 +11,7 @@ class LabelViewScreen(Screen):
 
     fac_numero = None
     fac_tipo = None
+    guia = None
 
     def __init__(self, **kwargs):
         super(LabelViewScreen, self).__init__(**kwargs)
@@ -32,7 +33,7 @@ class LabelViewScreen(Screen):
     def imprimir(self):
         try:
             self._show_loader(True)
-            Printer.send(self.fac_numero, self.fac_tipo)
+            Printer.send(self.fac_numero, self.fac_tipo, self.guia)
             self._show_loader(False)
         except Exception as e:
             self.failure(str(e))
