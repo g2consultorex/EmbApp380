@@ -322,7 +322,7 @@ class CreateLabelWS:
             self.create_Request_File(
                 _factura_tipo,
                 _factura_numero,
-                body
+                body.encode('utf-8')
             )
 
             # Se genera la peticion
@@ -341,6 +341,7 @@ class CreateLabelWS:
                 if response_estado == "OK":
                     texto_etiqueta = self.get_ResponseEtiqueta(root)
                     guia = self.get_ResponseGuia(root)
+
                     self.create_ArchivoPdf(texto_etiqueta, _factura_tipo, _factura_numero, guia)
                     self.create_ArchivoLog(_factura_tipo, _factura_numero, guia, _username)
                     resultado = texto_etiqueta
