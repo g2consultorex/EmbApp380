@@ -287,6 +287,7 @@
             size: self.size
             radius: 10, 10, 10, 10
 
+
     BoxLayout:
         orientation: 'vertical'
         spacing: '2dp'
@@ -312,7 +313,8 @@
                 CampoGenericoMediumR:
                     id: txt_servicetypeid
                     size_hint_x: .60
-                    text: "70"
+                    # text: "70"
+                    disabled: True
                 Button:
                     size_hint:None, None
                     size:'40dp', '40dp'
@@ -332,7 +334,8 @@
                     size_hint_x: .80
                     input_type: 'number'
                     input_filter: 'int'
-                    text: "1"
+                    hint_text: "Ejemplo: 1"
+                    # text: "1"
 
             # Fila 2
             StackLayout:
@@ -367,7 +370,7 @@
                 CampoGenericoMediumR:
                     id: txt_content
                     size_hint_x: .60
-                    text: "JOYAS"
+                    text: "ACCESORIOS"
                 Button:
                     size_hint:None, None
                     size:'40dp', '40dp'
