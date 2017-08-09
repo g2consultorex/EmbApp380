@@ -84,6 +84,10 @@ class SegretoApp(App):
 
         if ModeloUsuario.login(self.username, self.password):
             self.createlabelscreen.user_account = self.username
+            self.createlabelscreen.clear_DataServicio()
+            self.createlabelscreen.clear_DataPaquete()
+            self.createlabelscreen.clear_DataOrigen()
+            self.createlabelscreen.clear_DataDestino()
             self.screenmanager.current = 'screen-createlabel'
 
         else:

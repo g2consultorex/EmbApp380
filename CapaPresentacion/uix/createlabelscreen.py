@@ -95,7 +95,7 @@ class CreateLabelScreen(Screen):
 
     def fill_DataServicio(self, _data):
         data = self.ids['label_container'].ids['servicio_widget']
-        data.ids['txt_servicetypeid'].text = "70"
+        data.ids['txt_servicetypeid'].text = ""
         data.ids['txt_number_labels'].text = "1"
         data.ids['txt_office_num'].text = "130"
         data.ids['txt_contentdescription'].text = ""
@@ -109,7 +109,7 @@ class CreateLabelScreen(Screen):
 
     def clear_DataServicio(self):
         data = self.ids['label_container'].ids['servicio_widget']
-        data.ids['txt_servicetypeid'].text = "70"
+        data.ids['txt_servicetypeid'].text = ""
         data.ids['txt_number_labels'].text = "1"
         data.ids['txt_office_num'].text = "130"
         data.ids['txt_contentdescription'].text = ""
@@ -126,7 +126,7 @@ class CreateLabelScreen(Screen):
         data = self.ids['label_container'].ids['paquete_widget']
         data.ids['txt_peso'].text = ""
         data.ids['txt_kilos'].text = ""
-        data.ids['txt_parcelTypeId'].text = "1"
+        data.ids['txt_parcelTypeId'].text = ""
         data.ids['txt_largo'].text = ""
         data.ids['txt_alto'].text = ""
         data.ids['txt_ancho'].text = ""
@@ -135,7 +135,12 @@ class CreateLabelScreen(Screen):
         data = {}
         fields = self.ids['label_container'].ids['paquete_widget']
         data['peso'] = fields.ids['txt_peso'].text
-        data['parcelTypeId'] = fields.ids['txt_parcelTypeId'].text
+        if fields.ids['txt_parcelTypeId'].text == "Sobre":
+            data['parcelTypeId'] = "1"
+        elif fields.ids['txt_parcelTypeId'].text == "Paquete":
+            data['parcelTypeId'] = "4"
+        else:
+            data['parcelTypeId'] = ""
 
         # data['kilos'] = pack_fields['txt_kilos'].text
         # data['largo'] = pack_fields['txt_largo'].text
@@ -180,7 +185,14 @@ class CreateLabelScreen(Screen):
         data = {}
 
         fields = self.ids['label_container'].ids['servicio_widget']
-        data['servicetypeid'] = fields.ids['txt_servicetypeid'].text
+
+        if fields.ids['txt_servicetypeid'].text == "Dia siguiente consumo facturacion mensual":
+            data['servicetypeid'] = "60"
+        elif fields.ids['txt_servicetypeid'].text == "Terrestre consumo facturacion mensual":
+            data['servicetypeid'] = "70"
+        else:
+            data['servicetypeid'] = ""
+
         data['number_labels'] = str(fields.ids['txt_number_labels'].text)
         data['office_num'] = fields.ids['txt_office_num'].text
         data['contentdescription'] = fields.ids['txt_contentdescription'].text
@@ -357,10 +369,10 @@ class CreateLabelScreen(Screen):
                         self.manager.get_screen('screen-labelview').set_Label(flag, results, guide)
 
                         self._show_loader(False)
-                        self.clear_DataOrigen()
-                        self.clear_DataDestino()
                         self.clear_DataServicio()
                         self.clear_DataPaquete()
+                        self.clear_DataOrigen()
+                        self.clear_DataDestino()
                         self.manager.current = 'screen-labelview'
 
                     else:
@@ -410,8 +422,8 @@ class TipoServicioPopup(Popup):
 
         self.ids['container'].clear_widgets()
 
-        widget10 = TipoServicioWidget("60", "Día siguiente consumo facturación mensual")
-        widget70 = TipoServicioWidget("70", "Terrestre consumo facturación mensual")
+        widget10 = TipoServicioWidget("60", "Dia siguiente consumo facturacion mensual")
+        widget70 = TipoServicioWidget("70", "Terrestre consumo facturacion mensual")
 
         self.ids['container'].add_widget(widget10)
         self.ids['container'].add_widget(widget70)
@@ -423,7 +435,7 @@ class TipoServicioPopup(Popup):
         for hijo in self.ids['container'].children:
 
             if hijo.ids['chk_tipo'].active is True:
-                value = hijo.valor
+                value = hijo.ids['lbl_tipo'].text
 
         if value:
             self.padre.fill_CampoTipoServicio(value)
@@ -523,7 +535,7 @@ class TipoPaquetePopup(Popup):
         for hijo in self.ids['container'].children:
 
             if hijo.ids['chk_tipo'].active is True:
-                value = hijo.valor
+                value = hijo.ids['lbl_tipo'].text
 
         if value:
             self.padre.fill_Campos(value)
