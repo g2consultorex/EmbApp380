@@ -84,10 +84,11 @@ class ModeloUsuario(object):
                 usuario.set_password("12345")
             usuario.save()
 
-            estafeta_ambiente = ModeloEstafetaAmbiente.get(_estafeta_ambiente_clave)
-            if len(estafeta_ambiente):
-                usuario.profile.estafeta = estafeta_ambiente[0]
-                usuario.profile.save()
+            if _estafeta_ambiente_clave != "":
+                estafeta_ambiente = ModeloEstafetaAmbiente.get(_estafeta_ambiente_clave)
+                if len(estafeta_ambiente):
+                    usuario.profile.estafeta = estafeta_ambiente[0]
+                    usuario.profile.save()
 
         except Exception as e:
             print str(e)
@@ -107,10 +108,11 @@ class ModeloUsuario(object):
 
             usuario.save()
 
-            estafeta_ambiente = ModeloEstafetaAmbiente.get(_estafeta_ambiente_clave)
-            if len(estafeta_ambiente):
-                usuario.profile.estafeta = estafeta_ambiente[0]
-                usuario.profile.save()
+            if _estafeta_ambiente_clave != "":
+                estafeta_ambiente = ModeloEstafetaAmbiente.get(_estafeta_ambiente_clave)
+                if len(estafeta_ambiente):
+                    usuario.profile.estafeta = estafeta_ambiente[0]
+                    usuario.profile.save()
 
         except Exception as e:
             print str(e)

@@ -269,8 +269,8 @@
             id: origen_widget
         DestinoWidget:
             id: destino_widget
-        EstafetaAmbienteWidget:
-            id: estafeta_ambiente_widget
+        # EstafetaAmbienteWidget:
+        #     id: estafeta_ambiente_widget
         ControlWidget:
             id: control_widget
 
@@ -313,7 +313,7 @@
                 CampoGenericoMediumR:
                     id: txt_servicetypeid
                     size_hint_x: .60
-                    # text: "70"
+                    text: "70"
                     disabled: True
                 Button:
                     size_hint:None, None
@@ -335,7 +335,7 @@
                     input_type: 'number'
                     input_filter: 'int'
                     hint_text: "Ejemplo: 1"
-                    # text: "1"
+                    text: "1"
 
             # Fila 2
             StackLayout:
@@ -359,6 +359,7 @@
                     id: txt_office_num
                     size_hint_x: .75
                     text: "130"
+                    # hint_text: "Ejemplo 130"
 
             # Fila 3
             StackLayout:
@@ -371,6 +372,7 @@
                     id: txt_content
                     size_hint_x: .60
                     text: "ACCESORIOS"
+                    disabled: True
                 Button:
                     size_hint:None, None
                     size:'40dp', '40dp'
@@ -387,6 +389,7 @@
                     hint_text: 'Descripcion del contenido'
                     size_hint_x: 1
                     text: "ORO"
+                    hint_text: "Ejemplo: ORO"
 
             # Fila 4
             StackLayout:
@@ -399,6 +402,7 @@
                     id: txt_aditionalinfo
                     size_hint_x: .65
                     text: "OPERACION"
+                    hint_text: "Ejemplo: OPERACION"
 
             StackLayout:
                 size_hint_y: None
@@ -411,6 +415,7 @@
                     hint_text: 'Centro de Costos'
                     size_hint_x: .80
                     text: "12345"
+                    # hint_text: ""
 
             # File 5
             StackLayout:
@@ -446,6 +451,7 @@
                     id: txt_destino_countryid
                     size_hint_x: .70
                     text: "MX"
+                    hint_text: "Ejemplo: MX"
 
             StackLayout:
                 size_hint_y: None
@@ -456,6 +462,7 @@
                 CampoGenericoMediumR:
                     id: txt_reference
                     text: "FRENTE AL SONBORNS"
+                    hint_text: "Ejmplo: FRENTE AL SAMBORNS"
                     size_hint_x: .82
 
             # File 7
@@ -763,6 +770,7 @@
                     id: txt_origen_address1
                     size_hint_x: .82
                     text: "CALLE 5"
+                    hint_text: "Ejemplo: CALLE 5"
 
             StackLayout:
                 size_hint_y: None
@@ -797,6 +805,7 @@
                     id: txt_origen_city
                     size_hint_x: .82
                     text: "TLALPAN"
+                    hint_text: "Ejemplo: TLALPAN"
 
             # Fila 3
             StackLayout:
@@ -809,6 +818,7 @@
                     id: txt_origen_contactname
                     size_hint_x: .82
                     text: "JANET OIDOR"
+                    hint_text: "Ejemplo: JANET OIDOR"
 
             StackLayout:
                 size_hint_y: None
@@ -820,6 +830,7 @@
                     id: txt_origen_corporatename
                     size_hint_x: .82
                     text: "ALTAS SA DE CV"
+                    hint_text: "Ejemplo: ALTAS SA DE CV"
 
             # Fila 4
             StackLayout:
@@ -832,6 +843,7 @@
                     id: txt_origen_neighborhood
                     size_hint_x: .82
                     text: "CENTRO"
+                    hint_text: "Ejemplo: CENTRO"
 
             StackLayout:
                 size_hint_y: None
@@ -866,6 +878,7 @@
                     id: txt_origen_state
                     size_hint_x: .82
                     text: "DF"
+                    hint_text: "Ejemplo: DF"
 
 <DestinoWidget@StackLayout>:
     orientation: 'lr-tb'
@@ -906,6 +919,7 @@
                     id: txt_destino_address1
                     size_hint_x: .82
                     text: "MAIZALES"
+                    # hint_text: "Ejemplo: MAIZALES"
 
             StackLayout:
                 size_hint_y: None
@@ -1022,177 +1036,177 @@
                     size_hint_x: .82
                     text: "02130"
 
-<EstafetaAmbienteWidget@StackLayout>:
-    # id: credenciales_widget
-    orientation: 'lr-tb'
-    padding: '10dp'
-    size_hint_y:None
-    height: '460dp'
-    canvas:
-        Color:
-            rgba: 0.925, 0.941, 0.937, 1.0
-        RoundedRectangle:
-            pos: self.pos
-            size: self.size
-            radius: 10, 10, 10, 10
-
-    BoxLayout:
-        orientation: 'vertical'
-        spacing: '12dp'
-        Label:
-            size_hint_y: None
-            height: '40dp'
-            text: 'CREDENCIALES DE ESTAFETA'
-            color: hex('#000000')
-            font_size: '16sp'
-
-        StackLayout:
-            size_hint_y: None
-            height: '40dp'
-            LabelGeneric:
-                text: 'Selecciona Cuenta:'
-                size_hint_x: .16
-            CampoGenericoMedium:
-                id: txt_cuenta
-                size_hint_x: .30
-
-            Button:
-                size_hint:None, None
-                size:'40dp', '40dp'
-                border:10,10,10,10
-                background_normal:'data/images/src/but_new.png'
-                background_down:'data/images/src/but_new_down.png'
-                on_release: root.click_BotonEstafetaAmbientes()
-
-        StackLayout:
-            size_hint_y: None
-            height: '40dp'
-            LabelGeneric:
-                text: 'URL Servicio:'
-                size_hint_x: .16
-            CampoGenericoMedium:
-                id: txt_url
-                size_hint_x: .84
-
-        GridLayout:
-            cols: 2
-            padding:'16dp', '10dp','16dp','10dp'
-            spacing: 40, 16
-
-            # Fila 1
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Login:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_login
-                    disabled: True
-                    size_hint_x: .60
-
-
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Suscribe ID:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_suscriber_id
-                    disabled: True
-                    size_hint_x: .60
-
-            # Fila 2
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Password:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_password
-                    disabled: True
-                    size_hint_x: .60
-
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Quadrant:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_quadrant
-                    disabled: True
-                    size_hint_x: .60
-
-            # Fila 3
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'No. Cliente:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_customernumber
-                    disabled: True
-                    size_hint_x: .60
-
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Tipo Papel:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_tipo_papel
-                    disabled: True
-                    size_hint_x: .60
-
-            # Fila 4
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'ID Usuario Cot:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_cot_id_usuario
-                    disabled: True
-                    size_hint_x: .60
-
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'URL Cot:'
-                    size_hint_x: .16
-                CampoGenericoMedium:
-                    id: txt_cot_url
-                    size_hint_x: .84
-
-            # Fila 5
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Usuario Cot:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_cot_usuario
-                    disabled: True
-                    size_hint_x: .60
-
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Contraseña Cot:'
-                    size_hint_x: .18
-                CampoGenericoMedium:
-                    id: txt_cot_contra
-                    disabled: True
-                    size_hint_x: .60
+# <EstafetaAmbienteWidget@StackLayout>:
+#     # id: credenciales_widget
+#     orientation: 'lr-tb'
+#     padding: '10dp'
+#     size_hint_y:None
+#     height: '460dp'
+#     canvas:
+#         Color:
+#             rgba: 0.925, 0.941, 0.937, 1.0
+#         RoundedRectangle:
+#             pos: self.pos
+#             size: self.size
+#             radius: 10, 10, 10, 10
+#
+#     BoxLayout:
+#         orientation: 'vertical'
+#         spacing: '12dp'
+#         Label:
+#             size_hint_y: None
+#             height: '40dp'
+#             text: 'CREDENCIALES DE ESTAFETA'
+#             color: hex('#000000')
+#             font_size: '16sp'
+#
+#         StackLayout:
+#             size_hint_y: None
+#             height: '40dp'
+#             LabelGeneric:
+#                 text: 'Selecciona Cuenta:'
+#                 size_hint_x: .16
+#             CampoGenericoMedium:
+#                 id: txt_cuenta
+#                 size_hint_x: .30
+#
+#             Button:
+#                 size_hint:None, None
+#                 size:'40dp', '40dp'
+#                 border:10,10,10,10
+#                 background_normal:'data/images/src/but_new.png'
+#                 background_down:'data/images/src/but_new_down.png'
+#                 on_release: root.click_BotonEstafetaAmbientes()
+#
+#         StackLayout:
+#             size_hint_y: None
+#             height: '40dp'
+#             LabelGeneric:
+#                 text: 'URL Servicio:'
+#                 size_hint_x: .16
+#             CampoGenericoMedium:
+#                 id: txt_url
+#                 size_hint_x: .84
+#
+#         GridLayout:
+#             cols: 2
+#             padding:'16dp', '10dp','16dp','10dp'
+#             spacing: 40, 16
+#
+#             # Fila 1
+#             StackLayout:
+#                 size_hint_y: None
+#                 height: '40dp'
+#                 LabelGeneric:
+#                     text: 'Login:'
+#                     size_hint_x: .18
+#                 CampoGenericoMedium:
+#                     id: txt_login
+#                     disabled: True
+#                     size_hint_x: .60
+#
+#
+#             StackLayout:
+#                 size_hint_y: None
+#                 height: '40dp'
+#                 LabelGeneric:
+#                     text: 'Suscribe ID:'
+#                     size_hint_x: .18
+#                 CampoGenericoMedium:
+#                     id: txt_suscriber_id
+#                     disabled: True
+#                     size_hint_x: .60
+#
+#             # Fila 2
+#             StackLayout:
+#                 size_hint_y: None
+#                 height: '40dp'
+#                 LabelGeneric:
+#                     text: 'Password:'
+#                     size_hint_x: .18
+#                 CampoGenericoMedium:
+#                     id: txt_password
+#                     disabled: True
+#                     size_hint_x: .60
+#
+#             StackLayout:
+#                 size_hint_y: None
+#                 height: '40dp'
+#                 LabelGeneric:
+#                     text: 'Quadrant:'
+#                     size_hint_x: .18
+#                 CampoGenericoMedium:
+#                     id: txt_quadrant
+#                     disabled: True
+#                     size_hint_x: .60
+#
+#             # Fila 3
+#             StackLayout:
+#                 size_hint_y: None
+#                 height: '40dp'
+#                 LabelGeneric:
+#                     text: 'No. Cliente:'
+#                     size_hint_x: .18
+#                 CampoGenericoMedium:
+#                     id: txt_customernumber
+#                     disabled: True
+#                     size_hint_x: .60
+#
+#             StackLayout:
+#                 size_hint_y: None
+#                 height: '40dp'
+#                 LabelGeneric:
+#                     text: 'Tipo Papel:'
+#                     size_hint_x: .18
+#                 CampoGenericoMedium:
+#                     id: txt_tipo_papel
+#                     disabled: True
+#                     size_hint_x: .60
+#
+#             # Fila 4
+#             StackLayout:
+#                 size_hint_y: None
+#                 height: '40dp'
+#                 LabelGeneric:
+#                     text: 'ID Usuario Cot:'
+#                     size_hint_x: .18
+#                 CampoGenericoMedium:
+#                     id: txt_cot_id_usuario
+#                     disabled: True
+#                     size_hint_x: .60
+#
+#             StackLayout:
+#                 size_hint_y: None
+#                 height: '40dp'
+#                 LabelGeneric:
+#                     text: 'URL Cot:'
+#                     size_hint_x: .16
+#                 CampoGenericoMedium:
+#                     id: txt_cot_url
+#                     size_hint_x: .84
+#
+#             # Fila 5
+#             StackLayout:
+#                 size_hint_y: None
+#                 height: '40dp'
+#                 LabelGeneric:
+#                     text: 'Usuario Cot:'
+#                     size_hint_x: .18
+#                 CampoGenericoMedium:
+#                     id: txt_cot_usuario
+#                     disabled: True
+#                     size_hint_x: .60
+#
+#             StackLayout:
+#                 size_hint_y: None
+#                 height: '40dp'
+#                 LabelGeneric:
+#                     text: 'Contraseña Cot:'
+#                     size_hint_x: .18
+#                 CampoGenericoMedium:
+#                     id: txt_cot_contra
+#                     disabled: True
+#                     size_hint_x: .60
 
 <ControlWidget@StackLayout>:
     orientation: 'lr-tb'

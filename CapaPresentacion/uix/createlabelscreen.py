@@ -39,34 +39,6 @@ class CreateLabelScreen(Screen):
         self._show_toast(error)
         self._show_loader(False)
 
-    def fill_DataAmbiente(self, _user_account):
-        self.user_account = _user_account
-        usuario = ModeloUsuario.get(self.user_account)
-
-        if len(usuario) > 0:
-            if usuario[0].profile.estafeta:
-
-                ambiente = usuario[0].profile.estafeta
-                data = self.ids['label_container'].ids['estafeta_ambiente_widget']
-                data.ids['txt_cuenta'].text = ambiente.clave
-                data.ids['txt_url'].text = ambiente.url
-                data.ids['txt_login'].text = ambiente.login
-                data.ids['txt_suscriber_id'].text = ambiente.suscriber_id
-                data.ids['txt_password'].text = ambiente.password
-                data.ids['txt_quadrant'].text = str(ambiente.quadrant)
-                data.ids['txt_tipo_papel'].text = str(ambiente.paper_type)
-                data.ids['txt_customernumber'].text = ambiente.customer_number
-
-                data.ids['txt_cot_url'].text = ambiente.cot_url
-                data.ids['txt_cot_id_usuario'].text = ambiente.cot_id_usuario
-                data.ids['txt_cot_usuario'].text = ambiente.cot_usuario
-                data.ids['txt_cot_contra'].text = ambiente.cot_contra
-
-            else:
-                self.failure("El usuario no tiene configurado un Ambiente")
-        else:
-            self.failure("No existe un usuario")
-
     def fill_DataOrigen(self, _data):
         data = self.ids['label_container'].ids['origen_widget']
         data.ids['txt_origen_address1'].text = _data["address1"]
@@ -222,24 +194,52 @@ class CreateLabelScreen(Screen):
 
         return data
 
-    def get_DataAmbiente(self):
-        data = {}
+    # def fill_DataAmbiente(self, _user_account):
+    #     self.user_account = _user_account
+    #     usuario = ModeloUsuario.get(self.user_account)
+    #
+    #     if len(usuario) > 0:
+    #         if usuario[0].profile.estafeta:
+    #
+    #             ambiente = usuario[0].profile.estafeta
+    #             data = self.ids['label_container'].ids['estafeta_ambiente_widget']
+    #             data.ids['txt_cuenta'].text = ambiente.clave
+    #             data.ids['txt_url'].text = ambiente.url
+    #             data.ids['txt_login'].text = ambiente.login
+    #             data.ids['txt_suscriber_id'].text = ambiente.suscriber_id
+    #             data.ids['txt_password'].text = ambiente.password
+    #             data.ids['txt_quadrant'].text = str(ambiente.quadrant)
+    #             data.ids['txt_tipo_papel'].text = str(ambiente.paper_type)
+    #             data.ids['txt_customernumber'].text = ambiente.customer_number
+    #
+    #             data.ids['txt_cot_url'].text = ambiente.cot_url
+    #             data.ids['txt_cot_id_usuario'].text = ambiente.cot_id_usuario
+    #             data.ids['txt_cot_usuario'].text = ambiente.cot_usuario
+    #             data.ids['txt_cot_contra'].text = ambiente.cot_contra
+    #
+    #         else:
+    #             self.failure("El usuario no tiene configurado un Ambiente")
+    #     else:
+    #         self.failure("No existe un usuario")
 
-        fields = self.ids['label_container'].ids['estafeta_ambiente_widget']
-        data['login'] = fields.ids['txt_login'].text
-        data['suscriber_id'] = fields.ids['txt_suscriber_id'].text
-        data['password'] = fields.ids['txt_password'].text
-        data['quadrant'] = fields.ids['txt_quadrant'].text
-        data['tipo_papel'] = fields.ids['txt_tipo_papel'].text
-        data['url'] = fields.ids['txt_url'].text
-        data['customer_number'] = fields.ids['txt_customernumber'].text
-
-        data['cot_url'] = fields.ids['txt_cot_url'].text
-        data['id_usuario'] = fields.ids['txt_cot_id_usuario'].text
-        data['usuario'] = fields.ids['txt_cot_usuario'].text
-        data['contra'] = fields.ids['txt_cot_contra'].text
-
-        return data
+    # def get_DataAmbiente(self):
+    #     data = {}
+    #
+    #     fields = self.ids['label_container'].ids['estafeta_ambiente_widget']
+    #     data['login'] = fields.ids['txt_login'].text
+    #     data['suscriber_id'] = fields.ids['txt_suscriber_id'].text
+    #     data['password'] = fields.ids['txt_password'].text
+    #     data['quadrant'] = fields.ids['txt_quadrant'].text
+    #     data['tipo_papel'] = fields.ids['txt_tipo_papel'].text
+    #     data['url'] = fields.ids['txt_url'].text
+    #     data['customer_number'] = fields.ids['txt_customernumber'].text
+    #
+    #     data['cot_url'] = fields.ids['txt_cot_url'].text
+    #     data['id_usuario'] = fields.ids['txt_cot_id_usuario'].text
+    #     data['usuario'] = fields.ids['txt_cot_usuario'].text
+    #     data['contra'] = fields.ids['txt_cot_contra'].text
+    #
+    #     return data
 
     def buscar_Factura(self):
         self._show_loader(True)
@@ -286,61 +286,85 @@ class CreateLabelScreen(Screen):
         try:
             self._show_loader(True)
 
-            data_paquete = self.get_DataPaquete()
-            data_ambiente = self.get_DataAmbiente()
-            data_origen = self.get_DataOrigen()
-            data_origen['customer_number'] = data_ambiente['customer_number']
-            data_destino = self.get_DataDestino()
+            usuario = ModeloUsuario.get(self.user_account)
 
-            data_servicio = self.get_DataServicio()
-            data_servicio['peso'] = data_paquete['peso']
-            data_servicio['parcelTypeId'] = data_paquete['parcelTypeId']
-            data_servicio['customer_number'] = data_ambiente['customer_number']
-            data_servicio['cp_origen'] = data_origen['origen_zipcode']
+            data_ambiente = {}
 
-            # Valida codigos
-            ws_cotizacion = CotizacionWS(data_ambiente["cot_url"])
-            ws_cotizacion.set_Credenciales(
-                data_ambiente['id_usuario'],
-                data_ambiente['usuario'],
-                data_ambiente['contra']
-            )
-            ws_cotizacion.set_EsFrecuencia("false")
-            ws_cotizacion.set_EsLista("true")
-            ws_cotizacion.set_TipoEnvio("false", "0", "0", "0", "0")
-            ws_cotizacion.set_Origen(data_origen['origen_zipcode'])
-            ws_cotizacion.set_Destino(data_destino['destino_zipcode'])
+            if len(usuario) > 0:
+                if usuario[0].profile.estafeta:
+                    ambiente = usuario[0].profile.estafeta
 
-            flag, results = ws_cotizacion.send(self.factura_numero, self.factura_tipo)
+                    data_ambiente['login'] = ambiente.login
+                    data_ambiente['suscriber_id'] = ambiente.suscriber_id
+                    data_ambiente['password'] = ambiente.password
+                    data_ambiente['quadrant'] = str(ambiente.quadrant)
+                    data_ambiente['tipo_papel'] = str(ambiente.paper_type)
+                    data_ambiente['url'] = ambiente.url
+                    data_ambiente['customer_number'] = ambiente.customer_number
 
-            if flag:
-                # Crea Etiqueta
-                ws_create_label = CreateLabelWS(data_ambiente["url"])
-                ws_create_label.set_DireccionOrigen(data_origen)
-                ws_create_label.set_DireccionDestino(data_destino)
-                ws_create_label.set_DireccionAlternativa(data_destino)
-                ws_create_label.set_Servicio(data_servicio)
-                ws_create_label.set_Credenciales(data_ambiente)
+                    data_ambiente['cot_url'] = ambiente.cot_url
+                    data_ambiente['id_usuario'] = ambiente.cot_id_usuario
+                    data_ambiente['usuario'] = ambiente.cot_usuario
+                    data_ambiente['contra'] = ambiente.cot_contra
 
-                flag, results, guide = ws_create_label.send(
-                    self.factura_numero,
-                    self.factura_tipo,
-                    self.user_account
-                )
+                    data_paquete = self.get_DataPaquete()
+                    data_origen = self.get_DataOrigen()
+                    data_origen['customer_number'] = data_ambiente['customer_number']
+                    data_destino = self.get_DataDestino()
 
-                Factura.InsertaGuia(guide, self.factura_numero, self.factura_tipo)
-                Factura.ActualizaVtas(self.factura_numero, self.factura_tipo, guide)
+                    data_servicio = self.get_DataServicio()
+                    data_servicio['peso'] = data_paquete['peso']
+                    data_servicio['parcelTypeId'] = data_paquete['parcelTypeId']
+                    data_servicio['customer_number'] = data_ambiente['customer_number']
+                    data_servicio['cp_origen'] = data_origen['origen_zipcode']
 
-                self.manager.get_screen('screen-labelview').fac_numero = self.factura_numero
-                self.manager.get_screen('screen-labelview').fac_tipo = self.factura_tipo
-                self.manager.get_screen('screen-labelview').guia = guide
-                self.manager.get_screen('screen-labelview').set_Label(flag, results, guide)
+                    # Valida codigos
+                    ws_cotizacion = CotizacionWS(data_ambiente["cot_url"])
+                    ws_cotizacion.set_Credenciales(
+                        data_ambiente['id_usuario'],
+                        data_ambiente['usuario'],
+                        data_ambiente['contra']
+                    )
+                    ws_cotizacion.set_EsFrecuencia("false")
+                    ws_cotizacion.set_EsLista("true")
+                    ws_cotizacion.set_TipoEnvio("false", "0", "0", "0", "0")
+                    ws_cotizacion.set_Origen(data_origen['origen_zipcode'])
+                    ws_cotizacion.set_Destino(data_destino['destino_zipcode'])
 
-                self._show_loader(False)
-                self.manager.current = 'screen-labelview'
+                    flag, results = ws_cotizacion.send(self.factura_numero, self.factura_tipo)
 
+                    if flag:
+                        # Crea Etiqueta
+                        ws_create_label = CreateLabelWS(data_ambiente["url"])
+                        ws_create_label.set_DireccionOrigen(data_origen)
+                        ws_create_label.set_DireccionDestino(data_destino)
+                        ws_create_label.set_DireccionAlternativa(data_destino)
+                        ws_create_label.set_Servicio(data_servicio)
+                        ws_create_label.set_Credenciales(data_ambiente)
+
+                        flag, results, guide = ws_create_label.send(
+                            self.factura_numero,
+                            self.factura_tipo,
+                            self.user_account
+                        )
+
+                        Factura.InsertaGuia(guide, self.factura_numero, self.factura_tipo)
+                        Factura.ActualizaVtas(self.factura_numero, self.factura_tipo, guide)
+
+                        self.manager.get_screen('screen-labelview').fac_numero = self.factura_numero
+                        self.manager.get_screen('screen-labelview').fac_tipo = self.factura_tipo
+                        self.manager.get_screen('screen-labelview').guia = guide
+                        self.manager.get_screen('screen-labelview').set_Label(flag, results, guide)
+
+                        self._show_loader(False)
+                        self.manager.current = 'screen-labelview'
+
+                    else:
+                        self.failure(results)
+                else:
+                    self.failure("El usuario no tiene configurado un Ambiente")
             else:
-                self.failure(results)
+                self.failure("No existe un usuario")
 
         except Exception as e:
             self.failure(str(e))
@@ -512,80 +536,80 @@ class TipoPaqueteWidget(BoxLayout):
         self.ids["lbl_tipo"].text = _descripcion
 
 
-class EstafetaAmbienteWidget(StackLayout):
-
-    def click_BotonEstafetaAmbientes(self):
-        EstafetaAmbientesPopup(self).open()
-
-    def fill_Campos(self, ambiente):
-
-        self.clear_Campos()
-        self.ids['txt_cuenta'].text = ambiente.clave
-        self.ids['txt_url'].text = ambiente.url
-        self.ids['txt_login'].text = ambiente.login
-        self.ids['txt_suscriber_id'].text = ambiente.suscriber_id
-        self.ids['txt_password'].text = ambiente.password
-        self.ids['txt_quadrant'].text = str(ambiente.quadrant)
-        self.ids['txt_tipo_papel'].text = str(ambiente.paper_type)
-        self.ids['txt_customernumber'].text = ambiente.customer_number
-
-        self.ids['txt_cot_url'].text = ambiente.cot_url
-        self.ids['txt_cot_id_usuario'].text = ambiente.cot_id_usuario
-        self.ids['txt_cot_usuario'].text = ambiente.cot_usuario
-        self.ids['txt_cot_contra'].text = ambiente.cot_contra
-
-    def clear_Campos(self):
-        self.ids['txt_cuenta'].text = ''
-        self.ids['txt_url'].text = ''
-        self.ids['txt_login'].text = ''
-        self.ids['txt_suscriber_id'].text = ''
-        self.ids['txt_password'].text = ''
-        self.ids['txt_quadrant'].text = ''
-        self.ids['txt_tipo_papel'].text = ''
-        self.ids['txt_customernumber'].text = ''
-
-        self.ids['txt_cot_url'].text = ""
-        self.ids['txt_cot_id_usuario'].text = ""
-        self.ids['txt_cot_usuario'].text = ""
-        self.ids['txt_cot_contra'].text = ""
-
-
-class EstafetaAmbientesPopup(Popup):
-    padre = ObjectProperty(None)
-
-    def __init__(self, _padre, **kwargs):
-        super(EstafetaAmbientesPopup, self).__init__(**kwargs)
-        self.padre = _padre
-        self.load_Records()
-
-    def load_Records(self):
-        contenedor = self.ids['container']
-        contenedor.clear_widgets()
-        registros = ModeloEstafetaAmbiente.get_Actives()
-
-        for registro in registros:
-            widget = EstafetaAmbienteOption(registro)
-            contenedor.add_widget(widget)
-
-    def click_BotonSeleccionar(self):
-        value = ""
-
-        for hijo in self.ids['container'].children:
-            if hijo.ids['chk_cuenta_estafeta'].active is True:
-                value = hijo.registro
-
-        if value:
-            self.padre.fill_Campos(value)
-            self.dismiss()
-
-
-class EstafetaAmbienteOption(BoxLayout):
-    registro = ObjectProperty(None)
-
-    def __init__(self, _registro, **kwargs):
-        super(EstafetaAmbienteOption, self).__init__(**kwargs)
-        self.ids["lbl_cuenta_estafeta"].text = _registro.clave
-        self.registro = _registro
+# class EstafetaAmbienteWidget(StackLayout):
+#
+#     def click_BotonEstafetaAmbientes(self):
+#         EstafetaAmbientesPopup(self).open()
+#
+#     def fill_Campos(self, ambiente):
+#
+#         self.clear_Campos()
+#         self.ids['txt_cuenta'].text = ambiente.clave
+#         self.ids['txt_url'].text = ambiente.url
+#         self.ids['txt_login'].text = ambiente.login
+#         self.ids['txt_suscriber_id'].text = ambiente.suscriber_id
+#         self.ids['txt_password'].text = ambiente.password
+#         self.ids['txt_quadrant'].text = str(ambiente.quadrant)
+#         self.ids['txt_tipo_papel'].text = str(ambiente.paper_type)
+#         self.ids['txt_customernumber'].text = ambiente.customer_number
+#
+#         self.ids['txt_cot_url'].text = ambiente.cot_url
+#         self.ids['txt_cot_id_usuario'].text = ambiente.cot_id_usuario
+#         self.ids['txt_cot_usuario'].text = ambiente.cot_usuario
+#         self.ids['txt_cot_contra'].text = ambiente.cot_contra
+#
+#     def clear_Campos(self):
+#         self.ids['txt_cuenta'].text = ''
+#         self.ids['txt_url'].text = ''
+#         self.ids['txt_login'].text = ''
+#         self.ids['txt_suscriber_id'].text = ''
+#         self.ids['txt_password'].text = ''
+#         self.ids['txt_quadrant'].text = ''
+#         self.ids['txt_tipo_papel'].text = ''
+#         self.ids['txt_customernumber'].text = ''
+#
+#         self.ids['txt_cot_url'].text = ""
+#         self.ids['txt_cot_id_usuario'].text = ""
+#         self.ids['txt_cot_usuario'].text = ""
+#         self.ids['txt_cot_contra'].text = ""
+#
+#
+# class EstafetaAmbientesPopup(Popup):
+#     padre = ObjectProperty(None)
+#
+#     def __init__(self, _padre, **kwargs):
+#         super(EstafetaAmbientesPopup, self).__init__(**kwargs)
+#         self.padre = _padre
+#         self.load_Records()
+#
+#     def load_Records(self):
+#         contenedor = self.ids['container']
+#         contenedor.clear_widgets()
+#         registros = ModeloEstafetaAmbiente.get_Actives()
+#
+#         for registro in registros:
+#             widget = EstafetaAmbienteOption(registro)
+#             contenedor.add_widget(widget)
+#
+#     def click_BotonSeleccionar(self):
+#         value = ""
+#
+#         for hijo in self.ids['container'].children:
+#             if hijo.ids['chk_cuenta_estafeta'].active is True:
+#                 value = hijo.registro
+#
+#         if value:
+#             self.padre.fill_Campos(value)
+#             self.dismiss()
+#
+#
+# class EstafetaAmbienteOption(BoxLayout):
+#     registro = ObjectProperty(None)
+#
+#     def __init__(self, _registro, **kwargs):
+#         super(EstafetaAmbienteOption, self).__init__(**kwargs)
+#         self.ids["lbl_cuenta_estafeta"].text = _registro.clave
+#         self.registro = _registro
 
 
 class ControlWidget(StackLayout):
