@@ -357,6 +357,10 @@ class CreateLabelScreen(Screen):
                         self.manager.get_screen('screen-labelview').set_Label(flag, results, guide)
 
                         self._show_loader(False)
+                        self.clear_DataOrigen()
+                        self.clear_DataDestino()
+                        self.clear_DataServicio()
+                        self.clear_DataPaquete()
                         self.manager.current = 'screen-labelview'
 
                     else:
