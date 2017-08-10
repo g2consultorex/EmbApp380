@@ -241,10 +241,9 @@ class CreateLabelWS:
 
     def create_ArchivoPdf(self, _contenido, _fac_tipo, _fac_numero, _guia):
         abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
-        namefile = "%s_%s_%s.pdf" % (
+        namefile = "%s_%s.pdf" % (
             _fac_tipo,
-            _fac_numero,
-            _guia
+            _fac_numero
         )
         carpeta = Carpeta(abspath)
         archivo = Archivo(carpeta, namefile)
@@ -285,10 +284,9 @@ class CreateLabelWS:
 
         abspath_dir = self.create_DirectorioLog()
 
-        namefile = "%s_%s_%s_%s.log" % (
+        namefile = "%s_%s_%s.log" % (
             _fac_tipo,
             _fac_numero,
-            _guia,
             _username
         )
 

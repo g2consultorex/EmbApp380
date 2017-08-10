@@ -97,7 +97,7 @@ class CreateLabelScreen(Screen):
         data = self.ids['label_container'].ids['servicio_widget']
         data.ids['txt_servicetypeid'].text = ""
         data.ids['txt_number_labels'].text = "1"
-        data.ids['txt_office_num'].text = "130"
+        data.ids['txt_office_num'].text = "780"
         data.ids['txt_contentdescription'].text = ""
         data.ids['txt_aditionalinfo'].text = _data['aditionalinfo']
         data.ids['txt_costcenter'].text = "0"
@@ -111,7 +111,7 @@ class CreateLabelScreen(Screen):
         data = self.ids['label_container'].ids['servicio_widget']
         data.ids['txt_servicetypeid'].text = ""
         data.ids['txt_number_labels'].text = "1"
-        data.ids['txt_office_num'].text = "130"
+        data.ids['txt_office_num'].text = "780"
         data.ids['txt_contentdescription'].text = ""
         data.ids['txt_aditionalinfo'].text = ""
         data.ids['txt_costcenter'].text = "0"
@@ -190,6 +190,8 @@ class CreateLabelScreen(Screen):
             data['servicetypeid'] = "60"
         elif fields.ids['txt_servicetypeid'].text == "Terrestre consumo facturacion mensual":
             data['servicetypeid'] = "70"
+        elif fields.ids['txt_servicetypeid'].text == "Dos Días consumo facturacion mensual":
+            data['servicetypeid'] = "D0"            
         else:
             data['servicetypeid'] = ""
 
@@ -424,9 +426,11 @@ class TipoServicioPopup(Popup):
 
         widget10 = TipoServicioWidget("60", "Dia siguiente consumo facturacion mensual")
         widget70 = TipoServicioWidget("70", "Terrestre consumo facturacion mensual")
+        widgetD0 = TipoServicioWidget("D0", "Dos Días consumo facturacion mensual")
 
         self.ids['container'].add_widget(widget10)
         self.ids['container'].add_widget(widget70)
+        self.ids['container'].add_widget(widgetD0)
 
     def click_SelectButton(self):
 
