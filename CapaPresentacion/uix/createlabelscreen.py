@@ -190,8 +190,8 @@ class CreateLabelScreen(Screen):
             data['servicetypeid'] = "60"
         elif fields.ids['txt_servicetypeid'].text == "Terrestre consumo facturacion mensual":
             data['servicetypeid'] = "70"
-        elif fields.ids['txt_servicetypeid'].text == "Dos Días consumo facturacion mensual":
-            data['servicetypeid'] = "D0"            
+        elif fields.ids['txt_servicetypeid'].text == "Dos Dias consumo facturacion mensual":
+            data['servicetypeid'] = "D0"
         else:
             data['servicetypeid'] = ""
 
@@ -426,7 +426,7 @@ class TipoServicioPopup(Popup):
 
         widget10 = TipoServicioWidget("60", "Dia siguiente consumo facturacion mensual")
         widget70 = TipoServicioWidget("70", "Terrestre consumo facturacion mensual")
-        widgetD0 = TipoServicioWidget("D0", "Dos Días consumo facturacion mensual")
+        widgetD0 = TipoServicioWidget("D0", "Dos Dias consumo facturacion mensual")
 
         self.ids['container'].add_widget(widget10)
         self.ids['container'].add_widget(widget70)
