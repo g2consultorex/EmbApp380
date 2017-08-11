@@ -71,11 +71,17 @@ class CreateLabelScreen(Screen):
 
         if fields.ids['txt_origen_address1'].text != "":
             data['origen_address1'] = fields.ids['txt_origen_address1'].text
+
+            if len(data['origen_address1']) > 30:
+                raise ValueError("Direccion 1 en DIRECCION ORIGEN es mayor de 30")
         else:
             raise ValueError("Falta en DIRECCION ORIGEN: Direccion 1")
 
         if fields.ids['txt_origen_city'].text != "":
             data['origen_city'] = fields.ids['txt_origen_city'].text
+
+            if len(data['origen_city']) > 50:
+                raise ValueError("Ciudad en DIRECCION ORIGEN es mayor de 50")
         else:
             raise ValueError("Falta en DIRECCION ORIGEN: Ciudad")
 
@@ -91,16 +97,25 @@ class CreateLabelScreen(Screen):
 
         if fields.ids['txt_origen_neighborhood'].text != "":
             data['origen_neighborhood'] = fields.ids['txt_origen_neighborhood'].text
+
+            if len(data['origen_neighborhood']) > 50:
+                raise ValueError("Colonia en DIRECCION ORIGEN es mayor de 50")
         else:
             raise ValueError("Falta en DIRECCION ORIGEN: Colonia")
 
         if fields.ids['txt_origen_phonenumber'].text != "":
             data['origen_phonenumber'] = fields.ids['txt_origen_phonenumber'].text
+
+            if len(data['origen_phonenumber']) > 25:
+                raise ValueError("Telefono en DIRECCION ORIGEN es mayor de 25")
         else:
             raise ValueError("Falta en DIRECCION ORIGEN: Telefono")
 
         if fields.ids['txt_origen_state'].text != "":
             data['origen_state'] = fields.ids['txt_origen_state'].text
+
+            if len(data['origen_state']) > 50:
+                raise ValueError("Estado en DIRECCION ORIGEN es mayor de 50")
         else:
             raise ValueError("Falta en DIRECCION ORIGEN: Estado")
 
@@ -110,7 +125,12 @@ class CreateLabelScreen(Screen):
             raise ValueError("Falta en DIRECCION ORIGEN: Zip Codigo")
 
         data['origen_address2'] = fields.ids['txt_origen_address2'].text
+        if len(data['origen_address2']) > 30:
+            raise ValueError("Direccion 2 en DIRECCION ORIGEN es mayor de 30")
+
         data['origen_cellphone'] = fields.ids['txt_origen_cellphone'].text
+        if len(data['origen_cellphone']) > 20:
+            raise ValueError("Celular en DIRECCION ORIGEN es mayor de 20")
 
         return data
 
@@ -174,11 +194,17 @@ class CreateLabelScreen(Screen):
 
         if fields.ids['txt_destino_address1'].text != "":
             data['destino_address1'] = fields.ids['txt_destino_address1'].text
+
+            if len(data['destino_address1']) > 30:
+                raise ValueError("Direccion 1 en DIRECCION DESTINO es mayor de 30")
         else:
             raise ValueError("Falta en INFORMACION DESTINO: Direccion 1")
 
         if fields.ids['txt_destino_city'].text != "":
             data['destino_city'] = fields.ids['txt_destino_city'].text
+
+            if len(data['destino_city']) > 50:
+                raise ValueError("Ciudad en DIRECCION DESTINO es mayor de 50")
         else:
             raise ValueError("Falta en INFORMACION DESTINO: Ciudad")
 
@@ -194,6 +220,9 @@ class CreateLabelScreen(Screen):
 
         if fields.ids['txt_destino_neighborhood'].text != "":
             data['destino_neighborhood'] = fields.ids['txt_destino_neighborhood'].text
+
+            if len(data['destino_neighborhood']) > 50:
+                raise ValueError("Colonia en DIRECCION DESTINO es mayor de 50")
         else:
             raise ValueError("Falta en INFORMACION DESTINO: Colonia")
 
@@ -204,11 +233,17 @@ class CreateLabelScreen(Screen):
 
         if fields.ids['txt_destino_phonenumber'].text != "":
             data['destino_phonenumber'] = fields.ids['txt_destino_phonenumber'].text
+
+            if len(data['destino_phonenumber']) > 25:
+                raise ValueError("Telefono en DIRECCION DESTINO es mayor de 25")
         else:
             raise ValueError("Falta en INFORMACION DESTINO: Telefono")
 
         if fields.ids['txt_destino_state'].text != "":
             data['destino_state'] = fields.ids['txt_destino_state'].text
+
+            if len(data['destino_state']) > 50:
+                raise ValueError("Estado en DIRECCION DESTINO es mayor de 50")
         else:
             raise ValueError("Falta en INFORMACION DESTINO: Estado")
 
@@ -218,7 +253,12 @@ class CreateLabelScreen(Screen):
             raise ValueError("Falta en INFORMACION DESTINO: Zip Codigo")
 
         data['destino_address2'] = fields.ids['txt_destino_address2'].text
+        if len(data['destino_address2']) > 30:
+            raise ValueError("Direccion 2 en DIRECCION DESTINO es mayor de 30")
+
         data['destino_cellphone'] = fields.ids['txt_destino_cellphone'].text
+        if len(data['destino_cellphone']) > 20:
+            raise ValueError("Celular en DIRECCION DESTINO es mayor de 20")        
 
         return data
 
