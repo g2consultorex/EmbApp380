@@ -51,7 +51,13 @@ class SegretoApp(App):
         self.loginscreen.bind(on_login=self.login)
 
         self.userscreen = UserScreen(name='screen-user')
+
         self.createlabelscreen = CreateLabelScreen(name='screen-createlabel')
+        self.createlabelscreen.disable_DataServicio()
+        self.createlabelscreen.disable_DataPaquete()
+        self.createlabelscreen.disable_DataOrigen()
+        self.createlabelscreen.disable_DataDestino()
+
         self.estafetascreen = EstafetaScreen(name='screen-estafeta')
         self.labelviewscreen = LabelViewScreen(name='screen-labelview')
         self.ideascreen = IdeaScreen(name='screen-idea')

@@ -6,7 +6,7 @@ from kivy.uix.stacklayout import StackLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 # from CapaPresentacion.uix.widget import Toast
-from CapaNegocio.gestordb import ModeloEstafetaAmbiente
+# from CapaNegocio.gestordb import ModeloEstafetaAmbiente
 # from CapaNegocio.gestordb import Factura
 from CapaNegocio.gestordb import DireccionOrigen
 from CapaNegocio.gestordb import DireccionDestino
@@ -65,6 +65,48 @@ class CreateLabelScreen(Screen):
         data.ids['txt_origen_state'].text = ""
         data.ids['txt_origen_zipcode'].text = ""
 
+    def get_DataOrigen(self):
+        data = {}
+        fields = self.ids['label_container'].ids['origen_widget']
+        data['origen_address1'] = fields.ids['txt_origen_address1'].text
+        data['origen_address2'] = fields.ids['txt_origen_address2'].text
+        data['origen_cellphone'] = fields.ids['txt_origen_cellphone'].text
+        data['origen_city'] = fields.ids['txt_origen_city'].text
+        data['origen_contactname'] = fields.ids['txt_origen_contactname'].text
+        data['origen_corporatename'] = fields.ids['txt_origen_corporatename'].text
+        data['origen_neighborhood'] = fields.ids['txt_origen_neighborhood'].text
+        data['origen_phonenumber'] = fields.ids['txt_origen_phonenumber'].text
+        data['origen_state'] = fields.ids['txt_origen_state'].text
+        data['origen_zipcode'] = fields.ids['txt_origen_zipcode'].text
+
+        return data
+
+    def disable_DataOrigen(self):
+        data = self.ids['label_container'].ids['origen_widget']
+        data.ids['txt_origen_address1'].disabled = True
+        data.ids['txt_origen_address2'].disabled = True
+        data.ids['txt_origen_cellphone'].disabled = True
+        data.ids['txt_origen_city'].disabled = True
+        data.ids['txt_origen_contactname'].disabled = True
+        data.ids['txt_origen_corporatename'].disabled = True
+        data.ids['txt_origen_neighborhood'].disabled = True
+        data.ids['txt_origen_phonenumber'].disabled = True
+        data.ids['txt_origen_state'].disabled = True
+        data.ids['txt_origen_zipcode'].disabled = True
+
+    def enable_DataOrigen(self):
+        data = self.ids['label_container'].ids['origen_widget']
+        data.ids['txt_origen_address1'].disabled = False
+        data.ids['txt_origen_address2'].disabled = False
+        data.ids['txt_origen_cellphone'].disabled = False
+        data.ids['txt_origen_city'].disabled = False
+        data.ids['txt_origen_contactname'].disabled = False
+        data.ids['txt_origen_corporatename'].disabled = False
+        data.ids['txt_origen_neighborhood'].disabled = False
+        data.ids['txt_origen_phonenumber'].disabled = False
+        data.ids['txt_origen_state'].disabled = False
+        data.ids['txt_origen_zipcode'].disabled = False
+
     def fill_DataDestino(self, _data):
         data = self.ids['label_container'].ids['destino_widget']
         data.ids['txt_destino_address1'].text = _data["address1"]
@@ -92,6 +134,51 @@ class CreateLabelScreen(Screen):
         data.ids['txt_destino_phonenumber'].text = ""
         data.ids['txt_destino_state'].text = ""
         data.ids['txt_destino_zipcode'].text = ""
+
+    def get_DataDestino(self):
+        data = {}
+        fields = self.ids['label_container'].ids['destino_widget']
+        data['destino_address1'] = fields.ids['txt_destino_address1'].text
+        data['destino_address2'] = fields.ids['txt_destino_address2'].text
+        data['destino_cellphone'] = fields.ids['txt_destino_cellphone'].text
+        data['destino_city'] = fields.ids['txt_destino_city'].text
+        data['destino_contactname'] = fields.ids['txt_destino_contactname'].text
+        data['destino_corporatename'] = fields.ids['txt_destino_corporatename'].text
+        data['destino_neighborhood'] = fields.ids['txt_destino_neighborhood'].text
+        data['destino_customernumber'] = fields.ids['txt_destino_customernumber'].text
+        data['destino_phonenumber'] = fields.ids['txt_destino_phonenumber'].text
+        data['destino_state'] = fields.ids['txt_destino_state'].text
+        data['destino_zipcode'] = fields.ids['txt_destino_zipcode'].text
+
+        return data
+
+    def disable_DataDestino(self):
+        data = self.ids['label_container'].ids['destino_widget']
+        data.ids['txt_destino_address1'].disabled = True
+        data.ids['txt_destino_address2'].disabled = True
+        data.ids['txt_destino_cellphone'].disabled = True
+        data.ids['txt_destino_city'].disabled = True
+        data.ids['txt_destino_contactname'].disabled = True
+        data.ids['txt_destino_corporatename'].disabled = True
+        data.ids['txt_destino_customernumber'].disabled = True
+        data.ids['txt_destino_neighborhood'].disabled = True
+        data.ids['txt_destino_phonenumber'].disabled = True
+        data.ids['txt_destino_state'].disabled = True
+        data.ids['txt_destino_zipcode'].disabled = True
+
+    def enable_DataDestino(self):
+        data = self.ids['label_container'].ids['destino_widget']
+        data.ids['txt_destino_address1'].disabled = False
+        data.ids['txt_destino_address2'].disabled = False
+        data.ids['txt_destino_cellphone'].disabled = False
+        data.ids['txt_destino_city'].disabled = False
+        data.ids['txt_destino_contactname'].disabled = False
+        data.ids['txt_destino_corporatename'].disabled = False
+        data.ids['txt_destino_customernumber'].disabled = False
+        data.ids['txt_destino_neighborhood'].disabled = False
+        data.ids['txt_destino_phonenumber'].disabled = False
+        data.ids['txt_destino_state'].disabled = False
+        data.ids['txt_destino_zipcode'].disabled = False
 
     def fill_DataServicio(self, _data):
         data = self.ids['label_container'].ids['servicio_widget']
@@ -122,65 +209,6 @@ class CreateLabelScreen(Screen):
         data.ids['txt_reference'].text = "."
         data.ids['chk_deliverytoestafetaoffice'].active = False
 
-    def clear_DataPaquete(self):
-        data = self.ids['label_container'].ids['paquete_widget']
-        data.ids['txt_peso'].text = ""
-        data.ids['txt_kilos'].text = ""
-        data.ids['txt_parcelTypeId'].text = ""
-        data.ids['txt_largo'].text = ""
-        data.ids['txt_alto'].text = ""
-        data.ids['txt_ancho'].text = ""
-
-    def get_DataPaquete(self):
-        data = {}
-        fields = self.ids['label_container'].ids['paquete_widget']
-        data['peso'] = fields.ids['txt_peso'].text
-        if fields.ids['txt_parcelTypeId'].text == "Sobre":
-            data['parcelTypeId'] = "1"
-        elif fields.ids['txt_parcelTypeId'].text == "Paquete":
-            data['parcelTypeId'] = "4"
-        else:
-            data['parcelTypeId'] = ""
-
-        # data['kilos'] = pack_fields['txt_kilos'].text
-        # data['largo'] = pack_fields['txt_largo'].text
-        # data['alto'] = pack_fields['txt_alto'].text
-        # data['ancho'] = pack_fields['txt_ancho'].text
-        return data
-
-    def get_DataOrigen(self):
-        data = {}
-        fields = self.ids['label_container'].ids['origen_widget']
-        data['origen_address1'] = fields.ids['txt_origen_address1'].text
-        data['origen_address2'] = fields.ids['txt_origen_address2'].text
-        data['origen_cellphone'] = fields.ids['txt_origen_cellphone'].text
-        data['origen_city'] = fields.ids['txt_origen_city'].text
-        data['origen_contactname'] = fields.ids['txt_origen_contactname'].text
-        data['origen_corporatename'] = fields.ids['txt_origen_corporatename'].text
-        data['origen_neighborhood'] = fields.ids['txt_origen_neighborhood'].text
-        data['origen_phonenumber'] = fields.ids['txt_origen_phonenumber'].text
-        data['origen_state'] = fields.ids['txt_origen_state'].text
-        data['origen_zipcode'] = fields.ids['txt_origen_zipcode'].text
-
-        return data
-
-    def get_DataDestino(self):
-        data = {}
-        fields = self.ids['label_container'].ids['destino_widget']
-        data['destino_address1'] = fields.ids['txt_destino_address1'].text
-        data['destino_address2'] = fields.ids['txt_destino_address2'].text
-        data['destino_cellphone'] = fields.ids['txt_destino_cellphone'].text
-        data['destino_city'] = fields.ids['txt_destino_city'].text
-        data['destino_contactname'] = fields.ids['txt_destino_contactname'].text
-        data['destino_corporatename'] = fields.ids['txt_destino_corporatename'].text
-        data['destino_neighborhood'] = fields.ids['txt_destino_neighborhood'].text
-        data['destino_customernumber'] = fields.ids['txt_destino_customernumber'].text
-        data['destino_phonenumber'] = fields.ids['txt_destino_phonenumber'].text
-        data['destino_state'] = fields.ids['txt_destino_state'].text
-        data['destino_zipcode'] = fields.ids['txt_destino_zipcode'].text
-
-        return data
-
     def get_DataServicio(self):
         data = {}
 
@@ -208,63 +236,87 @@ class CreateLabelScreen(Screen):
 
         return data
 
-    # def fill_DataAmbiente(self, _user_account):
-    #     self.user_account = _user_account
-    #     usuario = ModeloUsuario.get(self.user_account)
-    #
-    #     if len(usuario) > 0:
-    #         if usuario[0].profile.estafeta:
-    #
-    #             ambiente = usuario[0].profile.estafeta
-    #             data = self.ids['label_container'].ids['estafeta_ambiente_widget']
-    #             data.ids['txt_cuenta'].text = ambiente.clave
-    #             data.ids['txt_url'].text = ambiente.url
-    #             data.ids['txt_login'].text = ambiente.login
-    #             data.ids['txt_suscriber_id'].text = ambiente.suscriber_id
-    #             data.ids['txt_password'].text = ambiente.password
-    #             data.ids['txt_quadrant'].text = str(ambiente.quadrant)
-    #             data.ids['txt_tipo_papel'].text = str(ambiente.paper_type)
-    #             data.ids['txt_customernumber'].text = ambiente.customer_number
-    #
-    #             data.ids['txt_cot_url'].text = ambiente.cot_url
-    #             data.ids['txt_cot_id_usuario'].text = ambiente.cot_id_usuario
-    #             data.ids['txt_cot_usuario'].text = ambiente.cot_usuario
-    #             data.ids['txt_cot_contra'].text = ambiente.cot_contra
-    #
-    #         else:
-    #             self.failure("El usuario no tiene configurado un Ambiente")
-    #     else:
-    #         self.failure("No existe un usuario")
+    def disable_DataServicio(self):
+        data = self.ids['label_container'].ids['servicio_widget']
+        # data.ids['txt_servicetypeid'].disabled = True
+        data.ids['txt_number_labels'].disabled = True
+        data.ids['txt_office_num'].disabled = True
+        data.ids['txt_contentdescription'].disabled = True
+        data.ids['txt_aditionalinfo'].disabled = True
+        data.ids['txt_costcenter'].disabled = True
+        # data.ids['txt_content'].disabled = True
+        data.ids['txt_kilos'].disabled = True
+        data.ids['txt_servicetypeiddocret'].disabled = True
+        data.ids['txt_destino_countryid'].disabled = True
+        data.ids['txt_reference'].disabled = True
+        data.ids['chk_deliverytoestafetaoffice'].disabled = True
+        data.ids['chk_returndocument'].disabled = True
 
-    # def get_DataAmbiente(self):
-    #     data = {}
-    #
-    #     fields = self.ids['label_container'].ids['estafeta_ambiente_widget']
-    #     data['login'] = fields.ids['txt_login'].text
-    #     data['suscriber_id'] = fields.ids['txt_suscriber_id'].text
-    #     data['password'] = fields.ids['txt_password'].text
-    #     data['quadrant'] = fields.ids['txt_quadrant'].text
-    #     data['tipo_papel'] = fields.ids['txt_tipo_papel'].text
-    #     data['url'] = fields.ids['txt_url'].text
-    #     data['customer_number'] = fields.ids['txt_customernumber'].text
-    #
-    #     data['cot_url'] = fields.ids['txt_cot_url'].text
-    #     data['id_usuario'] = fields.ids['txt_cot_id_usuario'].text
-    #     data['usuario'] = fields.ids['txt_cot_usuario'].text
-    #     data['contra'] = fields.ids['txt_cot_contra'].text
-    #
-    #     return data
+    def enable_DataServicio(self):
+        data = self.ids['label_container'].ids['servicio_widget']
+        # data.ids['txt_servicetypeid'].disabled = False
+        data.ids['txt_number_labels'].disabled = False
+        data.ids['txt_office_num'].disabled = False
+        data.ids['txt_contentdescription'].disabled = False
+        data.ids['txt_aditionalinfo'].disabled = False
+        data.ids['txt_costcenter'].disabled = False
+        # data.ids['txt_content'].disabled = False
+        data.ids['txt_kilos'].disabled = False
+        data.ids['txt_servicetypeiddocret'].disabled = False
+        data.ids['txt_destino_countryid'].disabled = False
+        data.ids['txt_reference'].disabled = False
+        data.ids['chk_deliverytoestafetaoffice'].disabled = False
+        data.ids['chk_returndocument'].disabled = False
+
+    def clear_DataPaquete(self):
+        data = self.ids['label_container'].ids['paquete_widget']
+        data.ids['txt_peso'].text = ""
+        data.ids['txt_kilos'].text = ""
+        data.ids['txt_parcelTypeId'].text = ""
+        data.ids['txt_largo'].text = ""
+        data.ids['txt_alto'].text = ""
+        data.ids['txt_ancho'].text = ""
+
+    def get_DataPaquete(self):
+        data = {}
+        fields = self.ids['label_container'].ids['paquete_widget']
+        data['peso'] = fields.ids['txt_peso'].text
+        if fields.ids['txt_parcelTypeId'].text == "Sobre":
+            data['parcelTypeId'] = "1"
+        elif fields.ids['txt_parcelTypeId'].text == "Paquete":
+            data['parcelTypeId'] = "4"
+        else:
+            data['parcelTypeId'] = ""
+
+        # data['kilos'] = pack_fields['txt_kilos'].text
+        # data['largo'] = pack_fields['txt_largo'].text
+        # data['alto'] = pack_fields['txt_alto'].text
+        # data['ancho'] = pack_fields['txt_ancho'].text
+        return data
+
+    def disable_DataPaquete(self):
+        data = self.ids['label_container'].ids['paquete_widget']
+        data.ids['txt_peso'].disabled = True
+        data.ids['txt_kilos'].disabled = True
+        # data.ids['txt_parcelTypeId'].disabled = True
+        data.ids['txt_largo'].disabled = True
+        data.ids['txt_alto'].disabled = True
+        data.ids['txt_ancho'].disabled = True
+
+    def enable_DataPaquete(self):
+        data = self.ids['label_container'].ids['paquete_widget']
+        data.ids['txt_peso'].disabled = False
+        data.ids['txt_kilos'].disabled = False
+        # data.ids['txt_parcelTypeId'].disabled = False
+        data.ids['txt_largo'].disabled = False
+        data.ids['txt_alto'].disabled = False
+        data.ids['txt_ancho'].disabled = False
 
     def buscar_Factura(self):
         self._show_loader(True)
 
         self.factura_numero = str(self.ids['txt_factura_numero'].text)
         self.factura_tipo = self.ids['txt_factura_tipo'].text
-
-        self.clear_DataOrigen()
-        self.clear_DataDestino()
-        self.clear_DataServicio()
-        self.clear_DataPaquete()
 
         # fact = Factura.get(543, 'RI')
         if self.factura_numero != "" and self.factura_tipo != "":
@@ -276,6 +328,16 @@ class CreateLabelScreen(Screen):
             )
 
             bandera, dir_origen = DireccionOrigen.get(self.factura_numero, self.factura_tipo)
+
+            self.clear_DataOrigen()
+            self.clear_DataDestino()
+            self.clear_DataServicio()
+            self.clear_DataPaquete()
+
+            self.enable_DataServicio()
+            self.enable_DataPaquete()
+            self.enable_DataOrigen()
+            self.enable_DataDestino()
 
             if bandera:
                 self.fill_DataOrigen(dir_origen)
@@ -289,6 +351,7 @@ class CreateLabelScreen(Screen):
 
                 servicio['destino_countryid'] = dir_destino['Country']
                 self.fill_DataServicio(servicio)
+
             else:
                 self.failure(dir_destino['mensaje'])
 
@@ -375,6 +438,11 @@ class CreateLabelScreen(Screen):
                         self.clear_DataPaquete()
                         self.clear_DataOrigen()
                         self.clear_DataDestino()
+
+                        self.disable_DataServicio()
+                        self.disable_DataPaquete()
+                        self.disable_DataOrigen()
+                        self.disable_DataDestino()
                         self.manager.current = 'screen-labelview'
 
                     else:
@@ -554,82 +622,6 @@ class TipoPaqueteWidget(BoxLayout):
         super(TipoPaqueteWidget, self).__init__(**kwargs)
         self.valor = _valor
         self.ids["lbl_tipo"].text = _descripcion
-
-
-# class EstafetaAmbienteWidget(StackLayout):
-#
-#     def click_BotonEstafetaAmbientes(self):
-#         EstafetaAmbientesPopup(self).open()
-#
-#     def fill_Campos(self, ambiente):
-#
-#         self.clear_Campos()
-#         self.ids['txt_cuenta'].text = ambiente.clave
-#         self.ids['txt_url'].text = ambiente.url
-#         self.ids['txt_login'].text = ambiente.login
-#         self.ids['txt_suscriber_id'].text = ambiente.suscriber_id
-#         self.ids['txt_password'].text = ambiente.password
-#         self.ids['txt_quadrant'].text = str(ambiente.quadrant)
-#         self.ids['txt_tipo_papel'].text = str(ambiente.paper_type)
-#         self.ids['txt_customernumber'].text = ambiente.customer_number
-#
-#         self.ids['txt_cot_url'].text = ambiente.cot_url
-#         self.ids['txt_cot_id_usuario'].text = ambiente.cot_id_usuario
-#         self.ids['txt_cot_usuario'].text = ambiente.cot_usuario
-#         self.ids['txt_cot_contra'].text = ambiente.cot_contra
-#
-#     def clear_Campos(self):
-#         self.ids['txt_cuenta'].text = ''
-#         self.ids['txt_url'].text = ''
-#         self.ids['txt_login'].text = ''
-#         self.ids['txt_suscriber_id'].text = ''
-#         self.ids['txt_password'].text = ''
-#         self.ids['txt_quadrant'].text = ''
-#         self.ids['txt_tipo_papel'].text = ''
-#         self.ids['txt_customernumber'].text = ''
-#
-#         self.ids['txt_cot_url'].text = ""
-#         self.ids['txt_cot_id_usuario'].text = ""
-#         self.ids['txt_cot_usuario'].text = ""
-#         self.ids['txt_cot_contra'].text = ""
-#
-#
-# class EstafetaAmbientesPopup(Popup):
-#     padre = ObjectProperty(None)
-#
-#     def __init__(self, _padre, **kwargs):
-#         super(EstafetaAmbientesPopup, self).__init__(**kwargs)
-#         self.padre = _padre
-#         self.load_Records()
-#
-#     def load_Records(self):
-#         contenedor = self.ids['container']
-#         contenedor.clear_widgets()
-#         registros = ModeloEstafetaAmbiente.get_Actives()
-#
-#         for registro in registros:
-#             widget = EstafetaAmbienteOption(registro)
-#             contenedor.add_widget(widget)
-#
-#     def click_BotonSeleccionar(self):
-#         value = ""
-#
-#         for hijo in self.ids['container'].children:
-#             if hijo.ids['chk_cuenta_estafeta'].active is True:
-#                 value = hijo.registro
-#
-#         if value:
-#             self.padre.fill_Campos(value)
-#             self.dismiss()
-#
-#
-# class EstafetaAmbienteOption(BoxLayout):
-#     registro = ObjectProperty(None)
-#
-#     def __init__(self, _registro, **kwargs):
-#         super(EstafetaAmbienteOption, self).__init__(**kwargs)
-#         self.ids["lbl_cuenta_estafeta"].text = _registro.clave
-#         self.registro = _registro
 
 
 class ControlWidget(StackLayout):
