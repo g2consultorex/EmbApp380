@@ -453,6 +453,7 @@ class CreateLabelScreen(Screen):
             self.failure("Falto especificar Factura")
 
     def crear_Etiqueta(self):
+
         try:
             self._show_loader(True)
 

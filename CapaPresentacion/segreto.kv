@@ -1094,14 +1094,22 @@
                 height: '50dp'
                 orientation: 'horizontal'
 
-                # Button:
-                #     text: 'Descargar'
-                #     size_hint_x: .4
-                    # on_release: root.show_All_Users()
+                Label:
+                    color: hex('#fbfbfb')
+                    text: 'Numero de Impresiones:'
+                    padding: '16dp', '16dp'
+                    size_hint_x: .2
+
+                CampoGenerico:
+                    id: txt_number_labels
+                    size_hint_x: .2
+                    input_type: 'number'
+                    input_filter: 'int'
+                    text: "2"
 
                 Button:
                     text: 'Imprimir Etiqueta'
-                    size_hint_x: .4
+                    size_hint_x: .6
                     on_release: root.imprimir()
 
             # LIST
