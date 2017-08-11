@@ -75,7 +75,7 @@ class CreateLabelScreen(Screen):
             if len(data['origen_address1']) > 30:
                 raise ValueError("Direccion 1 en DIRECCION ORIGEN es mayor de 30")
         else:
-            raise ValueError("Falta en DIRECCION ORIGEN: Direccion 1")
+            raise ValueError("Falta Direccion 1 en DIRECCION ORIGEN")
 
         if fields.ids['txt_origen_city'].text != "":
             data['origen_city'] = fields.ids['txt_origen_city'].text
@@ -83,17 +83,17 @@ class CreateLabelScreen(Screen):
             if len(data['origen_city']) > 50:
                 raise ValueError("Ciudad en DIRECCION ORIGEN es mayor de 50")
         else:
-            raise ValueError("Falta en DIRECCION ORIGEN: Ciudad")
+            raise ValueError("Falta Ciudad en DIRECCION ORIGEN")
 
         if fields.ids['txt_origen_contactname'].text != "":
             data['origen_contactname'] = fields.ids['txt_origen_contactname'].text
         else:
-            raise ValueError("Falta en DIRECCION ORIGEN: Contacto")
+            raise ValueError("Falta Contacto en DIRECCION ORIGEN")
 
         if fields.ids['txt_origen_corporatename'].text != "":
             data['origen_corporatename'] = fields.ids['txt_origen_corporatename'].text
         else:
-            raise ValueError("Falta en DIRECCION ORIGEN: Empresa")
+            raise ValueError("Falta Empresa en DIRECCION ORIGEN")
 
         if fields.ids['txt_origen_neighborhood'].text != "":
             data['origen_neighborhood'] = fields.ids['txt_origen_neighborhood'].text
@@ -101,7 +101,7 @@ class CreateLabelScreen(Screen):
             if len(data['origen_neighborhood']) > 50:
                 raise ValueError("Colonia en DIRECCION ORIGEN es mayor de 50")
         else:
-            raise ValueError("Falta en DIRECCION ORIGEN: Colonia")
+            raise ValueError("Falta Colonia en DIRECCION ORIGEN")
 
         if fields.ids['txt_origen_phonenumber'].text != "":
             data['origen_phonenumber'] = fields.ids['txt_origen_phonenumber'].text
@@ -109,7 +109,7 @@ class CreateLabelScreen(Screen):
             if len(data['origen_phonenumber']) > 25:
                 raise ValueError("Telefono en DIRECCION ORIGEN es mayor de 25")
         else:
-            raise ValueError("Falta en DIRECCION ORIGEN: Telefono")
+            raise ValueError("Falta Telefono en DIRECCION ORIGEN")
 
         if fields.ids['txt_origen_state'].text != "":
             data['origen_state'] = fields.ids['txt_origen_state'].text
@@ -117,12 +117,12 @@ class CreateLabelScreen(Screen):
             if len(data['origen_state']) > 50:
                 raise ValueError("Estado en DIRECCION ORIGEN es mayor de 50")
         else:
-            raise ValueError("Falta en DIRECCION ORIGEN: Estado")
+            raise ValueError("Falta Estado en DIRECCION ORIGEN")
 
         if fields.ids['txt_origen_zipcode'].text != "":
             data['origen_zipcode'] = fields.ids['txt_origen_zipcode'].text
         else:
-            raise ValueError("Falta en DIRECCION ORIGEN: Zip Codigo")
+            raise ValueError("Falta Zip Codigo en DIRECCION ORIGEN")
 
         data['origen_address2'] = fields.ids['txt_origen_address2'].text
         if len(data['origen_address2']) > 30:
@@ -198,7 +198,7 @@ class CreateLabelScreen(Screen):
             if len(data['destino_address1']) > 30:
                 raise ValueError("Direccion 1 en DIRECCION DESTINO es mayor de 30")
         else:
-            raise ValueError("Falta en INFORMACION DESTINO: Direccion 1")
+            raise ValueError("Falta Direccion 1 en INFORMACION DESTINO")
 
         if fields.ids['txt_destino_city'].text != "":
             data['destino_city'] = fields.ids['txt_destino_city'].text
@@ -206,17 +206,17 @@ class CreateLabelScreen(Screen):
             if len(data['destino_city']) > 50:
                 raise ValueError("Ciudad en DIRECCION DESTINO es mayor de 50")
         else:
-            raise ValueError("Falta en INFORMACION DESTINO: Ciudad")
+            raise ValueError("Falta Ciudad en INFORMACION DESTINO")
 
         if fields.ids['txt_destino_contactname'].text != "":
             data['destino_contactname'] = fields.ids['txt_destino_contactname'].text
         else:
-            raise ValueError("Falta en INFORMACION DESTINO: Contacto")
+            raise ValueError("Falta Contacto en INFORMACION DESTINO")
 
         if fields.ids['txt_destino_corporatename'].text != "":
             data['destino_corporatename'] = fields.ids['txt_destino_corporatename'].text
         else:
-            raise ValueError("Falta en INFORMACION DESTINO: Empresa")
+            raise ValueError("Falta Empresa en INFORMACION DESTINO")
 
         if fields.ids['txt_destino_neighborhood'].text != "":
             data['destino_neighborhood'] = fields.ids['txt_destino_neighborhood'].text
@@ -224,12 +224,12 @@ class CreateLabelScreen(Screen):
             if len(data['destino_neighborhood']) > 50:
                 raise ValueError("Colonia en DIRECCION DESTINO es mayor de 50")
         else:
-            raise ValueError("Falta en INFORMACION DESTINO: Colonia")
+            raise ValueError("Falta Colonia en INFORMACION DESTINO")
 
         if fields.ids['txt_destino_customernumber'].text != "":
             data['destino_customernumber'] = fields.ids['txt_destino_customernumber'].text
         else:
-            raise ValueError("Falta en INFORMACION DESTINO: Cliente")
+            raise ValueError("Falta Cliente en INFORMACION DESTINO")
 
         if fields.ids['txt_destino_phonenumber'].text != "":
             data['destino_phonenumber'] = fields.ids['txt_destino_phonenumber'].text
@@ -237,7 +237,7 @@ class CreateLabelScreen(Screen):
             if len(data['destino_phonenumber']) > 25:
                 raise ValueError("Telefono en DIRECCION DESTINO es mayor de 25")
         else:
-            raise ValueError("Falta en INFORMACION DESTINO: Telefono")
+            raise ValueError("Falta Telefono en INFORMACION DESTINO")
 
         if fields.ids['txt_destino_state'].text != "":
             data['destino_state'] = fields.ids['txt_destino_state'].text
@@ -245,12 +245,12 @@ class CreateLabelScreen(Screen):
             if len(data['destino_state']) > 50:
                 raise ValueError("Estado en DIRECCION DESTINO es mayor de 50")
         else:
-            raise ValueError("Falta en INFORMACION DESTINO: Estado")
+            raise ValueError("Falta Estado en INFORMACION DESTINO")
 
         if fields.ids['txt_destino_zipcode'].text != "":
             data['destino_zipcode'] = fields.ids['txt_destino_zipcode'].text
         else:
-            raise ValueError("Falta en INFORMACION DESTINO: Zip Codigo")
+            raise ValueError("Falta Zip Codigo en INFORMACION DESTINO")
 
         data['destino_address2'] = fields.ids['txt_destino_address2'].text
         if len(data['destino_address2']) > 30:
@@ -258,7 +258,7 @@ class CreateLabelScreen(Screen):
 
         data['destino_cellphone'] = fields.ids['txt_destino_cellphone'].text
         if len(data['destino_cellphone']) > 20:
-            raise ValueError("Celular en DIRECCION DESTINO es mayor de 20")        
+            raise ValueError("Celular en DIRECCION DESTINO es mayor de 20")
 
         return data
 
@@ -331,17 +331,17 @@ class CreateLabelScreen(Screen):
         elif fields.ids['txt_servicetypeid'].text == "Dos Dias consumo facturacion mensual":
             data['servicetypeid'] = "D0"
         else:
-            raise ValueError("Falta en INFORMACION DE SERVICIO: Tipo Servicio")
+            raise ValueError("Falta Tipo Servicio en INFORMACION DE SERVICIO")
 
         if str(fields.ids['txt_number_labels'].text) != "":
             data['number_labels'] = str(fields.ids['txt_number_labels'].text)
         else:
-            raise ValueError("Falta en INFORMACION DE SERVICIO: Cantidad Guias")
+            raise ValueError("Falta Cantidad Guias en INFORMACION DE SERVICIO")
 
         if fields.ids['txt_office_num'].text != "":
             data['office_num'] = fields.ids['txt_office_num'].text
         else:
-            raise ValueError("Falta en INFORMACION DE SERVICIO: Oficina Numero")
+            raise ValueError("Falta Oficina Numero en INFORMACION DE SERVICIO")
 
         data['contentdescription'] = fields.ids['txt_contentdescription'].text
         data['aditionalinfo'] = fields.ids['txt_aditionalinfo'].text
@@ -349,19 +349,19 @@ class CreateLabelScreen(Screen):
         if fields.ids['txt_costcenter'].text != "":
             data['costcenter'] = fields.ids['txt_costcenter'].text
         else:
-            raise ValueError("Falta en INFORMACION DE SERVICIO: Centro de Costo")
+            raise ValueError("Falta Centro de Costo en INFORMACION DE SERVICIO")
 
         if fields.ids['txt_content'].text != "":
             data['content'] = fields.ids['txt_content'].text
         else:
-            raise ValueError("Falta en INFORMACION DE SERVICIO: Contenido")
+            raise ValueError("Falta Contenido en INFORMACION DE SERVICIO")
 
         data['destino_countryid'] = fields.ids['txt_destino_countryid'].text
 
         if fields.ids['txt_reference'].text != "":
             data['reference'] = fields.ids['txt_reference'].text
         else:
-            raise ValueError("Falta en INFORMACION DE SERVICIO: Referencia")
+            raise ValueError("Falta Referencia en INFORMACION DE SERVICIO")
 
         data['deliverytoestafetaoffice'] = str(fields.ids['chk_deliverytoestafetaoffice'].active)
         data['returndocument'] = str(fields.ids['chk_returndocument'].active)
@@ -416,14 +416,14 @@ class CreateLabelScreen(Screen):
         if fields.ids['txt_peso'].text != "":
             data['peso'] = fields.ids['txt_peso'].text
         else:
-            raise ValueError("Falta en INFORMACION DEL PAQUETE: Peso")
+            raise ValueError("Falta Peso en INFORMACION DEL PAQUETE")
 
         if fields.ids['txt_parcelTypeId'].text == "Sobre":
             data['parcelTypeId'] = "1"
         elif fields.ids['txt_parcelTypeId'].text == "Paquete":
             data['parcelTypeId'] = "4"
         else:
-            raise ValueError("Falta en INFORMACION DEL PAQUETE: Tipo de Empaque")
+            raise ValueError("Falta Tipo de Empaque en INFORMACION DEL PAQUETE")
 
         return data
 
@@ -449,10 +449,10 @@ class CreateLabelScreen(Screen):
         self._show_loader(True)
 
         self.factura_numero = str(self.ids['txt_factura_numero'].text)
-        self.factura_tipo = self.ids['txt_factura_tipo'].text
+        self.factura_tipo = self.ids['txt_factura_tipo'].text.upper()
 
         # fact = Factura.get(543, 'RI')
-        if self.factura_numero != "" and self.factura_tipo.upper() != "":
+        if self.factura_numero != "" and self.factura_tipo != "":
 
             servicio = {}
             servicio['aditionalinfo'] = "%s %s" % (
@@ -467,13 +467,9 @@ class CreateLabelScreen(Screen):
             self.clear_DataServicio()
             self.clear_DataPaquete()
 
-            self.enable_DataServicio()
-            self.enable_DataPaquete()
-            self.enable_DataOrigen()
-            self.enable_DataDestino()
-
             if bandera:
                 self.fill_DataOrigen(dir_origen)
+                self.enable_DataOrigen()
             else:
                 self.failure(dir_origen['mensaje'])
 
@@ -481,9 +477,12 @@ class CreateLabelScreen(Screen):
 
             if bandera:
                 self.fill_DataDestino(dir_destino)
+                self.enable_DataDestino()
 
                 servicio['destino_countryid'] = dir_destino['Country']
                 self.fill_DataServicio(servicio)
+                self.enable_DataServicio()
+                self.enable_DataPaquete()
 
             else:
                 self.failure(dir_destino['mensaje'])
