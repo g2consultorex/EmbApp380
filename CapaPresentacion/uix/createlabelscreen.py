@@ -68,16 +68,49 @@ class CreateLabelScreen(Screen):
     def get_DataOrigen(self):
         data = {}
         fields = self.ids['label_container'].ids['origen_widget']
-        data['origen_address1'] = fields.ids['txt_origen_address1'].text
+
+        if fields.ids['txt_origen_address1'].text != "":
+            data['origen_address1'] = fields.ids['txt_origen_address1'].text
+        else:
+            raise ValueError("Falta en DIRECCION ORIGEN: Direccion 1")
+
+        if fields.ids['txt_origen_city'].text != "":
+            data['origen_city'] = fields.ids['txt_origen_city'].text
+        else:
+            raise ValueError("Falta en DIRECCION ORIGEN: Ciudad")
+
+        if fields.ids['txt_origen_contactname'].text != "":
+            data['origen_contactname'] = fields.ids['txt_origen_contactname'].text
+        else:
+            raise ValueError("Falta en DIRECCION ORIGEN: Contacto")
+
+        if fields.ids['txt_origen_corporatename'].text != "":
+            data['origen_corporatename'] = fields.ids['txt_origen_corporatename'].text
+        else:
+            raise ValueError("Falta en DIRECCION ORIGEN: Empresa")
+
+        if fields.ids['txt_origen_neighborhood'].text != "":
+            data['origen_neighborhood'] = fields.ids['txt_origen_neighborhood'].text
+        else:
+            raise ValueError("Falta en DIRECCION ORIGEN: Colonia")
+
+        if fields.ids['txt_origen_phonenumber'].text != "":
+            data['origen_phonenumber'] = fields.ids['txt_origen_phonenumber'].text
+        else:
+            raise ValueError("Falta en DIRECCION ORIGEN: Telefono")
+
+        if fields.ids['txt_origen_state'].text != "":
+            data['origen_state'] = fields.ids['txt_origen_state'].text
+        else:
+            raise ValueError("Falta en DIRECCION ORIGEN: Estado")
+
+        if fields.ids['txt_origen_zipcode'].text != "":
+            data['origen_zipcode'] = fields.ids['txt_origen_zipcode'].text
+        else:
+            raise ValueError("Falta en DIRECCION ORIGEN: Zip Codigo")
+
         data['origen_address2'] = fields.ids['txt_origen_address2'].text
         data['origen_cellphone'] = fields.ids['txt_origen_cellphone'].text
-        data['origen_city'] = fields.ids['txt_origen_city'].text
-        data['origen_contactname'] = fields.ids['txt_origen_contactname'].text
-        data['origen_corporatename'] = fields.ids['txt_origen_corporatename'].text
-        data['origen_neighborhood'] = fields.ids['txt_origen_neighborhood'].text
-        data['origen_phonenumber'] = fields.ids['txt_origen_phonenumber'].text
-        data['origen_state'] = fields.ids['txt_origen_state'].text
-        data['origen_zipcode'] = fields.ids['txt_origen_zipcode'].text
 
         return data
 
@@ -138,17 +171,54 @@ class CreateLabelScreen(Screen):
     def get_DataDestino(self):
         data = {}
         fields = self.ids['label_container'].ids['destino_widget']
-        data['destino_address1'] = fields.ids['txt_destino_address1'].text
+
+        if fields.ids['txt_destino_address1'].text != "":
+            data['destino_address1'] = fields.ids['txt_destino_address1'].text
+        else:
+            raise ValueError("Falta en INFORMACION DESTINO: Direccion 1")
+
+        if fields.ids['txt_destino_city'].text != "":
+            data['destino_city'] = fields.ids['txt_destino_city'].text
+        else:
+            raise ValueError("Falta en INFORMACION DESTINO: Ciudad")
+
+        if fields.ids['txt_destino_contactname'].text != "":
+            data['destino_contactname'] = fields.ids['txt_destino_contactname'].text
+        else:
+            raise ValueError("Falta en INFORMACION DESTINO: Contacto")
+
+        if fields.ids['txt_destino_corporatename'].text != "":
+            data['destino_corporatename'] = fields.ids['txt_destino_corporatename'].text
+        else:
+            raise ValueError("Falta en INFORMACION DESTINO: Empresa")
+
+        if fields.ids['txt_destino_neighborhood'].text != "":
+            data['destino_neighborhood'] = fields.ids['txt_destino_neighborhood'].text
+        else:
+            raise ValueError("Falta en INFORMACION DESTINO: Colonia")
+
+        if fields.ids['txt_destino_customernumber'].text != "":
+            data['destino_customernumber'] = fields.ids['txt_destino_customernumber'].text
+        else:
+            raise ValueError("Falta en INFORMACION DESTINO: Cliente")
+
+        if fields.ids['txt_destino_phonenumber'].text != "":
+            data['destino_phonenumber'] = fields.ids['txt_destino_phonenumber'].text
+        else:
+            raise ValueError("Falta en INFORMACION DESTINO: Telefono")
+
+        if fields.ids['txt_destino_state'].text != "":
+            data['destino_state'] = fields.ids['txt_destino_state'].text
+        else:
+            raise ValueError("Falta en INFORMACION DESTINO: Estado")
+
+        if fields.ids['txt_destino_zipcode'].text != "":
+            data['destino_zipcode'] = fields.ids['txt_destino_zipcode'].text
+        else:
+            raise ValueError("Falta en INFORMACION DESTINO: Zip Codigo")
+
         data['destino_address2'] = fields.ids['txt_destino_address2'].text
         data['destino_cellphone'] = fields.ids['txt_destino_cellphone'].text
-        data['destino_city'] = fields.ids['txt_destino_city'].text
-        data['destino_contactname'] = fields.ids['txt_destino_contactname'].text
-        data['destino_corporatename'] = fields.ids['txt_destino_corporatename'].text
-        data['destino_neighborhood'] = fields.ids['txt_destino_neighborhood'].text
-        data['destino_customernumber'] = fields.ids['txt_destino_customernumber'].text
-        data['destino_phonenumber'] = fields.ids['txt_destino_phonenumber'].text
-        data['destino_state'] = fields.ids['txt_destino_state'].text
-        data['destino_zipcode'] = fields.ids['txt_destino_zipcode'].text
 
         return data
 
@@ -221,16 +291,38 @@ class CreateLabelScreen(Screen):
         elif fields.ids['txt_servicetypeid'].text == "Dos Dias consumo facturacion mensual":
             data['servicetypeid'] = "D0"
         else:
-            data['servicetypeid'] = ""
+            raise ValueError("Falta en INFORMACION DE SERVICIO: Tipo Servicio")
 
-        data['number_labels'] = str(fields.ids['txt_number_labels'].text)
-        data['office_num'] = fields.ids['txt_office_num'].text
+        if str(fields.ids['txt_number_labels'].text) != "":
+            data['number_labels'] = str(fields.ids['txt_number_labels'].text)
+        else:
+            raise ValueError("Falta en INFORMACION DE SERVICIO: Cantidad Guias")
+
+        if fields.ids['txt_office_num'].text != "":
+            data['office_num'] = fields.ids['txt_office_num'].text
+        else:
+            raise ValueError("Falta en INFORMACION DE SERVICIO: Oficina Numero")
+
         data['contentdescription'] = fields.ids['txt_contentdescription'].text
         data['aditionalinfo'] = fields.ids['txt_aditionalinfo'].text
-        data['costcenter'] = fields.ids['txt_costcenter'].text
-        data['content'] = fields.ids['txt_content'].text
+
+        if fields.ids['txt_costcenter'].text != "":
+            data['costcenter'] = fields.ids['txt_costcenter'].text
+        else:
+            raise ValueError("Falta en INFORMACION DE SERVICIO: Centro de Costo")
+
+        if fields.ids['txt_content'].text != "":
+            data['content'] = fields.ids['txt_content'].text
+        else:
+            raise ValueError("Falta en INFORMACION DE SERVICIO: Contenido")
+
         data['destino_countryid'] = fields.ids['txt_destino_countryid'].text
-        data['reference'] = fields.ids['txt_reference'].text
+
+        if fields.ids['txt_reference'].text != "":
+            data['reference'] = fields.ids['txt_reference'].text
+        else:
+            raise ValueError("Falta en INFORMACION DE SERVICIO: Referencia")
+
         data['deliverytoestafetaoffice'] = str(fields.ids['chk_deliverytoestafetaoffice'].active)
         data['returndocument'] = str(fields.ids['chk_returndocument'].active)
 
@@ -280,18 +372,19 @@ class CreateLabelScreen(Screen):
     def get_DataPaquete(self):
         data = {}
         fields = self.ids['label_container'].ids['paquete_widget']
-        data['peso'] = fields.ids['txt_peso'].text
+
+        if fields.ids['txt_peso'].text != "":
+            data['peso'] = fields.ids['txt_peso'].text
+        else:
+            raise ValueError("Falta en INFORMACION DEL PAQUETE: Peso")
+
         if fields.ids['txt_parcelTypeId'].text == "Sobre":
             data['parcelTypeId'] = "1"
         elif fields.ids['txt_parcelTypeId'].text == "Paquete":
             data['parcelTypeId'] = "4"
         else:
-            data['parcelTypeId'] = ""
+            raise ValueError("Falta en INFORMACION DEL PAQUETE: Tipo de Empaque")
 
-        # data['kilos'] = pack_fields['txt_kilos'].text
-        # data['largo'] = pack_fields['txt_largo'].text
-        # data['alto'] = pack_fields['txt_alto'].text
-        # data['ancho'] = pack_fields['txt_ancho'].text
         return data
 
     def disable_DataPaquete(self):
