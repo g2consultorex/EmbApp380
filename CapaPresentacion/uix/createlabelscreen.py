@@ -319,7 +319,7 @@ class CreateLabelScreen(Screen):
         self.factura_tipo = self.ids['txt_factura_tipo'].text
 
         # fact = Factura.get(543, 'RI')
-        if self.factura_numero != "" and self.factura_tipo != "":
+        if self.factura_numero != "" and self.factura_tipo.upper() != "":
 
             servicio = {}
             servicio['aditionalinfo'] = "%s %s" % (
