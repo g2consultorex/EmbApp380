@@ -1,6 +1,8 @@
 # import os.path
 from kivy.config import Config
 Config.set('graphics', 'window_state', 'maximized')
+Config.set("input", "mouse", "mouse,disable_multitouch")
+
 # Config.set('graphics', 'resizable', True)
 Config.set('graphics', 'width', '1080')
 Config.set('graphics', 'height', '720')
