@@ -33,7 +33,7 @@ class LabelViewScreen(Screen):
     def imprimir(self):
         try:
             self._show_loader(True)
-            Printer.send(self.fac_numero, self.fac_tipo, self.guia)
+            Printer.send(self.fac_numero, self.fac_tipo)
             self._show_loader(False)
         except Exception as e:
             self.failure(str(e))
