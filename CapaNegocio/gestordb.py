@@ -258,7 +258,7 @@ class Factura(object):
             factura = F5842566()
             factura.TNDOC = _numero
             factura.TNDCT = _tipo
-            factura.TNVR03 = _guia
+            factura.TNVR03 = _guia[0:24]
             factura.TNUSER = 'JDE'
             factura.TNJOBN = 'IGPLENT1'
             factura.TNUPMJ = (1000 * (int(time.strftime("%Y")) - 1900) + int(time.strftime("%j")))
@@ -287,7 +287,7 @@ class Factura(object):
                 )
 
             for f in factura:
-                f.SDVR03 = _value
+                f.SDVR03 = _value[0:24]
                 f.save()
 
         except Exception as error:
