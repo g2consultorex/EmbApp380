@@ -558,8 +558,13 @@ class CreateLabelScreen(Screen):
                             self.user_account
                         )
 
-                        Factura.InsertaGuia(guide, self.factura_numero, self.factura_tipo)
-                        Factura.ActualizaVtas(self.factura_numero, self.factura_tipo, guide)
+                        guias = guide.split('|')
+                        import ipdb; ipdb.set_trace()
+                        for g in guias:
+                            bandera, message = Factura.InsertaGuia(g, self.factura_numero, self.factura_tipo)
+                            print bandera, message, g
+
+                        Factura.ActualizaVtas(self.factura_numero, self.factura_tipo, guias[0])
 
                         self.manager.get_screen('screen-labelview').fac_numero = self.factura_numero
                         self.manager.get_screen('screen-labelview').fac_tipo = self.factura_tipo

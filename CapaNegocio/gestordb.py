@@ -254,16 +254,19 @@ class Factura(object):
     @classmethod
     def InsertaGuia(self, _guia, _numero, _tipo):
         try:
-            connection.close()
-            factura = F5842566()
-            factura.TNDOC = _numero
-            factura.TNDCT = _tipo
-            factura.TNVR03 = _guia[0:24]
-            factura.TNUSER = 'JDE'
-            factura.TNJOBN = 'IGPLENT1'
-            factura.TNUPMJ = (1000 * (int(time.strftime("%Y")) - 1900) + int(time.strftime("%j")))
-            factura.TNUPMT = int(time.strftime("%H%M%S"))
+            connection.close() 
+            factura = F5842566(
+                _tipo,
+                _numero,
+                _guia[0:24],
+                'JDE',
+                'IGPLENT1',
+                (1000 * (int(time.strftime("%Y")) - 1900) + int(time.strftime("%j"))),
+                int(time.strftime("%H%M%S"))
+            )
             factura.save(using='jde')
+
+            return True, "OK"
 
         except Exception as error:
             value = {
@@ -289,6 +292,8 @@ class Factura(object):
             for f in factura:
                 f.SDVR03 = _value[0:24]
                 f.save()
+
+            return True, "OK"
 
         except Exception as error:
             value = {

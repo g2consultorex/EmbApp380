@@ -339,8 +339,8 @@ class F4006(models.Model):
 
 class F5842566(models.Model):
     TNDCT = models.CharField(max_length=2)
-    TNDOC = models.IntegerField(primary_key=True)
-    TNVR03 = models.CharField(max_length=25)
+    TNDOC = models.IntegerField()
+    TNVR03 = models.CharField(max_length=25, primary_key=True)
     TNUSER = models.CharField(max_length=10)
     TNJOBN = models.CharField(max_length=10)
     TNUPMJ = models.IntegerField()
