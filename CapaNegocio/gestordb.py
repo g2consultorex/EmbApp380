@@ -262,7 +262,7 @@ class Factura(object):
             factura.TNUSER = 'JDE'
             factura.TNJOBN = 'IGPLENT1'
             factura.TNUPMJ = (1000 * (int(time.strftime("%Y")) - 1900) + int(time.strftime("%j")))
-            factura.TNUPMT = int(time.strftime("%I%M%S"))
+            factura.TNUPMT = int(time.strftime("%H%M%S"))
             factura.save(using='jde')
 
         except Exception as error:
