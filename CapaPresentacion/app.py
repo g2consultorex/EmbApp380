@@ -46,6 +46,7 @@ class SegretoApp(App):
     def init(self):
         self.username = ''
         self.password = ''
+        self.is_superuser = False
         self.crypt_file_path = ''
         self.screenmanager = ScreenManager(transition=SwapTransition())
 
@@ -78,19 +79,27 @@ class SegretoApp(App):
         # self.screenmanager.current = 'screen-createlabel'
 
     def goto_Usuarios(self):
-        self.screenmanager.current = "screen-user"
+        if self.is_superuser:
+            self.screenmanager.current = "screen-user"
+        else:
+            self.createlabelscreen.failure("No tiene los permisos necesarios")
 
     def goto_Etiquetas(self):
         self.screenmanager.current = "screen-createlabel"
 
     def goto_EstafetaAmbientes(self):
-        self.screenmanager.current = "screen-estafeta"
+        if self.is_superuser:
+            self.screenmanager.current = "screen-estafeta"
+        else:
+            self.createlabelscreen.failure("No tiene los permisos necesarios")
 
     def login(self, *args):
         self.username = self.loginscreen.ids['grid'].username
         self.password = self.loginscreen.ids['grid'].password
 
         if ModeloUsuario.login(self.username, self.password):
+            usuario = ModeloUsuario.get(self.username)
+            self.is_superuser = usuario[0].is_superuser
             self.createlabelscreen.user_account = self.username
             self.createlabelscreen.clear_DataServicio()
             self.createlabelscreen.clear_DataPaquete()

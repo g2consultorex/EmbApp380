@@ -85,10 +85,11 @@ class UserAddPopup(Popup):
     def click_BotonCrear(self):
         clave = self.ids['txt_cuenta'].text
         nombre = self.ids['txt_nombre'].text
-        descripcion = self.ids['txt_apellidos'].text
+        apellidos = self.ids['txt_apellidos'].text
+        is_superuser = self.ids['chk_is_superuser'].active
         contrasena = self.ids['txt_password'].text
         estafeta_cuenta_clave = self.ids['txt_estafeta_ambiente'].text
-        ModeloUsuario.add(clave, nombre, descripcion, contrasena, estafeta_cuenta_clave)
+        ModeloUsuario.add(clave, nombre, apellidos, is_superuser, contrasena, estafeta_cuenta_clave)
         self.screen.show_Registros()
         self.dismiss()
 
@@ -105,6 +106,7 @@ class UserEditPopup(Popup):
         self.ids['txt_cuenta'].text = _registro.username
         self.ids['txt_nombre'].text = _registro.first_name
         self.ids['txt_apellidos'].text = _registro.last_name
+        self.ids['chk_is_superuser'].active = _registro.is_superuser
         self.ids['chk_activo'].active = _registro.is_active
         if _registro.profile.estafeta:
             self.ids['txt_estafeta_ambiente'].text = _registro.profile.estafeta.clave
@@ -116,11 +118,12 @@ class UserEditPopup(Popup):
     def click_BotonGuardar(self):
         clave = self.ids['txt_cuenta'].text
         nombre = self.ids['txt_nombre'].text
-        descripcion = self.ids['txt_apellidos'].text
+        apellidos = self.ids['txt_apellidos'].text
         contrasena = self.ids['txt_password'].text
+        is_superuser = self.ids['chk_is_superuser'].active
         activo = self.ids['chk_activo'].active
         estafeta_cuenta_clave = self.ids['txt_estafeta_ambiente'].text
-        ModeloUsuario.edit(clave, nombre, descripcion, contrasena, activo, estafeta_cuenta_clave)
+        ModeloUsuario.edit(clave, nombre, apellidos, is_superuser, contrasena, activo, estafeta_cuenta_clave)
         self.screen.show_Registros()
         self.dismiss()
 

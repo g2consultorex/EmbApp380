@@ -70,7 +70,7 @@ class ModeloUsuario(object):
             pass
 
     @classmethod
-    def add(self, _username, _first_name, _last_name, _password, _estafeta_ambiente_clave):
+    def add(self, _username, _first_name, _last_name, _is_superuser, _password, _estafeta_ambiente_clave):
 
         try:
             connection.close()
@@ -78,6 +78,7 @@ class ModeloUsuario(object):
             usuario.username = _username
             usuario.first_name = _first_name
             usuario.last_name = _last_name
+            usuario.is_superuser = _is_superuser
             if _password != '':
                 usuario.set_password(_password)
             else:
@@ -94,13 +95,14 @@ class ModeloUsuario(object):
             print str(e)
 
     @classmethod
-    def edit(self, _username, _first_name, _last_name, _password, _active, _estafeta_ambiente_clave):
+    def edit(self, _username, _first_name, _last_name, _is_superuser, _password, _active, _estafeta_ambiente_clave):
 
         try:
             connection.close()
             usuario = User.objects.get(username=_username)
             usuario.first_name = _first_name
             usuario.last_name = _last_name
+            usuario.is_superuser = _is_superuser
             usuario.is_active = _active
 
             if _password != '':

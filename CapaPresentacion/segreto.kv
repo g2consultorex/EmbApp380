@@ -1781,6 +1781,22 @@
 
         BoxLayout:
             Label:
+                text: 'Administrador'
+                size_hint_x: .2
+            CheckBox:
+                canvas.before:
+                    Color:
+                        # rgba: 0.176, 0.243, 0.314, 1.0
+                        rgb: 1, 1, 1
+                    Rectangle:
+                        pos:self.center_x-8, self.center_y-8
+                        size:[16,16]
+                id: chk_is_superuser
+                text: ''
+                active: False
+
+        BoxLayout:
+            Label:
                 text: 'Contraseña'
                 size_hint_x: .2
             CampoGenerico:
@@ -1842,6 +1858,22 @@
             CampoGenerico:
                 id: txt_apellidos
                 size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Administrador'
+                size_hint_x: .2
+            CheckBox:
+                canvas.before:
+                    Color:
+                        # rgba: 0.176, 0.243, 0.314, 1.0
+                        rgb: 1, 1, 1
+                    Rectangle:
+                        pos:self.center_x-8, self.center_y-8
+                        size:[16,16]
+                id: chk_is_superuser
+                text: ''
+                active: False
 
         BoxLayout:
             Label:

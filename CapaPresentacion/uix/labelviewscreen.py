@@ -4,7 +4,7 @@ from libtools.filesystem import Archivo
 from libtools.filesystem import Carpeta
 
 from kivy.uix.screenmanager import Screen
-# from CapaNegocio.printing import Printer
+from CapaNegocio.printing import Printer
 
 
 class LabelViewScreen(Screen):
@@ -67,8 +67,8 @@ class LabelViewScreen(Screen):
             if cantidad != "" and cantidad != "0":
                 if int(cantidad) <= 5:
                     self._show_loader(True)
-                    # for x in range(0, int(cantidad)):
-                        # Printer.send(self.fac_numero, self.fac_tipo)
+                    for x in range(0, int(cantidad)):
+                        Printer.send(self.fac_numero, self.fac_tipo)
                     self._show_loader(False)
                 else:
                     raise ValueError("No puede imprimirse mas de 5 veces")
