@@ -349,19 +349,6 @@
                     size_hint_x: .60
                     active: False
 
-            StackLayout:
-                size_hint_y: None
-                height: '40dp'
-                LabelGeneric:
-                    text: 'Oficina Numero:'
-                    size_hint_x: .25
-                CampoGenericoMediumR:
-                    id: txt_office_num
-                    size_hint_x: .75
-                    text: "780"
-                    disabled: True
-                    # hint_text: "Ejemplo 130"
-
             # Fila 3
             StackLayout:
                 size_hint_y: None
@@ -1361,6 +1348,17 @@
                 size_hint_x: .8
 
         BoxLayout:
+            Label:
+                text: 'Oficina Numero'
+                size_hint_x: .2
+            CampoGenerico2:
+                id: txt_office_num
+                input_type: 'number'
+                input_filter: 'int'
+                size_hint_x: .8
+
+
+        BoxLayout:
             orientation: 'horizontal'
             Label:
                 text: "Cot URL"
@@ -1498,6 +1496,16 @@
                 size_hint_x: .2
             CampoGenerico2:
                 id: txt_customernumber
+                size_hint_x: .8
+
+        BoxLayout:
+            Label:
+                text: 'Oficina Numero'
+                size_hint_x: .2
+            CampoGenerico2:
+                id: txt_office_num
+                input_type: 'number'
+                input_filter: 'int'
                 size_hint_x: .8
 
         BoxLayout:
@@ -1783,13 +1791,13 @@
         BoxLayout:
             Label:
                 text: 'Estafeta'
-                size_hint_x: .195
+                size_hint_x: .2
             CampoGenerico:
                 id: txt_estafeta_ambiente
                 size_hint_x: .7
             Button:
                 size_hint:None, None
-                size:'60dp', '60dp'
+                size:'55dp', '55dp'
                 border:10,10,10,10
                 background_normal:'data/images/src/but_new.png'
                 background_down:'data/images/src/but_new_down.png'
@@ -1862,13 +1870,13 @@
         BoxLayout:
             Label:
                 text: 'Estafeta'
-                size_hint_x: .195
+                size_hint_x: .2
             CampoGenerico:
                 id: txt_estafeta_ambiente
                 size_hint_x: .7
             Button:
                 size_hint:None, None
-                size:'60dp', '60dp'
+                size:'55dp', '55dp'
                 border:10,10,10,10
                 background_normal:'data/images/src/but_new.png'
                 background_down:'data/images/src/but_new_down.png'

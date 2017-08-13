@@ -88,7 +88,7 @@ class EstafetaAddPopup(Popup):
         paper_type = self.ids['txt_paper_type'].text
         is_active = self.ids['chk_is_active'].active
         cliente_numero = self.ids['txt_customernumber'].text
-
+        office_num = self.ids['txt_office_num'].text
         cot_url = self.ids['txt_cot_url'].text
         cot_id_usuario = self.ids['txt_cot_id_usuario'].text
         cot_usuario = self.ids['txt_cot_usuario'].text
@@ -104,6 +104,7 @@ class EstafetaAddPopup(Popup):
             paper_type,
             is_active,
             cliente_numero,
+            office_num,
             cot_url,
             cot_id_usuario,
             cot_usuario,
@@ -128,6 +129,7 @@ class EstafetaEditPopup(Popup):
         self.ids['txt_paper_type'].text = Validator.checkToChar(_registro.paper_type)
         self.ids['chk_is_active'].active = Validator.checkToChar(_registro.is_active)
         self.ids['txt_customernumber'].text = Validator.checkToChar(_registro.customer_number)
+        self.ids['txt_office_num'].text = Validator.checkToChar(_registro.office_num)
 
         self.ids['txt_cot_url'].text = Validator.checkToChar(_registro.cot_url)
         self.ids['txt_cot_id_usuario'].text = Validator.checkToChar(_registro.cot_id_usuario)
@@ -146,7 +148,7 @@ class EstafetaEditPopup(Popup):
         paper_type = self.ids['txt_paper_type'].text
         is_active = self.ids['chk_is_active'].active
         cliente_numero = self.ids['txt_customernumber'].text
-
+        office_num = self.ids['txt_office_num'].text
         cot_url = self.ids['txt_cot_url'].text
         cot_id_usuario = self.ids['txt_cot_id_usuario'].text
         cot_usuario = self.ids['txt_cot_usuario'].text
@@ -162,6 +164,7 @@ class EstafetaEditPopup(Popup):
             paper_type,
             is_active,
             cliente_numero,
+            office_num,
             cot_url,
             cot_id_usuario,
             cot_usuario,

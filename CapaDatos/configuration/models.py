@@ -16,6 +16,7 @@ class EstafetaAmbiente(models.Model):
     suscriber_id = models.CharField(max_length=144, null=True, blank=True)
     paper_type = models.IntegerField(default=1)
     customer_number = models.CharField(max_length=144, null=True, blank=True)
+    office_num = models.IntegerField(default=130)
 
     cot_url = models.CharField(max_length=300, null=True, blank=True)
     cot_id_usuario = models.CharField(max_length=144, null=True, blank=True)

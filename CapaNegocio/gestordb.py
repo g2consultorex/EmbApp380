@@ -162,6 +162,7 @@ class ModeloEstafetaAmbiente(object):
             _paper_type,
             _is_active,
             _customer_number,
+            _office_num,
             _cot_url,
             _cot_id_usuario,
             _cot_usuario,
@@ -179,6 +180,7 @@ class ModeloEstafetaAmbiente(object):
             registro.paper_type = _paper_type
             registro.is_active = _is_active
             registro.customer_number = _customer_number
+            registro.office_num = _office_num
             registro.cot_url = _cot_url
             registro.cot_id_usuario = _cot_id_usuario
             registro.cot_usuario = _cot_usuario
@@ -199,6 +201,7 @@ class ModeloEstafetaAmbiente(object):
              _paper_type,
              _is_active,
              _customer_number,
+             _office_num,
              _cot_url,
              _cot_id_usuario,
              _cot_usuario,
@@ -215,6 +218,7 @@ class ModeloEstafetaAmbiente(object):
             registro.paper_type = _paper_type
             registro.is_active = _is_active
             registro.customer_number = _customer_number
+            registro.office_num = _office_num
             registro.cot_url = _cot_url
             registro.cot_id_usuario = _cot_id_usuario
             registro.cot_usuario = _cot_usuario

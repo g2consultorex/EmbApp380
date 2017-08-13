@@ -294,7 +294,7 @@ class CreateLabelScreen(Screen):
         data = self.ids['label_container'].ids['servicio_widget']
         data.ids['txt_servicetypeid'].text = ""
         data.ids['txt_number_labels'].text = "1"
-        data.ids['txt_office_num'].text = "780"
+
         data.ids['txt_contentdescription'].text = ""
         data.ids['txt_aditionalinfo'].text = _data['aditionalinfo']
         data.ids['txt_costcenter'].text = "0"
@@ -308,7 +308,7 @@ class CreateLabelScreen(Screen):
         data = self.ids['label_container'].ids['servicio_widget']
         data.ids['txt_servicetypeid'].text = ""
         data.ids['txt_number_labels'].text = "1"
-        data.ids['txt_office_num'].text = "780"
+
         data.ids['txt_contentdescription'].text = ""
         data.ids['txt_aditionalinfo'].text = ""
         data.ids['txt_costcenter'].text = "0"
@@ -337,11 +337,6 @@ class CreateLabelScreen(Screen):
             data['number_labels'] = str(fields.ids['txt_number_labels'].text)
         else:
             raise ValueError("Falta Cantidad Guias en INFORMACION DE SERVICIO")
-
-        if fields.ids['txt_office_num'].text != "":
-            data['office_num'] = fields.ids['txt_office_num'].text
-        else:
-            raise ValueError("Falta Oficina Numero en INFORMACION DE SERVICIO")
 
         data['contentdescription'] = fields.ids['txt_contentdescription'].text
         data['aditionalinfo'] = fields.ids['txt_aditionalinfo'].text
@@ -372,7 +367,7 @@ class CreateLabelScreen(Screen):
         data = self.ids['label_container'].ids['servicio_widget']
         # data.ids['txt_servicetypeid'].disabled = True
         data.ids['txt_number_labels'].disabled = True
-        data.ids['txt_office_num'].disabled = True
+
         data.ids['txt_contentdescription'].disabled = True
         data.ids['txt_aditionalinfo'].disabled = True
         data.ids['txt_costcenter'].disabled = True
@@ -388,7 +383,7 @@ class CreateLabelScreen(Screen):
         data = self.ids['label_container'].ids['servicio_widget']
         # data.ids['txt_servicetypeid'].disabled = False
         data.ids['txt_number_labels'].disabled = False
-        data.ids['txt_office_num'].disabled = False
+
         data.ids['txt_contentdescription'].disabled = False
         data.ids['txt_aditionalinfo'].disabled = False
         data.ids['txt_costcenter'].disabled = False
@@ -528,6 +523,11 @@ class CreateLabelScreen(Screen):
                     data_servicio['customer_number'] = data_ambiente['customer_number']
                     data_servicio['cp_origen'] = data_origen['origen_zipcode']
 
+                    if ambiente.office_num != "":
+                        data_servicio['office_num'] = ambiente.office_num
+                    else:
+                        raise ValueError("Falta Oficina Numero en el ambiente configurado")
+
                     # Valida codigos
                     ws_cotizacion = CotizacionWS(data_ambiente["cot_url"])
                     ws_cotizacion.set_Credenciales(
@@ -559,7 +559,6 @@ class CreateLabelScreen(Screen):
                         )
 
                         guias = guide.split('|')
-                        import ipdb; ipdb.set_trace()
                         for g in guias:
                             bandera, message = Factura.InsertaGuia(g, self.factura_numero, self.factura_tipo)
                             print bandera, message, g
