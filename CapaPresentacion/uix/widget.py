@@ -16,7 +16,7 @@ class Toast(AnchorLayout):
         self.text = desc
         anim = Animation(y=metrics.dp(50), t='in_out_expo')
         anim.start(self)
-        Clock.schedule_once(self.exit, 5)
+        # Clock.schedule_once(self.exit, 5)
 
     def exit(self, dt):
         Clock.unschedule(self.exit)

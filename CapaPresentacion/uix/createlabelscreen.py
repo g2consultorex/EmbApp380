@@ -6,10 +6,15 @@ from kivy.uix.stacklayout import StackLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty
 # from CapaPresentacion.uix.widget import Toast
-from CapaNegocio.gestordb import ModeloEstafetaUser
+# from CapaNegocio.gestordb import ModeloEstafetaAmbiente
 # from CapaNegocio.gestordb import Factura
 from CapaNegocio.gestordb import DireccionOrigen
 from CapaNegocio.gestordb import DireccionDestino
+from CapaNegocio.gestordb import ModeloUsuario
+from CapaNegocio.gestordb import Factura
+
+from CapaNegocio.estafeta import CreateLabelWS
+from CapaNegocio.estafeta import CotizacionWS
 
 
 class CreateLabelScreen(Screen):
@@ -18,52 +23,23 @@ class CreateLabelScreen(Screen):
         super(CreateLabelScreen, self).__init__(**kwargs)
         self.factura_numero = ""
         self.factura_tipo = ""
+        self.user_account = ""
+        self._show_loader(False)
 
-    def failure(self, error):
-        self._show_toast(error)
+    def _show_loader(self, show):
+        if show:
+            self.ids['loader'].opacity = 1.0
+        else:
+            self.ids['loader'].opacity = 0.0
 
     def _show_toast(self, text):
         self.ids['toast'].show(text)
 
-    def buscar_Factura(self):
+    def failure(self, error):
+        self._show_toast(error)
+        self._show_loader(False)
 
-        self.factura_numero = str(self.ids['txt_factura_numero'].text)
-        self.factura_tipo = self.ids['txt_factura_tipo'].text
-
-        self.clear_DireccionOrigen()
-        self.clear_DireccionDestino()
-        self.clear_Servicio()
-        self.clear_Paquete()
-
-        # fact = Factura.get(543, 'RI')
-
-        if self.factura_numero != "" and self.factura_tipo != "":
-
-            servicio = {}
-            servicio['aditionalinfo'] = "%s %s" % (
-                self.factura_numero,
-                self.factura_tipo
-            )
-
-            bandera, dir_origen = DireccionOrigen.get(self.factura_numero, self.factura_tipo)
-
-            if bandera:
-                self.fill_DireccionOrigen(dir_origen)
-            else:
-                self.failure(dir_origen['mensaje'])
-
-            bandera, dir_destino = DireccionDestino.get(self.factura_numero, self.factura_tipo)
-
-            if bandera:
-                self.fill_DireccionDestino(dir_destino)
-
-                servicio['destino_countryid'] = dir_destino['Country']
-                self.fill_Servicio(servicio)
-
-        else:
-            self.failure("Falto especificar Factura")
-
-    def fill_DireccionOrigen(self, _data):
+    def fill_DataOrigen(self, _data):
         data = self.ids['label_container'].ids['origen_widget']
         data.ids['txt_origen_address1'].text = _data["address1"]
         data.ids['txt_origen_address2'].text = _data["address2"]
@@ -76,7 +52,7 @@ class CreateLabelScreen(Screen):
         data.ids['txt_origen_state'].text = _data['state']
         data.ids['txt_origen_zipcode'].text = _data['zipcode']
 
-    def clear_DireccionOrigen(self):
+    def clear_DataOrigen(self):
         data = self.ids['label_container'].ids['origen_widget']
         data.ids['txt_origen_address1'].text = ""
         data.ids['txt_origen_address2'].text = ""
@@ -89,7 +65,102 @@ class CreateLabelScreen(Screen):
         data.ids['txt_origen_state'].text = ""
         data.ids['txt_origen_zipcode'].text = ""
 
-    def fill_DireccionDestino(self, _data):
+    def get_DataOrigen(self):
+        data = {}
+        fields = self.ids['label_container'].ids['origen_widget']
+
+        if fields.ids['txt_origen_address1'].text != "":
+            data['origen_address1'] = fields.ids['txt_origen_address1'].text
+
+            if len(data['origen_address1']) > 30:
+                raise ValueError("Direccion 1 en DIRECCION ORIGEN es mayor de 30")
+        else:
+            raise ValueError("Falta Direccion 1 en DIRECCION ORIGEN")
+
+        if fields.ids['txt_origen_city'].text != "":
+            data['origen_city'] = fields.ids['txt_origen_city'].text
+
+            if len(data['origen_city']) > 50:
+                raise ValueError("Ciudad en DIRECCION ORIGEN es mayor de 50")
+        else:
+            raise ValueError("Falta Ciudad en DIRECCION ORIGEN")
+
+        if fields.ids['txt_origen_contactname'].text != "":
+            data['origen_contactname'] = fields.ids['txt_origen_contactname'].text
+        else:
+            raise ValueError("Falta Contacto en DIRECCION ORIGEN")
+
+        if fields.ids['txt_origen_corporatename'].text != "":
+            data['origen_corporatename'] = fields.ids['txt_origen_corporatename'].text
+        else:
+            raise ValueError("Falta Empresa en DIRECCION ORIGEN")
+
+        if fields.ids['txt_origen_neighborhood'].text != "":
+            data['origen_neighborhood'] = fields.ids['txt_origen_neighborhood'].text
+
+            if len(data['origen_neighborhood']) > 50:
+                raise ValueError("Colonia en DIRECCION ORIGEN es mayor de 50")
+        else:
+            raise ValueError("Falta Colonia en DIRECCION ORIGEN")
+
+        if fields.ids['txt_origen_phonenumber'].text != "":
+            data['origen_phonenumber'] = fields.ids['txt_origen_phonenumber'].text
+
+            if len(data['origen_phonenumber']) > 25:
+                raise ValueError("Telefono en DIRECCION ORIGEN es mayor de 25")
+        else:
+            raise ValueError("Falta Telefono en DIRECCION ORIGEN")
+
+        if fields.ids['txt_origen_state'].text != "":
+            data['origen_state'] = fields.ids['txt_origen_state'].text
+
+            if len(data['origen_state']) > 50:
+                raise ValueError("Estado en DIRECCION ORIGEN es mayor de 50")
+        else:
+            raise ValueError("Falta Estado en DIRECCION ORIGEN")
+
+        if fields.ids['txt_origen_zipcode'].text != "":
+            data['origen_zipcode'] = fields.ids['txt_origen_zipcode'].text
+        else:
+            raise ValueError("Falta Zip Codigo en DIRECCION ORIGEN")
+
+        data['origen_address2'] = fields.ids['txt_origen_address2'].text
+        if len(data['origen_address2']) > 30:
+            raise ValueError("Direccion 2 en DIRECCION ORIGEN es mayor de 30")
+
+        data['origen_cellphone'] = fields.ids['txt_origen_cellphone'].text
+        if len(data['origen_cellphone']) > 20:
+            raise ValueError("Celular en DIRECCION ORIGEN es mayor de 20")
+
+        return data
+
+    def disable_DataOrigen(self):
+        data = self.ids['label_container'].ids['origen_widget']
+        data.ids['txt_origen_address1'].disabled = True
+        data.ids['txt_origen_address2'].disabled = True
+        data.ids['txt_origen_cellphone'].disabled = True
+        data.ids['txt_origen_city'].disabled = True
+        data.ids['txt_origen_contactname'].disabled = True
+        data.ids['txt_origen_corporatename'].disabled = True
+        data.ids['txt_origen_neighborhood'].disabled = True
+        data.ids['txt_origen_phonenumber'].disabled = True
+        data.ids['txt_origen_state'].disabled = True
+        data.ids['txt_origen_zipcode'].disabled = True
+
+    def enable_DataOrigen(self):
+        data = self.ids['label_container'].ids['origen_widget']
+        data.ids['txt_origen_address1'].disabled = False
+        data.ids['txt_origen_address2'].disabled = False
+        data.ids['txt_origen_cellphone'].disabled = False
+        data.ids['txt_origen_city'].disabled = False
+        data.ids['txt_origen_contactname'].disabled = False
+        data.ids['txt_origen_corporatename'].disabled = False
+        data.ids['txt_origen_neighborhood'].disabled = False
+        data.ids['txt_origen_phonenumber'].disabled = False
+        data.ids['txt_origen_state'].disabled = False
+        data.ids['txt_origen_zipcode'].disabled = False
+
+    def fill_DataDestino(self, _data):
         data = self.ids['label_container'].ids['destino_widget']
         data.ids['txt_destino_address1'].text = _data["address1"]
         data.ids['txt_destino_address2'].text = _data["address2"]
@@ -103,7 +174,7 @@ class CreateLabelScreen(Screen):
         data.ids['txt_destino_state'].text = _data['state']
         data.ids['txt_destino_zipcode'].text = _data['zipcode']
 
-    def clear_DireccionDestino(self):
+    def clear_DataDestino(self):
         data = self.ids['label_container'].ids['destino_widget']
         data.ids['txt_destino_address1'].text = ""
         data.ids['txt_destino_address2'].text = ""
@@ -117,11 +188,113 @@ class CreateLabelScreen(Screen):
         data.ids['txt_destino_state'].text = ""
         data.ids['txt_destino_zipcode'].text = ""
 
-    def fill_Servicio(self, _data):
+    def get_DataDestino(self):
+        data = {}
+        fields = self.ids['label_container'].ids['destino_widget']
+
+        if fields.ids['txt_destino_address1'].text != "":
+            data['destino_address1'] = fields.ids['txt_destino_address1'].text
+
+            if len(data['destino_address1']) > 30:
+                raise ValueError("Direccion 1 en DIRECCION DESTINO es mayor de 30")
+        else:
+            raise ValueError("Falta Direccion 1 en INFORMACION DESTINO")
+
+        if fields.ids['txt_destino_city'].text != "":
+            data['destino_city'] = fields.ids['txt_destino_city'].text
+
+            if len(data['destino_city']) > 50:
+                raise ValueError("Ciudad en DIRECCION DESTINO es mayor de 50")
+        else:
+            raise ValueError("Falta Ciudad en INFORMACION DESTINO")
+
+        if fields.ids['txt_destino_contactname'].text != "":
+            data['destino_contactname'] = fields.ids['txt_destino_contactname'].text
+        else:
+            raise ValueError("Falta Contacto en INFORMACION DESTINO")
+
+        if fields.ids['txt_destino_corporatename'].text != "":
+            data['destino_corporatename'] = fields.ids['txt_destino_corporatename'].text
+        else:
+            raise ValueError("Falta Empresa en INFORMACION DESTINO")
+
+        if fields.ids['txt_destino_neighborhood'].text != "":
+            data['destino_neighborhood'] = fields.ids['txt_destino_neighborhood'].text
+
+            if len(data['destino_neighborhood']) > 50:
+                raise ValueError("Colonia en DIRECCION DESTINO es mayor de 50")
+        else:
+            raise ValueError("Falta Colonia en INFORMACION DESTINO")
+
+        if fields.ids['txt_destino_customernumber'].text != "":
+            data['destino_customernumber'] = fields.ids['txt_destino_customernumber'].text
+        else:
+            raise ValueError("Falta Cliente en INFORMACION DESTINO")
+
+        if fields.ids['txt_destino_phonenumber'].text != "":
+            data['destino_phonenumber'] = fields.ids['txt_destino_phonenumber'].text
+
+            if len(data['destino_phonenumber']) > 25:
+                raise ValueError("Telefono en DIRECCION DESTINO es mayor de 25")
+        else:
+            raise ValueError("Falta Telefono en INFORMACION DESTINO")
+
+        if fields.ids['txt_destino_state'].text != "":
+            data['destino_state'] = fields.ids['txt_destino_state'].text
+
+            if len(data['destino_state']) > 50:
+                raise ValueError("Estado en DIRECCION DESTINO es mayor de 50")
+        else:
+            raise ValueError("Falta Estado en INFORMACION DESTINO")
+
+        if fields.ids['txt_destino_zipcode'].text != "":
+            data['destino_zipcode'] = fields.ids['txt_destino_zipcode'].text
+        else:
+            raise ValueError("Falta Zip Codigo en INFORMACION DESTINO")
+
+        data['destino_address2'] = fields.ids['txt_destino_address2'].text
+        if len(data['destino_address2']) > 30:
+            raise ValueError("Direccion 2 en DIRECCION DESTINO es mayor de 30")
+
+        data['destino_cellphone'] = fields.ids['txt_destino_cellphone'].text
+        if len(data['destino_cellphone']) > 20:
+            raise ValueError("Celular en DIRECCION DESTINO es mayor de 20")
+
+        return data
+
+    def disable_DataDestino(self):
+        data = self.ids['label_container'].ids['destino_widget']
+        data.ids['txt_destino_address1'].disabled = True
+        data.ids['txt_destino_address2'].disabled = True
+        data.ids['txt_destino_cellphone'].disabled = True
+        data.ids['txt_destino_city'].disabled = True
+        data.ids['txt_destino_contactname'].disabled = True
+        data.ids['txt_destino_corporatename'].disabled = True
+        data.ids['txt_destino_customernumber'].disabled = True
+        data.ids['txt_destino_neighborhood'].disabled = True
+        data.ids['txt_destino_phonenumber'].disabled = True
+        data.ids['txt_destino_state'].disabled = True
+        data.ids['txt_destino_zipcode'].disabled = True
+
+    def enable_DataDestino(self):
+        data = self.ids['label_container'].ids['destino_widget']
+        data.ids['txt_destino_address1'].disabled = False
+        data.ids['txt_destino_address2'].disabled = False
+        data.ids['txt_destino_cellphone'].disabled = False
+        data.ids['txt_destino_city'].disabled = False
+        data.ids['txt_destino_contactname'].disabled = False
+        data.ids['txt_destino_corporatename'].disabled = False
+        data.ids['txt_destino_customernumber'].disabled = False
+        data.ids['txt_destino_neighborhood'].disabled = False
+        data.ids['txt_destino_phonenumber'].disabled = False
+        data.ids['txt_destino_state'].disabled = False
+        data.ids['txt_destino_zipcode'].disabled = False
+
+    def fill_DataServicio(self, _data):
         data = self.ids['label_container'].ids['servicio_widget']
-        data.ids['txt_servicetypeid'].text = "70"
+        data.ids['txt_servicetypeid'].text = ""
         data.ids['txt_number_labels'].text = "1"
-        data.ids['txt_office_num'].text = "130"
+        data.ids['txt_office_num'].text = "780"
         data.ids['txt_contentdescription'].text = ""
         data.ids['txt_aditionalinfo'].text = _data['aditionalinfo']
         data.ids['txt_costcenter'].text = "0"
@@ -131,11 +304,11 @@ class CreateLabelScreen(Screen):
         data.ids['txt_destino_countryid'].text = _data['destino_countryid']
         data.ids['txt_reference'].text = "."
 
-    def clear_Servicio(self):
+    def clear_DataServicio(self):
         data = self.ids['label_container'].ids['servicio_widget']
-        data.ids['txt_servicetypeid'].text = "70"
+        data.ids['txt_servicetypeid'].text = ""
         data.ids['txt_number_labels'].text = "1"
-        data.ids['txt_office_num'].text = "130"
+        data.ids['txt_office_num'].text = "780"
         data.ids['txt_contentdescription'].text = ""
         data.ids['txt_aditionalinfo'].text = ""
         data.ids['txt_costcenter'].text = "0"
@@ -144,15 +317,281 @@ class CreateLabelScreen(Screen):
         data.ids['txt_servicetypeiddocret'].text = ""
         data.ids['txt_destino_countryid'].text = ""
         data.ids['txt_reference'].text = "."
+        data.ids['chk_deliverytoestafetaoffice'].active = False
 
-    def clear_Paquete(self):
+    def get_DataServicio(self):
+        data = {}
+
+        fields = self.ids['label_container'].ids['servicio_widget']
+
+        if fields.ids['txt_servicetypeid'].text == "Dia siguiente consumo facturacion mensual":
+            data['servicetypeid'] = "60"
+        elif fields.ids['txt_servicetypeid'].text == "Terrestre consumo facturacion mensual":
+            data['servicetypeid'] = "70"
+        elif fields.ids['txt_servicetypeid'].text == "Dos Dias consumo facturacion mensual":
+            data['servicetypeid'] = "D0"
+        else:
+            raise ValueError("Falta Tipo Servicio en INFORMACION DE SERVICIO")
+
+        if str(fields.ids['txt_number_labels'].text) != "":
+            data['number_labels'] = str(fields.ids['txt_number_labels'].text)
+        else:
+            raise ValueError("Falta Cantidad Guias en INFORMACION DE SERVICIO")
+
+        if fields.ids['txt_office_num'].text != "":
+            data['office_num'] = fields.ids['txt_office_num'].text
+        else:
+            raise ValueError("Falta Oficina Numero en INFORMACION DE SERVICIO")
+
+        data['contentdescription'] = fields.ids['txt_contentdescription'].text
+        data['aditionalinfo'] = fields.ids['txt_aditionalinfo'].text
+
+        if fields.ids['txt_costcenter'].text != "":
+            data['costcenter'] = fields.ids['txt_costcenter'].text
+        else:
+            raise ValueError("Falta Centro de Costo en INFORMACION DE SERVICIO")
+
+        if fields.ids['txt_content'].text != "":
+            data['content'] = fields.ids['txt_content'].text
+        else:
+            raise ValueError("Falta Contenido en INFORMACION DE SERVICIO")
+
+        data['destino_countryid'] = fields.ids['txt_destino_countryid'].text
+
+        if fields.ids['txt_reference'].text != "":
+            data['reference'] = fields.ids['txt_reference'].text
+        else:
+            raise ValueError("Falta Referencia en INFORMACION DE SERVICIO")
+
+        data['deliverytoestafetaoffice'] = str(fields.ids['chk_deliverytoestafetaoffice'].active)
+        data['returndocument'] = str(fields.ids['chk_returndocument'].active)
+
+        return data
+
+    def disable_DataServicio(self):
+        data = self.ids['label_container'].ids['servicio_widget']
+        # data.ids['txt_servicetypeid'].disabled = True
+        data.ids['txt_number_labels'].disabled = True
+        data.ids['txt_office_num'].disabled = True
+        data.ids['txt_contentdescription'].disabled = True
+        data.ids['txt_aditionalinfo'].disabled = True
+        data.ids['txt_costcenter'].disabled = True
+        # data.ids['txt_content'].disabled = True
+        data.ids['txt_kilos'].disabled = True
+        data.ids['txt_servicetypeiddocret'].disabled = True
+        data.ids['txt_destino_countryid'].disabled = True
+        data.ids['txt_reference'].disabled = True
+        data.ids['chk_deliverytoestafetaoffice'].disabled = True
+        data.ids['chk_returndocument'].disabled = True
+
+    def enable_DataServicio(self):
+        data = self.ids['label_container'].ids['servicio_widget']
+        # data.ids['txt_servicetypeid'].disabled = False
+        data.ids['txt_number_labels'].disabled = False
+        data.ids['txt_office_num'].disabled = False
+        data.ids['txt_contentdescription'].disabled = False
+        data.ids['txt_aditionalinfo'].disabled = False
+        data.ids['txt_costcenter'].disabled = False
+        # data.ids['txt_content'].disabled = False
+        data.ids['txt_kilos'].disabled = False
+        data.ids['txt_servicetypeiddocret'].disabled = False
+        data.ids['txt_destino_countryid'].disabled = False
+        data.ids['txt_reference'].disabled = False
+        data.ids['chk_deliverytoestafetaoffice'].disabled = False
+        data.ids['chk_returndocument'].disabled = False
+
+    def clear_DataPaquete(self):
         data = self.ids['label_container'].ids['paquete_widget']
         data.ids['txt_peso'].text = ""
         data.ids['txt_kilos'].text = ""
-        data.ids['txt_parcelTypeId'].text = "1"
+        data.ids['txt_parcelTypeId'].text = ""
         data.ids['txt_largo'].text = ""
         data.ids['txt_alto'].text = ""
         data.ids['txt_ancho'].text = ""
+
+    def get_DataPaquete(self):
+        data = {}
+        fields = self.ids['label_container'].ids['paquete_widget']
+
+        if fields.ids['txt_peso'].text != "":
+            data['peso'] = fields.ids['txt_peso'].text
+        else:
+            raise ValueError("Falta Peso en INFORMACION DEL PAQUETE")
+
+        if fields.ids['txt_parcelTypeId'].text == "Sobre":
+            data['parcelTypeId'] = "1"
+        elif fields.ids['txt_parcelTypeId'].text == "Paquete":
+            data['parcelTypeId'] = "4"
+        else:
+            raise ValueError("Falta Tipo de Empaque en INFORMACION DEL PAQUETE")
+
+        return data
+
+    def disable_DataPaquete(self):
+        data = self.ids['label_container'].ids['paquete_widget']
+        data.ids['txt_peso'].disabled = True
+        data.ids['txt_kilos'].disabled = True
+        # data.ids['txt_parcelTypeId'].disabled = True
+        data.ids['txt_largo'].disabled = True
+        data.ids['txt_alto'].disabled = True
+        data.ids['txt_ancho'].disabled = True
+
+    def enable_DataPaquete(self):
+        data = self.ids['label_container'].ids['paquete_widget']
+        data.ids['txt_peso'].disabled = False
+        data.ids['txt_kilos'].disabled = False
+        # data.ids['txt_parcelTypeId'].disabled = False
+        data.ids['txt_largo'].disabled = False
+        data.ids['txt_alto'].disabled = False
+        data.ids['txt_ancho'].disabled = False
+
+    def buscar_Factura(self):
+        self._show_loader(True)
+
+        self.factura_numero = str(self.ids['txt_factura_numero'].text)
+        self.factura_tipo = self.ids['txt_factura_tipo'].text.upper()
+
+        # fact = Factura.get(543, 'RI')
+        if self.factura_numero != "" and self.factura_tipo != "":
+
+            servicio = {}
+            servicio['aditionalinfo'] = "%s %s" % (
+                self.factura_numero,
+                self.factura_tipo
+            )
+
+            bandera, dir_origen = DireccionOrigen.get(self.factura_numero, self.factura_tipo)
+
+            self.clear_DataOrigen()
+            self.clear_DataDestino()
+            self.clear_DataServicio()
+            self.clear_DataPaquete()
+
+            if bandera:
+                self.fill_DataOrigen(dir_origen)
+                self.enable_DataOrigen()
+            else:
+                self.failure(dir_origen['mensaje'])
+
+            bandera, dir_destino = DireccionDestino.get(self.factura_numero, self.factura_tipo)
+
+            if bandera:
+                self.fill_DataDestino(dir_destino)
+                self.enable_DataDestino()
+
+                servicio['destino_countryid'] = dir_destino['Country']
+                self.fill_DataServicio(servicio)
+                self.enable_DataServicio()
+                self.enable_DataPaquete()
+
+            else:
+                self.failure(dir_destino['mensaje'])
+
+            self._show_loader(False)
+        else:
+            self.failure("Falto especificar Factura")
+
+    def crear_Etiqueta(self):
+
+        try:
+            self._show_loader(True)
+
+            usuario = ModeloUsuario.get(self.user_account)
+
+            data_ambiente = {}
+
+            if len(usuario) > 0:
+                if usuario[0].profile.estafeta:
+                    ambiente = usuario[0].profile.estafeta
+
+                    data_ambiente['login'] = ambiente.login
+                    data_ambiente['suscriber_id'] = ambiente.suscriber_id
+                    data_ambiente['password'] = ambiente.password
+                    data_ambiente['quadrant'] = str(ambiente.quadrant)
+                    data_ambiente['tipo_papel'] = str(ambiente.paper_type)
+                    data_ambiente['url'] = ambiente.url
+                    data_ambiente['customer_number'] = ambiente.customer_number
+
+                    data_ambiente['cot_url'] = ambiente.cot_url
+                    data_ambiente['id_usuario'] = ambiente.cot_id_usuario
+                    data_ambiente['usuario'] = ambiente.cot_usuario
+                    data_ambiente['contra'] = ambiente.cot_contra
+
+                    data_paquete = self.get_DataPaquete()
+                    data_origen = self.get_DataOrigen()
+                    data_origen['customer_number'] = data_ambiente['customer_number']
+                    data_destino = self.get_DataDestino()
+
+                    data_servicio = self.get_DataServicio()
+                    data_servicio['peso'] = data_paquete['peso']
+                    data_servicio['parcelTypeId'] = data_paquete['parcelTypeId']
+                    data_servicio['customer_number'] = data_ambiente['customer_number']
+                    data_servicio['cp_origen'] = data_origen['origen_zipcode']
+
+                    # Valida codigos
+                    ws_cotizacion = CotizacionWS(data_ambiente["cot_url"])
+                    ws_cotizacion.set_Credenciales(
+                        data_ambiente['id_usuario'],
+                        data_ambiente['usuario'],
+                        data_ambiente['contra']
+                    )
+                    ws_cotizacion.set_EsFrecuencia("false")
+                    ws_cotizacion.set_EsLista("true")
+                    ws_cotizacion.set_TipoEnvio("false", "0", "0", "0", "0")
+                    ws_cotizacion.set_Origen(data_origen['origen_zipcode'])
+                    ws_cotizacion.set_Destino(data_destino['destino_zipcode'])
+
+                    flag, results = ws_cotizacion.send(self.factura_numero, self.factura_tipo)
+
+                    if flag:
+                        # Crea Etiqueta
+                        ws_create_label = CreateLabelWS(data_ambiente["url"])
+                        ws_create_label.set_DireccionOrigen(data_origen)
+                        ws_create_label.set_DireccionDestino(data_destino)
+                        ws_create_label.set_DireccionAlternativa(data_destino)
+                        ws_create_label.set_Servicio(data_servicio)
+                        ws_create_label.set_Credenciales(data_ambiente)
+
+                        flag, results, guide = ws_create_label.send(
+                            self.factura_numero,
+                            self.factura_tipo,
+                            self.user_account
+                        )
+
+                        guias = guide.split('|')
+                        import ipdb; ipdb.set_trace()
+                        for g in guias:
+                            bandera, message = Factura.InsertaGuia(g, self.factura_numero, self.factura_tipo)
+                            print bandera, message, g
+
+                        Factura.ActualizaVtas(self.factura_numero, self.factura_tipo, guias[0])
+
+                        self.manager.get_screen('screen-labelview').fac_numero = self.factura_numero
+                        self.manager.get_screen('screen-labelview').fac_tipo = self.factura_tipo
+                        self.manager.get_screen('screen-labelview').guia = guide
+                        self.manager.get_screen('screen-labelview').set_Label(flag, results, guide)
+
+                        self._show_loader(False)
+                        self.clear_DataServicio()
+                        self.clear_DataPaquete()
+                        self.clear_DataOrigen()
+                        self.clear_DataDestino()
+
+                        self.disable_DataServicio()
+                        self.disable_DataPaquete()
+                        self.disable_DataOrigen()
+                        self.disable_DataDestino()
+                        self.manager.current = 'screen-labelview'
+
+                    else:
+                        self.failure(results)
+                else:
+                    self.failure("El usuario no tiene configurado un Ambiente")
+            else:
+                self.failure("No existe un usuario")
+
+        except Exception as e:
+            self.failure(str(e))
 
 
 class ServicioWidget(StackLayout):
@@ -191,11 +630,13 @@ class TipoServicioPopup(Popup):
 
         self.ids['container'].clear_widgets()
 
-        widget10 = TipoServicioWidget("60", "Día siguiente consumo facturación mensual")
-        widget70 = TipoServicioWidget("70", "Terrestre consumo facturación mensual")
+        widget10 = TipoServicioWidget("60", "Dia siguiente consumo facturacion mensual")
+        widget70 = TipoServicioWidget("70", "Terrestre consumo facturacion mensual")
+        widgetD0 = TipoServicioWidget("D0", "Dos Dias consumo facturacion mensual")
 
         self.ids['container'].add_widget(widget10)
         self.ids['container'].add_widget(widget70)
+        self.ids['container'].add_widget(widgetD0)
 
     def click_SelectButton(self):
 
@@ -204,7 +645,7 @@ class TipoServicioPopup(Popup):
         for hijo in self.ids['container'].children:
 
             if hijo.ids['chk_tipo'].active is True:
-                value = hijo.valor
+                value = hijo.ids['lbl_tipo'].text
 
         if value:
             self.padre.fill_CampoTipoServicio(value)
@@ -304,7 +745,7 @@ class TipoPaquetePopup(Popup):
         for hijo in self.ids['container'].children:
 
             if hijo.ids['chk_tipo'].active is True:
-                value = hijo.valor
+                value = hijo.ids['lbl_tipo'].text
 
         if value:
             self.padre.fill_Campos(value)
@@ -321,75 +762,8 @@ class TipoPaqueteWidget(BoxLayout):
         self.ids["lbl_tipo"].text = _descripcion
 
 
-class CredencialesWidget(StackLayout):
+class ControlWidget(StackLayout):
 
-    def open_CredencialesPopup(self):
-        CredencialesPopup(self).open()
-
-    def fill_Campos(self, cuenta):
-
-        self.clear_Campos()
-        self.ids['txt_cuenta'].text = cuenta.clave
-        self.ids['txt_url'].text = cuenta.url
-        self.ids['txt_login'].text = cuenta.login
-        self.ids['txt_suscriber_id'].text = cuenta.suscriber_id
-        self.ids['txt_password'].text = cuenta.password
-        self.ids['txt_quadrant'].text = str(cuenta.quadrant)
-        self.ids['txt_tipo_papel'].text = str(cuenta.paper_type)
-        self.ids['txt_customernumber'].text = cuenta.customer_number
-
-    def clear_Campos(self):
-        self.ids['txt_cuenta'].text = ''
-        self.ids['txt_url'].text = ''
-        self.ids['txt_login'].text = ''
-        self.ids['txt_suscriber_id'].text = ''
-        self.ids['txt_password'].text = ''
-        self.ids['txt_quadrant'].text = ''
-        self.ids['txt_tipo_papel'].text = ''
-        self.ids['txt_customernumber'].text = ''
-
-
-class CredencialesPopup(Popup):
-
-    padre = ObjectProperty(None)
-
-    def __init__(self, padre, **kwargs):
-
-        super(CredencialesPopup, self).__init__(**kwargs)
-
-        self.padre = padre
-
-        self.show_All_Cuentas()
-
-    def show_All_Cuentas(self):
-
-        self.ids['container'].clear_widgets()
-
-        cuentas = ModeloEstafetaUser.get()
-
-        for cuenta in cuentas:
-            widget = CuentaWidget(cuenta)
-            self.ids['container'].add_widget(widget)
-
-    def click_SelectButton(self):
-
-        cuenta = None
-
-        for hijo in self.ids['container'].children:
-
-            if hijo.ids['chk_cuenta'].active is True:
-                cuenta = hijo.cuenta
-
-        if cuenta:
-            self.padre.fill_Campos(cuenta)
-            self.dismiss()
-
-
-class CuentaWidget(BoxLayout):
-
-    cuenta = ObjectProperty(None)
-
-    def __init__(self, _cuenta, **kwargs):
-        super(CuentaWidget, self).__init__(**kwargs)
-        self.ids["lbl_cuenta"].text = _cuenta.clave
-        self.cuenta = _cuenta
+    def click_BotonCrearEtiqueta(self):
+        screen_manager = self.get_root_window().children
+        screen_manager[0].get_screen('screen-createlabel').crear_Etiqueta()

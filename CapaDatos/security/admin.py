@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 # Modelos:
 from .models import Profile
+from .models import Log
 
 
 class ProfileInline(admin.StackedInline):
@@ -24,19 +25,14 @@ class CustomUserAdmin(UserAdmin):
         'first_name',
         'last_name',
         'is_staff',
-        'get_bio',
-        'get_is_owner',
+        'get_estafeta',
     )
     list_select_related = ('profile', )
 
-    def get_bio(self, instance):
-        return instance.profile.bio
+    def get_estafeta(self, instance):
+        return instance.profile.estafeta
 
-    def get_is_owner(self, instance):
-        return instance.profile.is_owner
-
-    get_bio.short_description = 'Bio'
-    get_is_owner.short_description = "Is Owner"
+    get_estafeta.short_description = 'Estafeta'
 
     def get_inline_instances(self, request, obj=None):
         if not obj:
@@ -46,3 +42,14 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
+
+
+@admin.register(Log)
+class PostAdmin(admin.ModelAdmin):
+    list_display = (
+        'guia',
+        'comentarios',
+        'status',
+        'created_by',
+        'created_date',
+    )

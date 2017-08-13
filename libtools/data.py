@@ -96,3 +96,12 @@ class Validator(object):
         url = os.path.join(ruta, file_name)
 
         return url.replace("\\", "/")
+
+    @classmethod
+    def checkToChar(self, data):
+        if data is None:
+            return ""
+        elif isinstance(data, int):
+            return str(data)
+        else:
+            return data

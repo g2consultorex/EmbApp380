@@ -5,39 +5,24 @@ from __future__ import unicode_literals
 
 # Django's Libraries
 from django.db import models
-from security.models import Profile
 
 
-class Log(models.Model):
-
-    STATUS = (
-        ('ERR', 'ERROR'),
-        ('SUC', 'Exito'),
-    )
-
-    titulo = models.CharField(max_length=144)
-    comentarios = models.TextField()
-
-    status = models.CharField(max_length=3, choices=STATUS, default="REC")
-    created_by = models.ForeignKey(
-        Profile, related_name='post_creador', null=True)
-    created_date = models.DateTimeField(auto_now=False, auto_now_add=True)
-    updated_by = models.ForeignKey(
-        Profile, related_name='post_actualizador', null=True)
-    updated_date = models.DateTimeField(auto_now=True, auto_now_add=False)
-
-
-class EstafetaUser(models.Model):
-
+class EstafetaAmbiente(models.Model):
     clave = models.CharField(max_length=144, unique=True)
-    url = models.CharField(max_length=255)
-    login = models.CharField(max_length=144)
-    password = models.CharField(max_length=144)
-    quadrant = models.IntegerField()
-    suscriber_id = models.CharField(max_length=144)
-    paper_type = models.IntegerField()
-    customer_number = models.CharField(max_length=144, null=True)
-    es_principal = models.BooleanField(default=False)
+    url = models.CharField(max_length=300, null=True, blank=True)
+    login = models.CharField(max_length=144, null=True, blank=True)
+    password = models.CharField(max_length=144, null=True, blank=True)
+    quadrant = models.IntegerField(default=1)
+    suscriber_id = models.CharField(max_length=144, null=True, blank=True)
+    paper_type = models.IntegerField(default=1)
+    customer_number = models.CharField(max_length=144, null=True, blank=True)
+
+    cot_url = models.CharField(max_length=300, null=True, blank=True)
+    cot_id_usuario = models.CharField(max_length=144, null=True, blank=True)
+    cot_usuario = models.CharField(max_length=144, null=True, blank=True)
+    cot_contra = models.CharField(max_length=144, null=True, blank=True)
+
+    is_active = models.BooleanField(default=True)
 
     created_date = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True, auto_now_add=False)
