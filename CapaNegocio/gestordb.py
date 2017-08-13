@@ -253,27 +253,26 @@ class Factura(object):
 
     @classmethod
     def ConsFactura(self, _numero, _tipo):
-        
+
         try:
             connection.close()
             factura = F5842566.objects.using('jde').filter(
-                TNDOC = _numero,
-                TNDCT = _tipo
+                TNDOC=_numero,
+                TNDCT__contains=_tipo
             )
 
-            return factura
-        
+            return True, factura
+
         except Exception as error:
             value = {
                 'mensaje': str(error)
             }
             return False, value
 
-
     @classmethod
     def InsertaGuia(self, _guia, _numero, _tipo):
         try:
-            connection.close() 
+            connection.close()
             factura = F5842566(
                 _tipo,
                 _numero,
