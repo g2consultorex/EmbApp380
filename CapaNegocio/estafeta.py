@@ -1,8 +1,10 @@
 import requests
 # import ssl
 import os
+from datetime import date
 import binascii
 from datetime import datetime
+from datetime import timedelta
 from wand.image import Image
 
 from lxml import etree
@@ -55,11 +57,17 @@ class CreateLabelWS:
 
         return cabecera
 
+    def get_EfectiveDate(self):
+        fecha = datetime.now()
+        fecha_futura = fecha + timedelta(days=7)
+        fecha_efectiva = fecha_futura.strftime('%Y%m%d')
+        return fecha_efectiva
+
     def set_Servicio(self, _data):
 
         modulo = """<customerNumber xsi:type="ns2:string">%s</customerNumber>
                     <labelDescriptionList xsi:type="ns4:LabelDescriptionList">
-                        <effectiveDate xsi:type="ns2:string" xsi:nil="true"/>
+                        <effectiveDate xsi:type="ns2:string">%s</effectiveDate>
                         %s
                         %s
                         %s
@@ -85,6 +93,7 @@ class CreateLabelWS:
 
         self.modulo_servicio = modulo % (
             _data['customer_number'],
+            self.get_EfectiveDate(),
             self.modulo_direccion_origen,
             self.modulo_direccion_destino,
             self.modulo_direccion_alternativa,
