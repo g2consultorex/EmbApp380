@@ -449,40 +449,49 @@ class CreateLabelScreen(Screen):
         # fact = Factura.get(543, 'RI')
         if self.factura_numero != "" and self.factura_tipo != "":
 
-            servicio = {}
-            servicio['aditionalinfo'] = "%s %s" % (
-                self.factura_numero,
-                self.factura_tipo
-            )
+            try:
 
-            bandera, dir_origen = DireccionOrigen.get(self.factura_numero, self.factura_tipo)
+                servicio = {}
+                servicio['aditionalinfo'] = "%s %s" % (
+                    self.factura_numero,
+                    self.factura_tipo
+                )
 
-            self.clear_DataOrigen()
-            self.clear_DataDestino()
-            self.clear_DataServicio()
-            self.clear_DataPaquete()
+                bandera, dir_origen = DireccionOrigen.get(self.factura_numero, self.factura_tipo)
 
-            if bandera:
-                self.fill_DataOrigen(dir_origen)
-                self.enable_DataOrigen()
-            else:
-                self.failure(dir_origen['mensaje'])
+                self.clear_DataOrigen()
+                self.clear_DataDestino()
+                self.clear_DataServicio()
+                self.clear_DataPaquete()
 
-            bandera, dir_destino = DireccionDestino.get(self.factura_numero, self.factura_tipo)
+                if bandera:
+                    self.fill_DataOrigen(dir_origen)
+                    self.enable_DataOrigen()
+                else:
+                    self.failure(dir_origen['mensaje'])
 
-            if bandera:
-                self.fill_DataDestino(dir_destino)
-                self.enable_DataDestino()
+                bandera, dir_destino = DireccionDestino.get(self.factura_numero, self.factura_tipo)
 
-                servicio['destino_countryid'] = dir_destino['Country']
-                self.fill_DataServicio(servicio)
-                self.enable_DataServicio()
-                self.enable_DataPaquete()
+                if bandera:
+                    self.fill_DataDestino(dir_destino)
+                    self.enable_DataDestino()
 
-            else:
-                self.failure(dir_destino['mensaje'])
+                    servicio['destino_countryid'] = dir_destino['Country']
+                    self.fill_DataServicio(servicio)
+                    self.enable_DataServicio()
+                    self.enable_DataPaquete()
 
-            self._show_loader(False)
+                else:
+                    self.failure(dir_destino['mensaje'])
+
+                bandera, etiquetas = Factura.ConsFactura(self.factura_numero, self.factura_tipo)
+
+                if bandera:
+                    LabelsPopup(self, etiquetas).open()
+
+                self._show_loader(False)
+            except Exception as e:
+                self.failure(str(e))
         else:
             self.failure("Falto especificar Factura")
 
@@ -561,26 +570,29 @@ class CreateLabelScreen(Screen):
                         guias = guide.split('|')
                         for g in guias:
                             bandera, message = Factura.InsertaGuia(g, self.factura_numero, self.factura_tipo)
-                            print bandera, message, g
 
-                        Factura.ActualizaVtas(self.factura_numero, self.factura_tipo, guias[0])
+                        bandera, mensaje = Factura.ActualizaVtas(self.factura_numero, self.factura_tipo, guias[0])
 
-                        self.manager.get_screen('screen-labelview').fac_numero = self.factura_numero
-                        self.manager.get_screen('screen-labelview').fac_tipo = self.factura_tipo
-                        self.manager.get_screen('screen-labelview').guia = guide
-                        self.manager.get_screen('screen-labelview').set_Label(flag, results, guide)
+                        if bandera:
 
-                        self._show_loader(False)
-                        self.clear_DataServicio()
-                        self.clear_DataPaquete()
-                        self.clear_DataOrigen()
-                        self.clear_DataDestino()
+                            self.manager.get_screen('screen-labelview').fac_numero = self.factura_numero
+                            self.manager.get_screen('screen-labelview').fac_tipo = self.factura_tipo
+                            self.manager.get_screen('screen-labelview').guia = guide
+                            self.manager.get_screen('screen-labelview').set_Label(flag, results, guide)
 
-                        self.disable_DataServicio()
-                        self.disable_DataPaquete()
-                        self.disable_DataOrigen()
-                        self.disable_DataDestino()
-                        self.manager.current = 'screen-labelview'
+                            self._show_loader(False)
+                            self.clear_DataServicio()
+                            self.clear_DataPaquete()
+                            self.clear_DataOrigen()
+                            self.clear_DataDestino()
+
+                            self.disable_DataServicio()
+                            self.disable_DataPaquete()
+                            self.disable_DataOrigen()
+                            self.disable_DataDestino()
+                            self.manager.current = 'screen-labelview'
+                        else:
+                            self.failure(mensaje)
 
                     else:
                         self.failure(results)
@@ -591,6 +603,44 @@ class CreateLabelScreen(Screen):
 
         except Exception as e:
             self.failure(str(e))
+
+
+class LabelsPopup(Popup):
+    screen = ObjectProperty(None)
+
+    def __init__(self, _screen, _records, **kwargs):
+        super(LabelsPopup, self).__init__(**kwargs)
+        self.screen = _screen
+        self.load_Records(_records)
+
+    def load_Records(self, _records):
+        contenedor = self.ids['container']
+        contenedor.clear_widgets()
+
+        for registro in _records:
+            widget = LabelOption(registro)
+            contenedor.add_widget(widget)
+
+    def click_BotonSeleccionar(self):
+        print "OK"
+        # value = ""
+        #
+        # for hijo in self.ids['container'].children:
+        #     if hijo.ids['chk_cuenta_estafeta'].active is True:
+        #         value = hijo.registro.clave
+        #
+        # if value:
+        #     self.screen.ids['txt_estafeta_ambiente'].text = value
+        #     self.dismiss()
+
+
+class LabelOption(BoxLayout):
+    registro = ObjectProperty(None)
+
+    def __init__(self, _registro, **kwargs):
+        super(LabelOption, self).__init__(**kwargs)
+        self.ids["lbl_option"].text = _registro.clave
+        self.registro = _registro
 
 
 class ServicioWidget(StackLayout):

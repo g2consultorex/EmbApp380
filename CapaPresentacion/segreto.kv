@@ -1065,6 +1065,65 @@
             text: 'Crear Etiqueta'
             on_press: root.click_BotonCrearEtiqueta()
 
+<LabelsPopup>:
+    title: 'Etiquetas ya generadas'
+    size_hint: (.5, .5)
+    GridLayout:
+        cols: 1
+        ScrollView:
+            size_hint_x: 1
+            StackLayout:
+                id: container
+                size_hint_y: None
+                height: self.minimum_height
+                size_hint_x: 1
+                orientation: 'lr-tb'
+                spacing:'15dp'
+                # CuentaWidget:
+
+        AnchorLayout:
+            padding: 30, 0, 30, 5
+            size_hint_y: None
+            height: '60dp'
+            Button:
+                size_hint_y: None
+                height: '60dp'
+                size_hint_x: 1
+                text: 'ReeImprimir'
+                # on_release: root.click_BotonSeleccionar()
+
+<LabelOption@BoxLayout>:
+    id: label_option
+    padding: '10dp'
+    size_hint_y: None
+    height: '50dp'
+    orientation: 'horizontal'
+    canvas:
+        Color:
+            rgba: hex('#D5E1FF')
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
+
+    CheckBox:
+        canvas.before:
+            Color:
+                rgba: 0.176, 0.243, 0.314, 1.0
+            Ellipse:
+                pos:self.center_x-8, self.center_y-8
+                size:[16,16]
+
+        id: chk_option
+        size_hint_x: .1
+        group: "label"
+    Label:
+        id: lbl_option
+        size_hint_x: .9
+        text: "Hola"
+        color: hex('#121313')
+
+
 ########################### ETIQUETA VIEW ###########################
 
 <LabelViewScreen>:

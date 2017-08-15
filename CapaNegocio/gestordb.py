@@ -321,7 +321,7 @@ class Factura(object):
 
         except Exception as error:
             value = {
-                'mensaje': str(error)
+                'Error al actualizar ventas': str(error)
             }
             return False, value
 
