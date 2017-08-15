@@ -369,6 +369,7 @@ class CreateLabelWS:
         except Exception, error:
             return False, str(error), ""
 
+
 class ReprintLabelWS:
 
     def __init__(self, _url):
@@ -385,7 +386,6 @@ class ReprintLabelWS:
         fecha_futura = fecha + timedelta(days=7)
         fecha_efectiva = fecha_futura.strftime('%Y%m%d')
         return fecha_efectiva
-
 
     def get_Header(self):
         cabecera = {
@@ -473,7 +473,7 @@ class ReprintLabelWS:
             self.modulo_direccion_origen,
             _data['parcelTypeId'],
             _data['reference'],
-            _data['peso']
+            _data['peso'],
             self.get_EfectiveDate(),
             _data['contentdescription'],
             _data['parcelNumber'],
