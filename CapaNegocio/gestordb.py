@@ -575,3 +575,143 @@ class DireccionDestino(object):
                 'mensaje': str(error)
             }
             return False, value
+
+
+class NuevoDestino(object):
+
+    @classmethod
+    def get(self, _direccion):
+
+        datos = {}
+        datos['corporatename'] = ""
+        datos['address1'] = ""
+        datos['address2'] = ""
+        datos['cellphone'] = ""
+        datos['city'] = ""
+        datos['contactname'] = ""
+        datos['customernumber'] = ""
+        datos['neighborhood'] = ""
+        datos['phonenumber'] = ""
+        datos['zipcode'] = ""
+        datos['state'] = ""
+        datos['Country'] = ""
+
+        try:
+            connection.close()
+            Ndireccion = F0101.objects.using('jde').filter(
+                ABAN8=_direccion)
+
+            if len(Ndireccion) > 0:
+
+                CustomerNumber = str(_direccion)
+                if len(CustomerNumber) < 7:
+                    cantidad = 7 - len(CustomerNumber)
+                    sufijo = "0" * cantidad
+                    datos['customernumber'] = "%s%s" % (sufijo, CustomerNumber)
+                else:
+                    datos['customernumber'] = str(_direccion)
+
+                if _direccion < 199991:
+
+                    direccionDest = F0101.objects.using('jde').filter(
+                        ABAN8=_direccion
+                    )
+
+                    dir_complementoDestino = F0116.objects.using('jde').filter(
+                        ALAN8=_direccion
+                    )
+
+                    direccionDest_Tel = F0115.objects.using('jde').filter(
+                        WPAN8=_direccion
+                    )
+
+                    direccionDest_Cel = F0115.objects.using('jde').filter(
+                        WPAN8=_direccion,
+                        WPPHTP__contains='CAR'
+                    )
+
+                    # direccionDest_Correo = F01151.objects.using('jde').filter(
+                    #     EAAN8=_direccion,
+                    #     EAETP__contains='E',
+                    #     EAEHIER=0,
+                    #     EAECLASS__contains='ASN'
+                    # )
+
+                    direccionDest_Resp = F0111.objects.using('jde').filter(
+                        WWAN8=_direccion
+                    )
+
+                    UDCestadoDest = F0005.objects.using('jde').filter(
+                        DRSY__contains='00',
+                        DRRT__contains='S',
+                        DRKY__contains=dir_complementoDestino[0].ALADDS
+                    )
+
+                    if len(dir_complementoDestino) > 0:
+                        corporate = "%s %s" % (
+                            direccionDest[0].ABALPH.strip(),
+                            dir_complementoDestino[0].ALADD1.strip()
+                        )
+                        datos['corporatename'] = corporate[0:29]
+                        datos["address1"] = dir_complementoDestino[0].ALADD2.strip()
+                        datos["address2"] = dir_complementoDestino[0].ALADD3.strip()
+                        datos['city'] = dir_complementoDestino[0].ALCTY1.strip()
+                        # datos['customernumber'] = dir_complementoDestino[0] <-- Usuario Estafeta
+                        datos['neighborhood'] = dir_complementoDestino[0].ALADD4.strip()
+                        datos['zipcode'] = dir_complementoDestino[0].ALADDZ.strip()
+                        datos['Country'] = dir_complementoDestino[0].ALCTR.strip()
+                        if len(UDCestadoDest) > 0:
+                            datos['state'] = "%s" % (UDCestadoDest[0].DRDL01.strip())
+
+                        if len(direccionDest_Tel) > 0:
+                            datos['phonenumber'] = "%s %s" % (
+                                direccionDest_Tel[0].WPAR1,
+                                direccionDest_Tel[0].WPPH1.strip()
+                            )
+                        if len(direccionDest_Resp) > 0:
+                            datos['contactname'] = direccionDest_Resp[0].WWALPH.strip()[0:29]
+
+                        if len(direccionDest_Cel) > 0:
+                            datos['cellphone'] = "%s %s" % (
+                                direccionDest_Cel[0].WPAR1,
+                                direccionDest_Cel[0].WPPH1.strip()
+                            )
+
+                if _direccion >= 199991 and _direccion <= 199999:
+
+                    direccionDest = F4006.objects.using('jde').filter(
+                        OAANTY__contains=2,
+                        OADOCO=factura[0].SDDOCO,
+                        OADCTO=factura[0].SDDCTO
+                    )
+
+                    UDCestadoDest = F0005.objects.using('jde').filter(
+                        DRSY__contains='00',
+                        DRRT__contains='S',
+                        DRKY__contains=direccionDest[0].OAADDS
+                    )
+
+                    if len(direccionDest) > 0:
+                        corporatename = "%s %s" % (
+                            direccionDest[0].OAMLNM.strip(),
+                            direccionDest[0].OAADD1.strip()
+                        )
+
+                        datos['corporatename'] = corporatename[0:29]
+                        datos['contactname'] = direccionDest[0].OAMLNM.strip()[0:29]
+                        datos["address1"] = direccionDest[0].OAADD2.strip()
+                        datos["address2"] = direccionDest[0].OAADD3.strip()
+                        datos['city'] = direccionDest[0].OACTY1.strip()
+                        datos['neighborhood'] = direccionDest[0].OAADD4.strip()
+                        datos['zipcode'] = direccionDest[0].OAADDZ.strip()
+                        datos['Country'] = direccionDest[0].OACTR.strip()
+                    if len(UDCestadoDest) > 0:
+                        datos['state'] = "%s" % (UDCestadoDest[0].DRDL01.strip())
+
+            return True, datos
+
+        except Exception as error:
+            value = {
+                'mensaje': str(error)
+            }
+            return False, value
