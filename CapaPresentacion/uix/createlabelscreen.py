@@ -449,9 +449,7 @@ class CreateLabelScreen(Screen):
         # fact = Factura.get(543, 'RI')
         if self.factura_numero != "" and self.factura_tipo != "":
 
-
             try:
-
                 servicio = {}
                 servicio['aditionalinfo'] = "%s %s" % (
                     self.factura_numero,
