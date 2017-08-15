@@ -916,6 +916,18 @@
             text: 'DIRECCION DESTINO'
             color: hex('#000000')
             font_size: '16sp'
+            size_hint_x: 1
+
+
+        Button:
+            size_hint:None, None
+            size:'8dp', '25dp'
+            text: "Cambiar Direccion"
+            # border:10,10,10,10
+            size_hint_x: .2
+            # background_normal:'data/images/src/but_new.png'
+            # background_down:'data/images/src/but_new_down.png'
+            on_release: root.click_BotonCambiarDireccion()
 
         GridLayout:
             cols: 2
@@ -1121,6 +1133,79 @@
         id: lbl_option
         size_hint_x: .9
         text: "Hola"
+        color: hex('#121313')
+
+<DireccionesPopup>:
+    title: 'Direcciones'
+    size_hint: (.5, .5)
+
+    GridLayout:
+        cols: 1
+        BoxLayout:
+            size_hint_y: None
+            height: '40dp'
+            orientation: 'horizontal'
+            CampoGenericoMedium:
+                size_hint_x: .6
+                hint_text: 'Numero Direccion'
+                id: txt_direccion_numero
+                input_type: 'number'
+                input_filter: 'int'
+
+            Button:
+                text: "Buscar"
+                size_hint_x: .4
+
+        ScrollView:
+            size_hint_x: 1
+            StackLayout:
+                id: container
+                size_hint_y: None
+                height: self.minimum_height
+                size_hint_x: 1
+                orientation: 'lr-tb'
+                spacing:'15dp'
+                # CuentaWidget:
+
+        AnchorLayout:
+            padding: 30, 0, 30, 5
+            size_hint_y: None
+            height: '60dp'
+            Button:
+                size_hint_y: None
+                height: '60dp'
+                size_hint_x: 1
+                text: 'Seleccionar'
+                # on_release: root.click_BotonSeleccionar()
+
+<DireccionOption@BoxLayout>:
+    id: label_option
+    padding: '10dp'
+    size_hint_y: None
+    height: '50dp'
+    orientation: 'horizontal'
+    canvas:
+        Color:
+            rgba: hex('#D5E1FF')
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: 10, 10, 10, 10
+
+    CheckBox:
+        canvas.before:
+            Color:
+                rgba: 0.176, 0.243, 0.314, 1.0
+            Ellipse:
+                pos:self.center_x-8, self.center_y-8
+                size:[16,16]
+
+        id: chk_option
+        size_hint_x: .1
+        group: "direccion"
+    Label:
+        id: lbl_option
+        size_hint_x: .9
         color: hex('#121313')
 
 

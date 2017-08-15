@@ -606,6 +606,18 @@ class CreateLabelScreen(Screen):
             self.failure(str(e))
 
 
+class DireccionesPopup(Popup):
+    screen = ObjectProperty(None)
+
+    def __init__(self, _screen, **kwargs):
+        super(DireccionesPopup, self).__init__(**kwargs)
+        self.screen = _screen
+        # self.clear_Campo()
+
+    # def clear_Campo():
+    #     self.
+
+
 class LabelsPopup(Popup):
     screen = ObjectProperty(None)
 
@@ -642,6 +654,12 @@ class LabelOption(BoxLayout):
         super(LabelOption, self).__init__(**kwargs)
         self.ids["lbl_option"].text = _registro.TNVR03
         self.registro = _registro
+
+
+class DestinoWidget(StackLayout):
+
+    def click_BotonCambiarDireccion(self):
+        DireccionesPopup(self).open()
 
 
 class ServicioWidget(StackLayout):
