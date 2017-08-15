@@ -449,6 +449,7 @@ class CreateLabelScreen(Screen):
         # fact = Factura.get(543, 'RI')
         if self.factura_numero != "" and self.factura_tipo != "":
 
+
             try:
 
                 servicio = {}
@@ -487,9 +488,11 @@ class CreateLabelScreen(Screen):
                 bandera, etiquetas = Factura.ConsFactura(self.factura_numero, self.factura_tipo)
 
                 if bandera:
-                    LabelsPopup(self, etiquetas).open()
+                    if len(etiquetas):
+                        LabelsPopup(self, etiquetas).open()
 
                 self._show_loader(False)
+
             except Exception as e:
                 self.failure(str(e))
         else:
@@ -639,7 +642,7 @@ class LabelOption(BoxLayout):
 
     def __init__(self, _registro, **kwargs):
         super(LabelOption, self).__init__(**kwargs)
-        self.ids["lbl_option"].text = _registro.clave
+        self.ids["lbl_option"].text = _registro.TNVR03
         self.registro = _registro
 
 
