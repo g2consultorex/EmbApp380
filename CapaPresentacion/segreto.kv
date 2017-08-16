@@ -1154,6 +1154,7 @@
 
             Button:
                 text: "Buscar"
+                on_release: root.click_BotonBuscar()
                 size_hint_x: .4
 
         ScrollView:
@@ -1176,7 +1177,7 @@
                 height: '60dp'
                 size_hint_x: 1
                 text: 'Seleccionar'
-                # on_release: root.click_BotonSeleccionar()
+                on_release: root.click_BotonSeleccionar()
 
 <DireccionOption@BoxLayout>:
     id: label_option
