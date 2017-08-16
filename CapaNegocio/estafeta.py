@@ -603,7 +603,7 @@ class ReprintLabelWS:
 
     def create_ArchivoPdf(self, _contenido, _fac_tipo, _fac_numero, _guia):
         abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
-        namefile = "%s_%s.pdf" % (
+        namefile = "reprint_%s_%s.pdf" % (
             _fac_tipo,
             _fac_numero
         )
