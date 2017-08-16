@@ -261,6 +261,7 @@ class Factura(object):
     def ConsFactura(self, _numero, _tipo):
 
         try:
+
             connection.close()
             factura = F5842566.objects.using('jde').filter(
                 TNDOC=_numero,
@@ -302,6 +303,7 @@ class Factura(object):
     def ActualizaVtas(self, _numero, _tipo, _value):
         try:
             connection.close()
+
             factura = F4211.objects.using('jde').filter(
                 SDDOC=_numero,
                 SDDCT=_tipo
@@ -313,16 +315,19 @@ class Factura(object):
                     SDDCT=_tipo
                 )
 
-            for f in factura:
-                f.SDVR03 = _value[0:24]
-                f.save()
+                if len(factura) != 0:
+                    for f in factura:
+                        F42119.objects.using('jde').filter(SDDOCO=f.SDDOCO, SDDCT=f.SDDCT, SDKCOO=f.SDKCOO, SDLNID=f.SDLNID).update(SDVR03=_value[0:24])
+
+            else:
+                for f in factura:
+                    F4211.objects.using('jde').filter(SDDOCO=f.SDDOCO, SDDCT=f.SDDCT, SDKCOO=f.SDKCOO, SDLNID=f.SDLNID).update(SDVR03=_value[0:24])
 
             return True, "OK"
 
         except Exception as error:
-            value = {
-                'Error al actualizar ventas': str(error)
-            }
+            value = 'Error al actualizar ventas: %s' % str(error)
+
             return False, value
 
 
@@ -471,7 +476,7 @@ class DireccionDestino(object):
                 else:
                     datos['customernumber'] = str(factura[0].SDSHAN)
 
-                if factura[0].SDSHAN < 199991 or factura[0].SDSHAN > 199999:
+                if factura[0].SDSHAN < 199982 or factura[0].SDSHAN > 199999:
 
                     direccionDest = F0101.objects.using('jde').filter(
                         ABAN8=factura[0].SDSHAN
@@ -537,7 +542,7 @@ class DireccionDestino(object):
                                 direccionDest_Cel[0].WPPH1.strip()
                             )
 
-                if factura[0].SDSHAN >= 199991 and factura[0].SDSHAN <= 199999:
+                if factura[0].SDSHAN >= 199982 and factura[0].SDSHAN <= 199999:
 
                     direccionDest = F4006.objects.using('jde').filter(
                         OAANTY__contains=2,
@@ -611,7 +616,7 @@ class NuevoDestino(object):
                 else:
                     datos['customernumber'] = str(_direccion)
 
-                if _direccion < 199991 or _direccion > 199999:
+                if _direccion < 199982 or _direccion > 199999:
 
                     direccionDest = F0101.objects.using('jde').filter(
                         ABAN8=_direccion
@@ -677,7 +682,7 @@ class NuevoDestino(object):
                                 direccionDest_Cel[0].WPPH1.strip()
                             )
 
-                elif _direccion >= 199991 and _direccion <= 199999:
+                elif _direccion >= 199982 and _direccion <= 199999:
                     raise ValueError("numero de direccion mostrador no valido")
                     # direccionDest = F4006.objects.using('jde').filter(
                     #     OAANTY__contains=2,

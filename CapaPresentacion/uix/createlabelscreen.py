@@ -595,18 +595,25 @@ class CreateLabelScreen(Screen):
                             self.disable_DataPaquete()
                             self.disable_DataOrigen()
                             self.disable_DataDestino()
+                            self.activate_Control()
                             self.manager.current = 'screen-labelview'
+
                         else:
+                            self.activate_Control()
                             self.failure(mensaje)
 
                     else:
+                        self.activate_Control()
                         self.failure(results)
                 else:
+                    self.activate_Control()
                     self.failure("El usuario no tiene configurado un Ambiente")
             else:
+                self.activate_Control()
                 self.failure("No existe un usuario")
 
         except Exception as e:
+            self.activate_Control()
             self.failure(str(e))
 
     def reimprimir_Etiqueta(self):
@@ -706,20 +713,29 @@ class CreateLabelScreen(Screen):
                             self.disable_DataPaquete()
                             self.disable_DataOrigen()
                             self.disable_DataDestino()
+                            self.activate_Control()
                             self.manager.current = 'screen-labelview'
                         else:
+                            self.activate_Control()
                             self.failure(mensaje)
 
                     else:
+                        self.activate_Control()
                         self.failure(results)
                 else:
+                    self.activate_Control()
                     self.failure("El usuario no tiene configurado un Ambiente")
             else:
+                self.activate_Control()
                 self.failure("No existe un usuario")
 
         except Exception as e:
+            self.activate_Control()
             self.failure(str(e))
 
+    def activate_Control(self):
+        c_widget = self.ids['label_container'].ids['control_widget']
+        c_widget.disabled = False
 
 class DireccionesPopup(Popup):
     screen = ObjectProperty(None)
@@ -820,6 +836,7 @@ class LabelsPopup(Popup):
         pantalla.disable_DataPaquete()
         pantalla.failure("No se puede generar Guias nuevas para esta Factura, debe reimprimir")
         self.dismiss()
+
 
 class LabelOption(BoxLayout):
     registro = ObjectProperty(None)
@@ -1011,7 +1028,11 @@ class TipoPaqueteWidget(BoxLayout):
 class ControlWidget(StackLayout):
 
     def click_BotonCrearEtiqueta(self):
+
+        self.disabled = True
+
         screen_manager = self.get_root_window().children
+
         pantalla_crearetiqueta = screen_manager[0].get_screen('screen-createlabel')
 
         if pantalla_crearetiqueta.is_reprint:
