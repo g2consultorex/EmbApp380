@@ -248,9 +248,9 @@ class CreateLabelWS:
 
         return nodo[0].find('resultDescription').text
 
-    def create_ArchivoPdf(self, _contenido, _fac_tipo, _fac_numero, _guia):
+    def create_ArchivoPdf(self, _contenido, _fac_tipo, _fac_numero):
         abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
-        namefile = "%s_%s.pdf" % (
+        namefile = "create_%s_%s.pdf" % (
             _fac_tipo,
             _fac_numero
         )
@@ -261,6 +261,8 @@ class CreateLabelWS:
         archivo.write(label_binary_data)
 
         self.create_Image(archivo)
+
+        return archivo
 
     def create_DirectorioLog(self):
         new_abspath = ""
@@ -289,7 +291,7 @@ class CreateLabelWS:
 
         return new_abspath
 
-    def create_ArchivoLog(self, _fac_tipo, _fac_numero, _guia, _username):
+    def create_ArchivoLog(self, _fac_tipo, _fac_numero, _guias, _username):
 
         abspath_dir = self.create_DirectorioLog()
 
@@ -302,8 +304,8 @@ class CreateLabelWS:
         folder = Carpeta(abspath_dir)
         archivo = Archivo(folder, namefile)
         ahora = datetime.now()
-        template = """Factura Tipo: %s \nFactura Numero: %s \nNo. Guia: %s \nUsuario: %s \nFecha: %s"""
-        texto = template % (_fac_tipo, _fac_numero, _guia, _username, str(ahora.strftime("%d/%m/%Y %H:%M:%S")))
+        template = """Factura Tipo: %s \nFactura Numero: %s \nUsuario: %s \nFecha: %s \nNo. Guia(s): \n%s"""
+        texto = template % (_fac_tipo, _fac_numero, _username, str(ahora.strftime("%d/%m/%Y %H:%M:%S")), _guias)
 
         archivo.write(texto)
 
@@ -349,7 +351,7 @@ class CreateLabelWS:
                     texto_etiqueta = self.get_ResponseEtiqueta(root)
                     guia = self.get_ResponseGuia(root)
 
-                    self.create_ArchivoPdf(texto_etiqueta, _factura_tipo, _factura_numero, guia)
+                    archivo_pdf = self.create_ArchivoPdf(texto_etiqueta, _factura_tipo, _factura_numero, guia)
                     self.create_ArchivoLog(_factura_tipo, _factura_numero, guia, _username)
                     resultado = texto_etiqueta
                     bandera = True
@@ -358,16 +360,18 @@ class CreateLabelWS:
                     resultado = response_estado
                     guia = "0"
                     bandera = False
+                    archivo_pdf = None
 
             else:
                 resultado = response.content
                 guia = "0"
                 bandera = False
+                archivo_pdf = None
 
-            return bandera, resultado, guia
+            return bandera, resultado, guia, archivo_pdf
 
         except Exception, error:
-            return False, str(error), ""
+            return False, str(error), "", None
 
 
 class ReprintLabelWS:

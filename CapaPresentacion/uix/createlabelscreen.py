@@ -562,7 +562,7 @@ class CreateLabelScreen(Screen):
                         ws_create_label.set_Servicio(data_servicio)
                         ws_create_label.set_Credenciales(data_ambiente)
 
-                        flag, results, guide = ws_create_label.send(
+                        flag, results, guide, archivo_pdf = ws_create_label.send(
                             self.factura_numero,
                             self.factura_tipo,
                             self.user_account
@@ -576,10 +576,9 @@ class CreateLabelScreen(Screen):
 
                         if bandera:
 
-                            self.manager.get_screen('screen-labelview').fac_numero = self.factura_numero
-                            self.manager.get_screen('screen-labelview').fac_tipo = self.factura_tipo
-                            self.manager.get_screen('screen-labelview').guia = guide
-                            self.manager.get_screen('screen-labelview').set_Label(flag, results, guide)
+                            pantalla_labelview = self.manager.get_screen('screen-labelview')
+                            pantalla_labelview.archivo = archivo_pdf
+                            pantalla_labelview.set_Label(flag, results, archivo_pdf)
 
                             self._show_loader(False)
                             self.clear_DataServicio()
@@ -614,8 +613,22 @@ class DireccionesPopup(Popup):
         self.screen = _screen
         # self.clear_Campo()
 
-    # def clear_Campo():
-    #     self.
+    def click_BotonBuscar(self):
+        print "Buscando Registro"
+
+    def click_BotonSeleccionar(self):
+        print "Seleccionando"
+
+        self.dismiss()
+
+
+class DireccionOption(BoxLayout):
+    registro = ObjectProperty(None)
+
+    def __init__(self, _registro, **kwargs):
+        super(DireccionOption, self).__init__(**kwargs)
+        # self.ids["lbl_option"].text = _registro.TNVR03
+        self.registro = _registro
 
 
 class LabelsPopup(Popup):

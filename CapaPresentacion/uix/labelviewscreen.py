@@ -9,9 +9,7 @@ from CapaNegocio.printing import Printer
 
 class LabelViewScreen(Screen):
 
-    fac_numero = None
-    fac_tipo = None
-    guia = None
+    archivo = None
 
     def __init__(self, **kwargs):
         super(LabelViewScreen, self).__init__(**kwargs)
@@ -34,30 +32,32 @@ class LabelViewScreen(Screen):
         deafult_abspath = os.path.abspath(os.path.join(os.getcwd(), "data", "images", "no_img.png"))
         self.ids['label_container'].ids['labelview_widget'].ids['img_etiqueta'].source = deafult_abspath
 
-    def get_ImageFile(self, _guia):
-        abspath = os.path.abspath(os.path.join(os.getcwd(), "etiquetas"))
-        folder = Carpeta(abspath)
-        file_name = "%s_%s.png" % (self.fac_tipo, self.fac_numero)
-        archivo = Archivo(folder, file_name)
+    def get_ImageFile(self, _archivo_pdf):
+        folder = Carpeta(_archivo_pdf.folder.abspath)
+        nombre = _archivo_pdf.nombre.replace("pdf", "png")
+        archivo = Archivo(folder, nombre)
         archivo.exist("buscando_imagen")
         return archivo
 
-    def set_Label(self, _flag, _content, _guia):
+    def set_Label(self, _flag, _content, _archivo_pdf):
 
-        self.ids['label_container'].ids['labelview_widget'].ids['img_etiqueta'].source = ""
+        contenedor = self.ids['label_container'].ids['labelview_widget']
+
+        contenedor.ids['img_etiqueta'].source = ""
 
         if _flag:
             try:
-                archivo_img = self.get_ImageFile(_guia)
-                self.ids['label_container'].ids['labelview_widget'].ids['img_etiqueta'].source = archivo_img.get_Abspath()
-                self.ids['label_container'].ids['labelview_widget'].ids['lbl_etiqueta_view'].text = _content
+                self.archivo = _archivo_pdf
+                archivo_img = self.get_ImageFile(_archivo_pdf)
+                contenedor.ids['img_etiqueta'].source = archivo_img.get_Abspath()
+                contenedor.ids['lbl_etiqueta_view'].text = _content
 
             except Exception as error:
                 self.set_ImageEmpty()
-                self.ids['label_container'].ids['labelview_widget'].ids['lbl_etiqueta_view'].text = str(error)
+                contenedor.ids['lbl_etiqueta_view'].text = str(error)
         else:
             self.set_ImageEmpty()
-            self.ids['label_container'].ids['labelview_widget'].ids['lbl_etiqueta_view'].text = _content
+            contenedor.ids['lbl_etiqueta_view'].text = _content
 
     def imprimir(self):
 
@@ -68,7 +68,7 @@ class LabelViewScreen(Screen):
                 if int(cantidad) <= 5:
                     self._show_loader(True)
                     for x in range(0, int(cantidad)):
-                        Printer.send(self.fac_numero, self.fac_tipo)
+                        Printer.send(self.archivo)
                     self._show_loader(False)
                 else:
                     raise ValueError("No puede imprimirse mas de 5 veces")
