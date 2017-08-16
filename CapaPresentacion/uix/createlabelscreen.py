@@ -15,10 +15,14 @@ from CapaNegocio.gestordb import NuevoDestino
 from CapaNegocio.gestordb import Factura
 
 from CapaNegocio.estafeta import CreateLabelWS
+from CapaNegocio.estafeta import ReprintLabelWS
 from CapaNegocio.estafeta import CotizacionWS
 
 
 class CreateLabelScreen(Screen):
+
+    guia = ""
+    is_reprint = False
 
     def __init__(self, **kwargs):
         super(CreateLabelScreen, self).__init__(**kwargs)
@@ -488,7 +492,7 @@ class CreateLabelScreen(Screen):
 
                 if bandera:
                     if len(etiquetas):
-                        LabelsPopup(self, etiquetas).open()
+                        LabelsPopup(self, etiquetas, auto_dismiss=False).open()
 
                 self._show_loader(False)
 
@@ -605,6 +609,117 @@ class CreateLabelScreen(Screen):
         except Exception as e:
             self.failure(str(e))
 
+    def reimprimir_Etiqueta(self):
+
+        try:
+            self._show_loader(True)
+
+            usuario = ModeloUsuario.get(self.user_account)
+
+            data_ambiente = {}
+
+            if len(usuario) > 0:
+                if usuario[0].profile.estafeta:
+                    ambiente = usuario[0].profile.estafeta
+
+                    data_ambiente['quadrant'] = str(ambiente.quadrant)
+                    data_ambiente['login'] = ambiente.login
+                    data_ambiente['suscriber_id'] = ambiente.suscriber_id
+                    data_ambiente['password'] = ambiente.password
+
+                    data_ambiente['tipo_papel'] = str(ambiente.paper_type)
+                    data_ambiente['url'] = ambiente.url
+                    data_ambiente['customer_number'] = ambiente.customer_number
+
+                    data_ambiente['cot_url'] = ambiente.cot_url
+                    data_ambiente['id_usuario'] = ambiente.cot_id_usuario
+                    data_ambiente['usuario'] = ambiente.cot_usuario
+                    data_ambiente['contra'] = ambiente.cot_contra
+
+                    data_paquete = self.get_DataPaquete()
+                    data_origen = self.get_DataOrigen()
+                    data_origen['customer_number'] = data_ambiente['customer_number']
+                    data_destino = self.get_DataDestino()
+
+                    data_servicio = self.get_DataServicio()
+                    data_servicio['peso'] = data_paquete['peso']
+                    data_servicio['parcelTypeId'] = data_paquete['parcelTypeId']
+                    data_servicio['parcelNumber'] = self.guia
+                    data_servicio['originZipCodeForRouting'] = data_origen['origen_zipcode']
+                    # data_servicio['customer_number'] = data_ambiente['customer_number']
+                    # data_servicio['cp_origen'] = data_origen['origen_zipcode']
+
+                    # if ambiente.office_num != "":
+                    #     data_servicio['office_num'] = ambiente.office_num
+                    # else:
+                    #     raise ValueError("Falta Oficina Numero en el ambiente configurado")
+
+                    # Valida codigos
+                    ws_cotizacion = CotizacionWS(data_ambiente["cot_url"])
+                    ws_cotizacion.set_Credenciales(
+                        data_ambiente['id_usuario'],
+                        data_ambiente['usuario'],
+                        data_ambiente['contra']
+                    )
+                    ws_cotizacion.set_EsFrecuencia("false")
+                    ws_cotizacion.set_EsLista("true")
+                    ws_cotizacion.set_TipoEnvio("false", "0", "0", "0", "0")
+                    ws_cotizacion.set_Origen(data_origen['origen_zipcode'])
+                    ws_cotizacion.set_Destino(data_destino['destino_zipcode'])
+
+                    flag, results = ws_cotizacion.send(self.factura_numero, self.factura_tipo)
+
+                    if flag:
+                        # Crea Etiqueta
+                        ws_reprint_label = ReprintLabelWS(data_ambiente["url"])
+                        ws_reprint_label.set_DireccionOrigen(data_origen)
+                        ws_reprint_label.set_DireccionDestino(data_destino)
+                        # ws_reprint_label.set_DireccionAlternativa(data_destino)
+                        ws_reprint_label.set_Servicio(data_servicio)
+                        ws_reprint_label.set_Credenciales(data_ambiente)
+
+                        flag, results, guide, archivo_pdf = ws_reprint_label.send(
+                            self.factura_numero,
+                            self.factura_tipo,
+                            self.user_account
+                        )
+
+                        # guias = guide.split('|')
+                        # for g in guias:
+                        #     bandera, message = Factura.InsertaGuia(g, self.factura_numero, self.factura_tipo)
+
+                        # bandera, mensaje = Factura.ActualizaVtas(self.factura_numero, self.factura_tipo, guias[0])
+
+                        if flag:
+
+                            pantalla_labelview = self.manager.get_screen('screen-labelview')
+                            pantalla_labelview.archivo = archivo_pdf
+                            pantalla_labelview.set_Label(flag, results, archivo_pdf)
+
+                            self._show_loader(False)
+                            self.clear_DataServicio()
+                            self.clear_DataPaquete()
+                            self.clear_DataOrigen()
+                            self.clear_DataDestino()
+
+                            self.disable_DataServicio()
+                            self.disable_DataPaquete()
+                            self.disable_DataOrigen()
+                            self.disable_DataDestino()
+                            self.manager.current = 'screen-labelview'
+                        else:
+                            self.failure(mensaje)
+
+                    else:
+                        self.failure(results)
+                else:
+                    self.failure("El usuario no tiene configurado un Ambiente")
+            else:
+                self.failure("No existe un usuario")
+
+        except Exception as e:
+            self.failure(str(e))
+
 
 class DireccionesPopup(Popup):
     screen = ObjectProperty(None)
@@ -677,17 +792,34 @@ class LabelsPopup(Popup):
             contenedor.add_widget(widget)
 
     def click_BotonSeleccionar(self):
-        print "OK"
-        # value = ""
-        #
-        # for hijo in self.ids['container'].children:
-        #     if hijo.ids['chk_cuenta_estafeta'].active is True:
-        #         value = hijo.registro.clave
-        #
-        # if value:
-        #     self.screen.ids['txt_estafeta_ambiente'].text = value
-        #     self.dismiss()
+        value = ""
 
+        for hijo in self.ids['container'].children:
+            if hijo.ids['chk_option'].active is True:
+                value = hijo.registro.TNVR03
+
+        if value:
+            window = self.get_root_window()
+            screenmanager = window.children[1]
+            pantalla = screenmanager.get_screen('screen-createlabel')
+            pantalla.guia = value.strip()
+            pantalla.is_reprint = True
+            self.dismiss()
+
+    def click_BotonSalir(self):
+        window = self.get_root_window()
+        screenmanager = window.children[1]
+        pantalla = screenmanager.get_screen('screen-createlabel')
+        pantalla.clear_DataOrigen()
+        pantalla.disable_DataOrigen()
+        pantalla.clear_DataDestino()
+        pantalla.disable_DataDestino()
+        pantalla.clear_DataServicio()
+        pantalla.disable_DataServicio()
+        pantalla.clear_DataPaquete()
+        pantalla.disable_DataPaquete()
+        pantalla.failure("No se puede generar Guias nuevas para esta Factura, debe reimprimir")
+        self.dismiss()
 
 class LabelOption(BoxLayout):
     registro = ObjectProperty(None)
@@ -880,4 +1012,9 @@ class ControlWidget(StackLayout):
 
     def click_BotonCrearEtiqueta(self):
         screen_manager = self.get_root_window().children
-        screen_manager[0].get_screen('screen-createlabel').crear_Etiqueta()
+        pantalla_crearetiqueta = screen_manager[0].get_screen('screen-createlabel')
+
+        if pantalla_crearetiqueta.is_reprint:
+            pantalla_crearetiqueta.reimprimir_Etiqueta()
+        else:
+            pantalla_crearetiqueta.crear_Etiqueta()

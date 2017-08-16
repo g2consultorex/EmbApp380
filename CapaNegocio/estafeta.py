@@ -402,38 +402,38 @@ class ReprintLabelWS:
     def get_Base(self):
 
         modulo = """<?xml version="1.0" encoding="UTF-8"?>
-                    <SOAP-ENV:Envelope xmlns:ns3="http://schemas.xmlsoap.org/soap/encoding/"
-                        xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
-                        xmlns:ns0="http://estafetalabel.webservices.estafeta.com"
-                        xmlns:ns1="http://schemas.xmlsoap.org/soap/envelope/"
-                        xmlns:ns2="http://www.w3.org/2001/XMLSchema"
-                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        xmlns:ns4="http://dto.estafetalabel.webservices.estafeta.com"
-                        xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
-                    SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
-                    <SOAP-ENV:Header/>
-                       <ns1:Body>
-                            <ns0:createLabel>
-                                <in0 xsi:type="ns4:EstafetaReprintLabelRequest">
-                                %s
-                                </in0>
-                            </ns0:createLabel>
-                       </ns1:Body>
-                    </SOAP-ENV:Envelope>"""
+                    <soapenv:Envelope xmlns:ns3="http://schemas.xmlsoap.org/soap/encoding/"
+                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+                        xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+                        xmlns:est="http://estafetalabel.webservices.estafeta.com">
+                    <soapenv:Header/>
+                    <soapenv:Body>
+                        <est:reprintLabel soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+                            <in0 xsi:type="dto:EstafetaReprintLabelRequest" 
+                                xmlns:dto="http://dto.estafetalabel.webservices.estafeta.com">
+                            %s
+                            </in0>
+                        </est:reprintLabel>
+                    </soapenv:Body>
+                    </soapenv:Envelope>"""
 
         return modulo
 
+
+                    # <ReprintLabelDescriptionCount xsi:type="ns2:int">1</ReprintLabelDescriptionCount>
+
     def set_Credenciales(self, _data):
 
-        modulo = """<quadrant xsi:type="ns2:int">%s</quadrant>
-                    <valid xsi:type="ns2:boolean">true</valid>
-                    <password xsi:type="ns2:string">%s</password>
-                    <ReprintLabelDescriptionCount xsi:type="ns2:int">1</ReprintLabelDescriptionCount>
-                    <login xsi:type="ns2:string">%s</login>
-                    <customerNumber xsi:type="ns2:string">%s</customerNumber>
+        modulo = """<quadrant xsi:type="xsd:int">%s</quadrant>
+                    <valid xsi:type="xsd:boolean">true</valid>
+                    <password xsi:type="xsd:string">%s</password>
+                    <login xsi:type="xsd:string">%s</login>
+                    <customerNumber xsi:type="xsd:string">%s</customerNumber>
                     %s
-                    <suscriberId xsi:type="ns2:string">%s</suscriberId>
-                    <paperType xsi:type="ns2:int">%s</paperType>"""
+                    <reprintLabelDescriptionListCount xsi:type="xsd:int">1</reprintLabelDescriptionListCount>
+                    <suscriberId xsi:type="xsd:string">%s</suscriberId>
+                    <paperType xsi:type="xsd:int">%s</paperType>"""
 
         self.modulo_credenciales = modulo % (
             _data['quadrant'],
@@ -447,25 +447,24 @@ class ReprintLabelWS:
 
     def set_Servicio(self, _data):
 
-        modulo = """<labelDescriptionList xsi:type="ns4:LabelDescriptionList">
-                        <aditionalInfo xsi:type="ns2:string">%s</aditionalInfo>
-                        <content xsi:type="ns2:string">%s</content>
-                        <costCenter xsi:type="ns2:string">%s</costCenter>
-                        <deliveryToEstafetaOffice xsi:type="ns2:boolean">%s</deliveryToEstafetaOffice>
-                        <destinationCountryId xsi:type="ns2:string">%s</destinationCountryId>
+        modulo = """<reprintLabelDescriptionList xsi:type="dto:ReprintLabelDescriptionList">
+                        <aditionalInfo xsi:type="xsd:string">%s</aditionalInfo>
+                        <content xsi:type="xsd:string">%s</content>
+                        <costCenter xsi:type="xsd:string">%s</costCenter>
+                        <deliveryToEstafetaOffice xsi:type="xsd:boolean">%s</deliveryToEstafetaOffice>
+                        <destinationCountryId xsi:type="xsd:string">%s</destinationCountryId>
                         %s
                         %s
-                        <parcelTypeId xsi:type="ns2:int">%s</parcelTypeId>
-                        <reference xsi:type="ns2:string">%s</reference>
-                        <valid xsi:type="ns2:boolean">true</valid>
-                        <weight xsi:type="ns2:float">%s</weight>
-                        <effectiveDate xsi:type="ns2:string">%s</effectiveDate>
-                        <contentDescription xsi:type="ns2:string">%s</contentDescription>
-                        <parcelNumber xsi:type="ns2:string">%s</parcelNumber>
+                        <parcelTypeId xsi:type="xsd:int">%s</parcelTypeId>
+                        <reference xsi:type="xsd:string">%s</reference>
+                        <valid xsi:type="xsd:boolean">true</valid>
+                        <weight xsi:type="xsd:float">%s</weight>
+                        <originZipCodeForRouting xsi:type="xsd:string">%s</originZipCodeForRouting>
+                        <effectiveDate xsi:type="xsd:string">%s</effectiveDate>
+                        <contentDescription xsi:type="xsd:string">%s</contentDescription>
+                        <parcelNumber xsi:type="xsd:string">%s</parcelNumber>
 
-
-                    </labelDescriptionList>
-                    <labelDescriptionListCount xsi:type="ns2:int">1</labelDescriptionListCount>"""
+                    </reprintLabelDescriptionList>"""
 
         self.modulo_servicio = modulo % (
             _data['aditionalinfo'],
@@ -478,6 +477,7 @@ class ReprintLabelWS:
             _data['parcelTypeId'],
             _data['reference'],
             _data['peso'],
+            _data['originZipCodeForRouting'],
             self.get_EfectiveDate(),
             _data['contentdescription'],
             _data['parcelNumber'],
@@ -485,20 +485,20 @@ class ReprintLabelWS:
 
     def set_DireccionOrigen(self, _data):
 
-        modulo = """<originInfo xsi:type="ns4:OriginInfo">
-                       <address1 xsi:type="ns2:string">%s</address1>
-                       <address2 xsi:type="ns2:string">%s</address2>
-                       <cellPhone xsi:type="ns2:string">%s</cellPhone>
-                       <city xsi:type="ns2:string">%s</city>
-                       <contactName xsi:type="ns2:string">%s</contactName>
-                       <corporateName xsi:type="ns2:string">%s</corporateName>
-                       <customerNumber xsi:type="ns2:string">%s</customerNumber>
-                       <neighborhood xsi:type="ns2:string">%s</neighborhood>
-                       <phoneNumber xsi:type="ns2:string">%s</phoneNumber>
-                       <state xsi:type="ns2:string">%s</state>
-                       <valid xsi:type="ns2:boolean">true</valid>
-                       <zipCode xsi:type="ns2:string">%s</zipCode>
-                   </originInfo>"""
+        modulo = """<originInfoReprint xsi:type="dto:OriginInfoReprint">
+                       <address1 xsi:type="xsd:string">%s</address1>
+                       <address2 xsi:type="xsd:string">%s</address2>
+                       <cellPhone xsi:type="xsd:string">%s</cellPhone>
+                       <city xsi:type="xsd:string">%s</city>
+                       <contactName xsi:type="xsd:string">%s</contactName>
+                       <corporateName xsi:type="xsd:string">%s</corporateName>
+                       <customerNumber xsi:type="xsd:string">%s</customerNumber>
+                       <neighborhood xsi:type="xsd:string">%s</neighborhood>
+                       <phoneNumber xsi:type="xsd:string">%s</phoneNumber>
+                       <state xsi:type="xsd:string">%s</state>
+                       <valid xsi:type="xsd:boolean">true</valid>
+                       <zipCode xsi:type="xsd:string">%s</zipCode>
+                   </originInfoReprint>"""
 
         self.modulo_direccion_origen = modulo % (
           _data['origen_address1'],
@@ -515,20 +515,20 @@ class ReprintLabelWS:
 
     def set_DireccionDestino(self, _data):
 
-        modulo = """<destinationInfo xsi:type="ns4:DestinationInfo">
-                        <address1 xsi:type="ns2:string">%s</address1>
-                        <address2 xsi:type="ns2:string">%s</address2>
-                        <cellPhone xsi:type="ns2:string">%s</cellPhone>
-                        <city xsi:type="ns2:string">%s</city>
-                        <contactName xsi:type="ns2:string">%s</contactName>
-                        <corporateName xsi:type="ns2:string">%s</corporateName>
-                        <customerNumber xsi:type="ns2:string">%s</customerNumber>
-                        <neighborhood xsi:type="ns2:string">%s</neighborhood>
-                        <phoneNumber xsi:type="ns2:string">%s</phoneNumber>
-                        <state xsi:type="ns2:string">%s</state>
-                        <valid xsi:type="ns2:boolean">true</valid>
-                        <zipCode xsi:type="ns2:string">%s</zipCode>
-                    </destinationInfo>"""
+        modulo = """<destinationInfoReprint xsi:type="dto:DestinationInfoReprint">
+                        <address1 xsi:type="xsd:string">%s</address1>
+                        <address2 xsi:type="xsd:string">%s</address2>
+                        <cellPhone xsi:type="xsd:string">%s</cellPhone>
+                        <city xsi:type="xsd:string">%s</city>
+                        <contactName xsi:type="xsd:string">%s</contactName>
+                        <corporateName xsi:type="xsd:string">%s</corporateName>
+                        <customerNumber xsi:type="xsd:string">%s</customerNumber>
+                        <neighborhood xsi:type="xsd:string">%s</neighborhood>
+                        <phoneNumber xsi:type="xsd:string">%s</phoneNumber>
+                        <state xsi:type="xsd:string">%s</state>
+                        <valid xsi:type="xsd:boolean">true</valid>
+                        <zipCode xsi:type="xsd:string">%s</zipCode>
+                    </destinationInfoReprint>"""
 
         self.modulo_direccion_destino = modulo % (
           _data['destino_address1'],
@@ -646,7 +646,7 @@ class ReprintLabelWS:
 
         abspath_dir = self.create_DirectorioLog()
 
-        namefile = "%s_%s_%s.log" % (
+        namefile = "reprint_%s_%s_%s.log" % (
             _fac_tipo,
             _fac_numero,
             _username
@@ -676,7 +676,7 @@ class ReprintLabelWS:
 
         # ssl._create_default_https_context = ssl._create_unverified_context
         base = self.get_Base()
-        body = base % (self.modulo_servicio, self.modulo_credenciales)
+        body = base % (self.modulo_credenciales)
 
         try:
             self.create_Request_File(

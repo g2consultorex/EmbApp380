@@ -6,6 +6,7 @@ Config.set("input", "mouse", "mouse,disable_multitouch")
 # Config.set('graphics', 'resizable', True)
 Config.set('graphics', 'width', '1080')
 Config.set('graphics', 'height', '720')
+Config.set('kivy', 'exit_on_escape', 0)
 Config.write()
 
 # Config.set('kivy', 'exit_on_escape', '0')
