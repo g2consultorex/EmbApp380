@@ -677,8 +677,8 @@ class NuevoDestino(object):
                                 direccionDest_Cel[0].WPPH1.strip()
                             )
 
-                if _direccion >= 199991 and _direccion <= 199999:
-
+                elif _direccion >= 199991 and _direccion <= 199999:
+                    raise ValueError("numero de direccion mostrador no valido")
                     # direccionDest = F4006.objects.using('jde').filter(
                     #     OAANTY__contains=2,
                     #     OADOCO=factura[0].SDDOCO,
@@ -711,109 +711,7 @@ class NuevoDestino(object):
             return True, datos
 
         except Exception as error:
-            value = {
-                'mensaje': str(error)
-            }
-            return False, value
-
-class NewDest(object):
-
-    @classmethod
-    def get(self, _direccion):
-    
-        try:
-            connection.close()
-            Ndireccion = F0101.objects.using('jde').filter(
-                ABAN8=_direccion)
-
-            if len(Ndireccion) > 0:
-
-                CustomerNumber = str(_direccion)
-                if len(CustomerNumber) < 7:
-                    cantidad = 7 - len(CustomerNumber)
-                    sufijo = "0" * cantidad
-                    CustomerCadena = "%s%s" % (sufijo, CustomerNumber)
-                else:
-                    CustomerCadena = str(_direccion)
-
-                if _direccion < 199991 or _direccion > 199999:
-
-                    direccionDest = F0101.objects.using('jde').filter(
-                        ABAN8=_direccion
-                    )
-
-                    dir_complementoDestino = F0116.objects.using('jde').filter(
-                        ALAN8=_direccion
-                    )
-
-                    direccionDest_Tel = F0115.objects.using('jde').filter(
-                        WPAN8=_direccion
-                    )
-
-                    direccionDest_Cel = F0115.objects.using('jde').filter(
-                        WPAN8=_direccion,
-                        WPPHTP__contains='CAR'
-                    )
-
-                    # direccionDest_Correo = F01151.objects.using('jde').filter(
-                    #     EAAN8=_direccion,
-                    #     EAETP__contains='E',
-                    #     EAEHIER=0,
-                    #     EAECLASS__contains='ASN'
-                    # )
-
-                    direccionDest_Resp = F0111.objects.using('jde').filter(
-                        WWAN8=_direccion
-                    )
-
-                    UDCestadoDest = F0005.objects.using('jde').filter(
-                        DRSY__contains='00',
-                        DRRT__contains='S',
-                        DRKY__contains=dir_complementoDestino[0].ALADDS
-                    )
-
-                    if len(dir_complementoDestino) > 0:
-                        corporate = "%s %s" % (
-                            direccionDest[0].ABALPH.strip(),
-                            dir_complementoDestino[0].ALADD1.strip()
-                        )[0:29]
-
-                        # dir_complementoDestino[0].ALADD2.strip()
-                        # dir_complementoDestino[0].ALADD3.strip()
-                        # dir_complementoDestino[0].ALCTY1.strip()
-                        # dir_complementoDestino[0].ALADD4.strip()
-                        # dir_complementoDestino[0].ALADDZ.strip()
-                        # dir_complementoDestino[0].ALCTR.strip()
-
-                        if len(UDCestadoDest) > 0:
-                            vEstado = "%s" % (UDCestadoDest[0].DRDL01.strip())
-
-                        if len(direccionDest_Tel) > 0:
-                            vTel = "%s %s" % (
-                                direccionDest_Tel[0].WPAR1,
-                                direccionDest_Tel[0].WPPH1.strip()
-                            )
-                        if len(direccionDest_Resp) > 0:
-                            # direccionDest_Resp[0].WWALPH.strip()[0:29]
-
-                        if len(direccionDest_Cel) > 0:
-                            vCel = "%s %s" % (
-                                direccionDest_Cel[0].WPAR1,
-                                direccionDest_Cel[0].WPPH1.strip()
-                            )
-
-                if _direccion >= 199991 and _direccion <= 199999:
-                    vError = "numero de direccion mostrador no valido"
-                    #    
-
-            return True, CustomerCadena, corporate, vEstado, vTel, vCel, vError
-
-        except Exception as error:
-            value = {
-                'mensaje': str(error)
-            }
-            return False, value
-
-
+            datos = str(error)
+            return False, datos
 
 

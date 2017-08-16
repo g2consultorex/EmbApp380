@@ -33,7 +33,7 @@ class LabelViewScreen(Screen):
         self.ids['label_container'].ids['labelview_widget'].ids['img_etiqueta'].source = deafult_abspath
 
     def get_ImageFile(self, _archivo_pdf):
-        folder = Carpeta(_archivo_pdf.folder.abspath)
+        folder = Carpeta(_archivo_pdf.carpeta.abspath)
         nombre = _archivo_pdf.nombre.replace("pdf", "png")
         archivo = Archivo(folder, nombre)
         archivo.exist("buscando_imagen")

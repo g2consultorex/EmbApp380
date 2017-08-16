@@ -11,6 +11,7 @@ from kivy.properties import ObjectProperty
 from CapaNegocio.gestordb import DireccionOrigen
 from CapaNegocio.gestordb import DireccionDestino
 from CapaNegocio.gestordb import ModeloUsuario
+from CapaNegocio.gestordb import NuevoDestino
 from CapaNegocio.gestordb import Factura
 
 from CapaNegocio.estafeta import CreateLabelWS
@@ -607,19 +608,44 @@ class CreateLabelScreen(Screen):
 
 class DireccionesPopup(Popup):
     screen = ObjectProperty(None)
+    padre = None
 
-    def __init__(self, _screen, **kwargs):
+    def __init__(self, _screen, _padre, **kwargs):
         super(DireccionesPopup, self).__init__(**kwargs)
         self.screen = _screen
+        self.padre = _padre
         # self.clear_Campo()
 
     def click_BotonBuscar(self):
-        print "Buscando Registro"
+
+        container = self.ids['container']
+        container.clear_widgets()
+
+        try:
+            num_dir = self.ids['txt_direccion_numero'].text
+            bandera, datos = NuevoDestino.get(int(num_dir))
+
+            if bandera:
+                opcion = DireccionOption(datos)
+                container.add_widget(opcion)
+            else:
+                self.padre.failure(datos)
+                self.dismiss()
+
+        except Exception as e:
+            self.padre.failure(str(e))
+            self.dismiss()
 
     def click_BotonSeleccionar(self):
-        print "Seleccionando"
+        datos = None
 
-        self.dismiss()
+        for hijo in self.ids['container'].children:
+            if hijo.ids['chk_option'].active is True:
+                datos = hijo.registro
+
+        if datos:
+            self.padre.fill_DataDestino(datos)
+            self.dismiss()
 
 
 class DireccionOption(BoxLayout):
@@ -627,7 +653,10 @@ class DireccionOption(BoxLayout):
 
     def __init__(self, _registro, **kwargs):
         super(DireccionOption, self).__init__(**kwargs)
-        # self.ids["lbl_option"].text = _registro.TNVR03
+        self.ids["lbl_option"].text = "%s - %s" % (
+            _registro['corporatename'],
+            _registro['address1'],
+        )
         self.registro = _registro
 
 
@@ -671,8 +700,12 @@ class LabelOption(BoxLayout):
 
 class DestinoWidget(StackLayout):
 
+    padre = None
+
     def click_BotonCambiarDireccion(self):
-        DireccionesPopup(self).open()
+
+        padre = self.parent.parent.parent.parent.parent
+        DireccionesPopup(self, padre).open()
 
 
 class ServicioWidget(StackLayout):

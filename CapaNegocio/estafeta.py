@@ -351,7 +351,7 @@ class CreateLabelWS:
                     texto_etiqueta = self.get_ResponseEtiqueta(root)
                     guia = self.get_ResponseGuia(root)
 
-                    archivo_pdf = self.create_ArchivoPdf(texto_etiqueta, _factura_tipo, _factura_numero, guia)
+                    archivo_pdf = self.create_ArchivoPdf(texto_etiqueta, _factura_tipo, _factura_numero)
                     self.create_ArchivoLog(_factura_tipo, _factura_numero, guia, _username)
                     resultado = texto_etiqueta
                     bandera = True
