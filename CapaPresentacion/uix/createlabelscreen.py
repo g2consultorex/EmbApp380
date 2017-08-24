@@ -737,6 +737,7 @@ class CreateLabelScreen(Screen):
         c_widget = self.ids['label_container'].ids['control_widget']
         c_widget.disabled = False
 
+
 class DireccionesPopup(Popup):
     screen = ObjectProperty(None)
     padre = None
@@ -823,18 +824,18 @@ class LabelsPopup(Popup):
             self.dismiss()
 
     def click_BotonSalir(self):
-        window = self.get_root_window()
-        screenmanager = window.children[1]
-        pantalla = screenmanager.get_screen('screen-createlabel')
-        pantalla.clear_DataOrigen()
-        pantalla.disable_DataOrigen()
-        pantalla.clear_DataDestino()
-        pantalla.disable_DataDestino()
-        pantalla.clear_DataServicio()
-        pantalla.disable_DataServicio()
-        pantalla.clear_DataPaquete()
-        pantalla.disable_DataPaquete()
-        pantalla.failure("No se puede generar Guias nuevas para esta Factura, debe reimprimir")
+        # window = self.get_root_window()
+        # screenmanager = window.children[1]
+        # pantalla = screenmanager.get_screen('screen-createlabel')
+        # pantalla.clear_DataOrigen()
+        # pantalla.disable_DataOrigen()
+        # pantalla.clear_DataDestino()
+        # pantalla.disable_DataDestino()
+        # pantalla.clear_DataServicio()
+        # pantalla.disable_DataServicio()
+        # pantalla.clear_DataPaquete()
+        # pantalla.disable_DataPaquete()
+        # pantalla.failure("No se puede generar Guias nuevas para esta Factura, debe reimprimir")
         self.dismiss()
 
 
@@ -1035,7 +1036,9 @@ class ControlWidget(StackLayout):
 
         pantalla_crearetiqueta = screen_manager[0].get_screen('screen-createlabel')
 
-        if pantalla_crearetiqueta.is_reprint:
-            pantalla_crearetiqueta.reimprimir_Etiqueta()
-        else:
-            pantalla_crearetiqueta.crear_Etiqueta()
+        pantalla_crearetiqueta.crear_Etiqueta()
+
+        # if pantalla_crearetiqueta.is_reprint:
+        #     pantalla_crearetiqueta.reimprimir_Etiqueta()
+        # else:
+        #     pantalla_crearetiqueta.crear_Etiqueta()
