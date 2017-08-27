@@ -254,6 +254,37 @@ class F0005(models.Model):
     def __unicode__(self):
         return self.DRSY
 
+class F4201(models.Model):
+    SHDOCO = models.IntegerField(primary_key=True)
+    SHDCTO = models.CharField(max_length=2)
+    SHDEL2 = models.CharField(max_length=30)
+
+    class Meta:
+        managed = False
+
+        if settings.DEBUG:
+            db_table = u'"CRPDTA"."F4201"'
+        else:
+            db_table = u'"PRODDTA"."F4201"'
+
+    def __unicode__(self):
+        return self.SHDOCO        
+
+class F42019(models.Model):
+    SHDOCO = models.IntegerField(primary_key=True)
+    SHDCTO = models.CharField(max_length=2)
+    SHDEL2 = models.CharField(max_length=30)
+
+    class Meta:
+        managed = False
+
+        if settings.DEBUG:
+            db_table = u'"CRPDTA"."F42019"'
+        else:
+            db_table = u'"PRODDTA"."F42019"'
+
+    def __unicode__(self):
+        return self.SHDOCO
 
 class F0115(models.Model):
     WPAN8 = models.IntegerField(primary_key=True)
