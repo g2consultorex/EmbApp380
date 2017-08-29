@@ -13,6 +13,7 @@ from CapaNegocio.gestordb import DireccionDestino
 from CapaNegocio.gestordb import ModeloUsuario
 from CapaNegocio.gestordb import NuevoDestino
 from CapaNegocio.gestordb import Factura
+from CapaNegocio.gestordb import DeliveryInst
 
 from CapaNegocio.estafeta import CreateLabelWS
 from CapaNegocio.estafeta import ReprintLabelWS
@@ -82,6 +83,14 @@ class CreateLabelScreen(Screen):
         else:
             raise ValueError("Falta Direccion 1 en DIRECCION ORIGEN")
 
+        if fields.ids['txt_origen_address2'].text != "":
+            data['origen_address2'] = fields.ids['txt_origen_address2'].text
+
+            if len(data['origen_address2']) > 30:
+                raise ValueError("Direccion 2 en DIRECCION ORIGEN es mayor de 30")
+        else:
+            raise ValueError("Falta Direccion 2 en DIRECCION ORIGEN")
+
         if fields.ids['txt_origen_city'].text != "":
             data['origen_city'] = fields.ids['txt_origen_city'].text
 
@@ -128,14 +137,6 @@ class CreateLabelScreen(Screen):
             data['origen_zipcode'] = fields.ids['txt_origen_zipcode'].text
         else:
             raise ValueError("Falta Zip Codigo en DIRECCION ORIGEN")
-
-        if fields.ids['origen_address2'].text != "":
-            data['origen_address2'] = fields.ids['origen_address2'].text
-
-            if len(data['origen_address2']) > 30:
-                raise ValueError("Direccion 2 en DIRECCION ORIGEN es mayor de 30")
-        else:
-            raise ValueError("Falta Direccion 2 en DIRECCION ORIGEN")
 
         data['origen_cellphone'] = fields.ids['txt_origen_cellphone'].text
         if len(data['origen_cellphone']) > 20:
@@ -208,6 +209,14 @@ class CreateLabelScreen(Screen):
                 raise ValueError("Direccion 1 en DIRECCION DESTINO es mayor de 30")
         else:
             raise ValueError("Falta Direccion 1 en INFORMACION DESTINO")
+
+        if fields.ids['txt_destino_address2'].text != "":
+            data['destino_address2'] = fields.ids['txt_destino_address2'].text
+
+            if len(data['destino_address2']) > 30:
+                raise ValueError("Direccion 2 en DIRECCION DESTINO es mayor de 30")
+        else:
+            raise ValueError("Falta Direccion 2 en INFORMACION DESTINO")
 
         if fields.ids['txt_destino_city'].text != "":
             data['destino_city'] = fields.ids['txt_destino_city'].text
@@ -301,9 +310,9 @@ class CreateLabelScreen(Screen):
 
     def fill_DataServicio(self, _data):
         data = self.ids['label_container'].ids['servicio_widget']
+        data.ids['label_dir_destino'].text = _data["msg_dir_destino"]
         data.ids['txt_servicetypeid'].text = ""
         data.ids['txt_number_labels'].text = "1"
-
         data.ids['txt_contentdescription'].text = ""
         data.ids['txt_aditionalinfo'].text = _data['aditionalinfo']
         data.ids['txt_costcenter'].text = "0"
@@ -459,47 +468,71 @@ class CreateLabelScreen(Screen):
         if self.factura_numero != "" and self.factura_tipo != "":
 
             try:
-                servicio = {}
-                servicio['aditionalinfo'] = "%s %s" % (
-                    self.factura_numero,
-                    self.factura_tipo
-                )
 
-                bandera, dir_origen = DireccionOrigen.get(self.factura_numero, self.factura_tipo)
-
-                self.clear_DataOrigen()
-                self.clear_DataDestino()
-                self.clear_DataServicio()
-                self.clear_DataPaquete()
+                bandera, factura = Factura.get(self.factura_numero, self.factura_tipo)
 
                 if bandera:
-                    self.fill_DataOrigen(dir_origen)
-                    self.enable_DataOrigen()
-                else:
-                    self.failure(dir_origen['mensaje'])
+                    if len(factura) > 0:
 
-                bandera, dir_destino = DireccionDestino.get(self.factura_numero, self.factura_tipo)
+                        bandera, pedido = DeliveryInst.get(factura[0].SDDOCO, factura[0].SDDCTO)
 
-                if bandera:
-                    self.fill_DataDestino(dir_destino)
-                    self.enable_DataDestino()
+                        if bandera:
+                            if len(pedido) > 0:
 
-                    servicio['destino_countryid'] = dir_destino['Country']
-                    self.fill_DataServicio(servicio)
-                    self.enable_DataServicio()
-                    self.enable_DataPaquete()
+                                servicio = {}
+                                servicio['aditionalinfo'] = "%s %s" % (
+                                    self.factura_numero,
+                                    self.factura_tipo
+                                )
 
-                else:
-                    self.failure(dir_destino['mensaje'])
+                                bandera, dir_origen = DireccionOrigen.get(self.factura_numero, self.factura_tipo)
 
-                bandera, etiquetas = Factura.ConsFactura(self.factura_numero, self.factura_tipo)
+                                self.clear_DataOrigen()
+                                self.clear_DataDestino()
+                                self.clear_DataServicio()
+                                self.clear_DataPaquete()
 
-                if bandera:
-                    if len(etiquetas):
-                        LabelsPopup(self, etiquetas, auto_dismiss=False).open()
+                                if bandera:
+                                    self.fill_DataOrigen(dir_origen)
+                                    self.enable_DataOrigen()
+                                else:
+                                    self.failure(dir_origen['mensaje'])
 
-                self._show_loader(False)
+                                bandera, dir_destino = DireccionDestino.get(self.factura_numero, self.factura_tipo)
 
+                                if bandera:
+
+                                    self.fill_DataDestino(dir_destino)
+                                    self.enable_DataDestino()
+
+                                    servicio['destino_countryid'] = dir_destino['Country']
+                                    if pedido[0].SHDEL2 != "":
+                                        servicio['msg_dir_destino'] = "(%s)  INFORMACION DEL SERVICIO" % (pedido[0].SHDEL2.strip())
+                                    else:
+                                        servicio['msg_dir_destino'] = "INFORMACION DEL SERVICIO"
+                                    self.fill_DataServicio(servicio)
+                                    self.enable_DataServicio()
+                                    self.enable_DataPaquete()
+
+                                else:
+                                    self.failure(dir_destino['mensaje'])
+
+                                bandera, etiquetas = Factura.ConsFactura(self.factura_numero, self.factura_tipo)
+
+                                if bandera:
+                                    if len(etiquetas):
+                                        LabelsPopup(self, etiquetas, auto_dismiss=False).open()
+
+                                self._show_loader(False)
+                            else:
+                            	self.failure("No se encontro Pedido")
+                        else:
+                            self.failure(pedido)
+
+                    else:
+            			self.failure("No se encontro factura")
+            	else:
+            		self.failure(factura)
             except Exception as e:
                 self.failure(str(e))
         else:

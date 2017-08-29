@@ -36,6 +36,8 @@ from jde.models import F01151
 from jde.models import F5842566
 from jde.models import F0111
 from jde.models import F4006
+from jde.models import F4201
+from jde.models import F42019
 
 
 class ModeloUsuario(object):
@@ -249,7 +251,7 @@ class Factura(object):
                     SDDCT=_tipo
                 )
 
-            return factura
+            return True, factura
 
         except Exception as error:
             datos = str(error)
@@ -688,14 +690,14 @@ class DeliveryInst(object):
         try:
             connection.close()
             delinst = F4201.objects.using('jde').filter(
-                SHDOC=_numPed,
-                SHDCT=_tipoPed
+                SHDOCO=_numPed,
+                SHDCTO=_tipoPed
             )
 
             if len(delinst) == 0:
                 delinst = F42019.objects.using('jde').filter(
-                    SHDOC=_numPed,
-                    SHDCT=_tipoPed
+                    SHDOCO=_numPed,
+                    SHDCTO=_tipoPed
                 )
 
             return True, delinst
