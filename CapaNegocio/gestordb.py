@@ -720,3 +720,27 @@ class NuevoDestino(object):
             return False, datos
 
 
+class DeliveryInst(object):
+    @classmethod
+    def get(self, _numPed, _tipoPed):
+
+        try:
+            connection.close()
+            delinst = F4201.objects.using('jde').filter(
+                SHDOC=_numPed,
+                SHDCT=_tipoPed
+            )
+
+            if len(delinst) == 0:
+                delinst = F42019.objects.using('jde').filter(
+                    SHDOC=_numPed,
+                    SHDCT=_tipoPed
+                )
+
+            return delinst
+
+        except Exception as error:
+            value = {
+                'mensaje': str(error)
+            }
+            return False, value
