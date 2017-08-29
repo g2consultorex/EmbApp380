@@ -129,9 +129,13 @@ class CreateLabelScreen(Screen):
         else:
             raise ValueError("Falta Zip Codigo en DIRECCION ORIGEN")
 
-        data['origen_address2'] = fields.ids['txt_origen_address2'].text
-        if len(data['origen_address2']) > 30:
-            raise ValueError("Direccion 2 en DIRECCION ORIGEN es mayor de 30")
+        if fields.ids['origen_address2'].text != "":
+            data['origen_address2'] = fields.ids['origen_address2'].text
+
+            if len(data['origen_address2']) > 30:
+                raise ValueError("Direccion 2 en DIRECCION ORIGEN es mayor de 30")
+        else:
+            raise ValueError("Falta Direccion 2 en DIRECCION ORIGEN")
 
         data['origen_cellphone'] = fields.ids['txt_origen_cellphone'].text
         if len(data['origen_cellphone']) > 20:
