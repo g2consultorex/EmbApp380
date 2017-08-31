@@ -292,6 +292,7 @@
         orientation: 'vertical'
         spacing: '2dp'
         Label:
+            id: label_dir_destino
             size_hint_y: None
             height: '40dp'
             text: 'INFORMACION DEL SERVICIO'
@@ -918,7 +919,6 @@
             font_size: '16sp'
             size_hint_x: 1
 
-
         Button:
             size_hint:None, None
             size:'8dp', '25dp'
@@ -1098,18 +1098,18 @@
             padding: 30, 0, 30, 5
             size_hint_y: None
             height: '60dp'
-            Button:
-                size_hint_y: None
-                height: '60dp'
-                size_hint_x: .7
-                text: 'Reimprimir'
-                on_release: root.click_BotonSeleccionar()
+            # Button:
+            #     size_hint_y: None
+            #     height: '60dp'
+            #     size_hint_x: .7
+            #     text: 'Reimprimir'
+            #     on_release: root.click_BotonSeleccionar()
             Button:
                 size_hint_y: None
                 height: '60dp'
                 size_hint_x: .3
                 text: 'Cerrar'
-                on_release: root.click_BotonSalir()                
+                on_release: root.click_BotonSalir()
 
 <LabelOption@BoxLayout>:
     id: label_option

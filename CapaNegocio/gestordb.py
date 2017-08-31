@@ -36,6 +36,8 @@ from jde.models import F01151
 from jde.models import F5842566
 from jde.models import F0111
 from jde.models import F4006
+from jde.models import F4201
+from jde.models import F42019
 
 
 class ModeloUsuario(object):
@@ -249,13 +251,11 @@ class Factura(object):
                     SDDCT=_tipo
                 )
 
-            return factura
+            return True, factura
 
         except Exception as error:
-            value = {
-                'mensaje': str(error)
-            }
-            return False, value
+            datos = str(error)
+            return False, datos
 
     @classmethod
     def ConsFactura(self, _numero, _tipo):
@@ -271,10 +271,8 @@ class Factura(object):
             return True, factura
 
         except Exception as error:
-            value = {
-                'mensaje': str(error)
-            }
-            return False, value
+            datos = str(error)
+            return False, datos
 
     @classmethod
     def InsertaGuia(self, _guia, _numero, _tipo):
@@ -294,10 +292,8 @@ class Factura(object):
             return True, "OK"
 
         except Exception as error:
-            value = {
-                'mensaje': str(error)
-            }
-            return False, value
+            datos = str(error)
+            return False, datos
 
     @classmethod
     def ActualizaVtas(self, _numero, _tipo, _value):
@@ -327,7 +323,6 @@ class Factura(object):
 
         except Exception as error:
             value = 'Error al actualizar ventas: %s' % str(error)
-
             return False, value
 
 
@@ -428,10 +423,8 @@ class DireccionOrigen(object):
             return True, datos
 
         except Exception as error:
-            value = {
-                'mensaje': str(error)
-            }
-            return False, value
+            datos = str(error)
+            return False, datos
 
 
 class DireccionDestino(object):
@@ -576,10 +569,8 @@ class DireccionDestino(object):
             return True, datos
 
         except Exception as error:
-            value = {
-                'mensaje': str(error)
-            }
-            return False, value
+            datos = str(error)
+            return False, datos
 
 
 class NuevoDestino(object):
@@ -684,34 +675,6 @@ class NuevoDestino(object):
 
                 elif _direccion >= 199982 and _direccion <= 199999:
                     raise ValueError("numero de direccion mostrador no valido")
-                    # direccionDest = F4006.objects.using('jde').filter(
-                    #     OAANTY__contains=2,
-                    #     OADOCO=factura[0].SDDOCO,
-                    #     OADCTO=factura[0].SDDCTO
-                    # )
-
-                    # UDCestadoDest = F0005.objects.using('jde').filter(
-                    #     DRSY__contains='00',
-                    #     DRRT__contains='S',
-                    #     DRKY__contains=direccionDest[0].OAADDS
-                    # )
-
-                    # if len(direccionDest) > 0:
-                    #     corporatename = "%s %s" % (
-                    #         direccionDest[0].OAMLNM.strip(),
-                    #         direccionDest[0].OAADD1.strip()
-                    #     )
-
-                    #     datos['corporatename'] = corporatename[0:29]
-                    #     datos['contactname'] = direccionDest[0].OAMLNM.strip()[0:29]
-                    #     datos["address1"] = direccionDest[0].OAADD2.strip()
-                    #     datos["address2"] = direccionDest[0].OAADD3.strip()
-                    #     datos['city'] = direccionDest[0].OACTY1.strip()
-                    #     datos['neighborhood'] = direccionDest[0].OAADD4.strip()
-                    #     datos['zipcode'] = direccionDest[0].OAADDZ.strip()
-                    #     datos['Country'] = direccionDest[0].OACTR.strip()
-                    # if len(UDCestadoDest) > 0:
-                    #     datos['state'] = "%s" % (UDCestadoDest[0].DRDL01.strip())
 
             return True, datos
 
@@ -720,3 +683,25 @@ class NuevoDestino(object):
             return False, datos
 
 
+class DeliveryInst(object):
+    @classmethod
+    def get(self, _numPed, _tipoPed):
+
+        try:
+            connection.close()
+            delinst = F4201.objects.using('jde').filter(
+                SHDOCO=_numPed,
+                SHDCTO=_tipoPed
+            )
+
+            if len(delinst) == 0:
+                delinst = F42019.objects.using('jde').filter(
+                    SHDOCO=_numPed,
+                    SHDCTO=_tipoPed
+                )
+
+            return True, delinst
+
+        except Exception as error:
+            datos = str(error)
+            return False, datos
