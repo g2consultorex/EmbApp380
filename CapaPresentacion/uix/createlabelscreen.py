@@ -348,6 +348,8 @@ class CreateLabelScreen(Screen):
             data['servicetypeid'] = "70"
         elif fields.ids['txt_servicetypeid'].text == "Dos Dias consumo facturacion mensual":
             data['servicetypeid'] = "D0"
+        elif fields.ids['txt_servicetypeid'].text == "Multiple terrestre":
+            data['servicetypeid'] = "79"
         else:
             raise ValueError("Falta Tipo Servicio en INFORMACION DE SERVICIO")
 
@@ -934,10 +936,12 @@ class TipoServicioPopup(Popup):
         widget10 = TipoServicioWidget("60", "Dia siguiente consumo facturacion mensual")
         widget70 = TipoServicioWidget("70", "Terrestre consumo facturacion mensual")
         widgetD0 = TipoServicioWidget("D0", "Dos Dias consumo facturacion mensual")
+        widget79 = TipoServicioWidget("79", "Multiple terrestre")
 
         self.ids['container'].add_widget(widget10)
         self.ids['container'].add_widget(widget70)
         self.ids['container'].add_widget(widgetD0)
+        self.ids['container'].add_widget(widget79)
 
     def click_SelectButton(self):
 
